@@ -1,0 +1,8 @@
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" schemaName="creditmemo">
+    <invokers>
+        <invoker folderid="menucategory/treasury/mgmt" caption="Credit Memo List" 
+            cols="controlno,refno,bankaccount.name,issuedby.name,amount"
+            index="250"
+            action="init" role="MASTER"/>
+    </invokers>
+</workunit>

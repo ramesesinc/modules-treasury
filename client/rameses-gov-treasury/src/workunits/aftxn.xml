@@ -1,0 +1,47 @@
+<!-- REQUISITION ISSUE SLIP -->
+<workunit schemaName="aftxn">
+    <invokers>
+        <invoker folderid="menucategory/treasury/af"
+                 caption="New AF Transaction" formTitle="New AF Transaction" action="startCreate" role="AFO"/>
+        
+        <invoker type="aftxn:create" 
+                 caption="New AF Transaction" formTitle="New AF Transaction" action="startCreate" role="AFO"/>
+        
+        <invoker type="aftxn:open"
+                 formTitle="#{ entity.controlno }"
+                 formId="#{entity.objid }" 
+                 caption="AF Transaction" 
+                 action="startOpen" />
+
+        <invoker type="formActions" caption="Preview" action="preview" 
+                 visibleWhen="#{entity.state == 'POSTED'}"/>
+    </invokers>
+    
+    <code class="com.rameses.enterprise.treasury.models.AFTxnModel" />
+    
+    <pageflow>
+        <start>
+            <transition to="initial" name="default" />
+            <transition to="process" name="process"/>
+            <transition to="completed" name="view"/>
+        </start>
+        <page name="initial" title="Select AF Transaction Type" >
+            <transition to="process" caption="Next" mnemonic="N" action="initCreate"/>
+        </page>
+        <page name="process" title="#{title}" >
+            <transition to="initial" name="back" visibleWhen="#{false}"/>
+            <transition to="completed" name="forward" visibleWhen="#{false}"/>
+            <transition to="end" name="exit" visibleWhen="#{false}"/>
+        </page>
+        <page name="completed" title="AF Transaction" >
+            <transition to="end" caption="Close"/>
+        </page>
+        <end/>
+    </pageflow>
+    <pages>
+        <page name="initial" template="com.rameses.enterprise.treasury.views.AFTxnInitialPage" />
+        <page name="process" template="com.rameses.enterprise.treasury.views.AFTxnProcessPage" />
+        <page name="completed" template="com.rameses.enterprise.treasury.views.AFTxnViewPage" />
+    </pages>
+    
+</workunit>

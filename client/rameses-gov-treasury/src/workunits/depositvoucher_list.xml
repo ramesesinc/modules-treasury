@@ -1,0 +1,20 @@
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" 
+          schemaName="depositvoucher" allowCreate="false" allowDelete="false">
+    <invokers>
+        <invoker folderid="menucategory/treasury/remittance" action="init" 
+                 caption="View Deposit Vouchers" windowTitle="Deposit Vouchers"
+                 formTitle="Deposit  Vouchers" formId="treasury-remittance-depositvouchers" 
+                 cols="controlno,controldate,fund.title,amount,amountdeposited,state"
+                 hiddenCols="dtcreated" 
+                 orderBy="controldate DESC"
+                 role="CASHIER" target="window" index="51" 
+                 allowDelete="#{entity?.state == 'OPEN'}" />
+        
+        <invoker folderid="menucategory/treasury/mgmt" action="init" 
+                 caption="View Deposit Vouchers" windowTitle="Deposit Vouchers"
+                 formTitle="Deposit  Vouchers" formId="treasury-mgmt-depositvouchers" 
+                 cols="controlno,controldate,fund.title,amount,amountdeposited,state"
+                 orderBy="controldate DESC"
+                 role="SHARED" permission="depositvoucher.view" target="window" />        
+    </invokers>
+</workunit>

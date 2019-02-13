@@ -1,0 +1,11 @@
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" 
+          allowDelete="#{ entity.state == 'DRAFT' }"  
+          schemaName="collectiongroup">
+    <invokers>
+         <invoker folderid="/explorer/master/treasury" caption="Collection Groups" action="init"
+                      cols="name,sharing" 
+                      hiddenCols="state"
+         	      role="MASTER" permission="collectiongroup.view"
+                      index="21"  />
+    </invokers>
+</workunit>

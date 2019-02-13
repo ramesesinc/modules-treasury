@@ -1,0 +1,60 @@
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" 
+          schemaName="cashreceipt" allowCreate="false" allowDelete="false" 
+          cols="formno,receiptno,receiptdate,stub,series,paidby,amount,voided,collector.name">
+    
+    <invokers>
+        <invoker folderid="menucategory/treasury/mgmt" action="init" 
+                 caption="View Cash Receipts" tag="mgmt" 
+                 role="SHARED" permission="cashreceipt.view" 
+                 customFilter=" formtype='serial' "
+                 index="-9" />
+
+        <invoker folderid="menucategory/treasury/collection" action="init" 
+                 caption="View Cash Receipts" role="COLLECTOR" tag="collector" 
+                 customFilter=" formtype='serial' "
+                 index="-9" /> 
+        
+        <invoker folderid="menucategory/treasury/subcollection" action="init" 
+                 caption="View Cash Receipts" role="SUBCOLLECTOR" tag="subcollector" 
+                 customFilter=" formtype='serial' "
+                 index="-9" /> 
+
+        <invoker type="cashreceipt_list:afseries" caption="Cash Receipt List" action="init" 
+                 customFilter=" controlid = :afcontrolid AND series BETWEEN :fromseries AND :toseries"
+                 orderBy="receiptno"
+                 target="popup" width="1024" height="700"/>
+        
+        <invoker type="cashreceipt_list:view" caption="Cash Receipts (Unremitted)" 
+                 action="init" 
+                 orderBy="receiptno,receiptdate"
+                 target="popup" width="1024" height="700"/>
+
+        <invoker type="cashreceipt_list:remitted:view" caption="Cash Receipt (Remitted)" 
+                 action="init" 
+                 orderBy="receiptno,receiptdate"
+                 tag="remitted"
+                 target="popup" width="1024" height="700"/>
+        
+   </invokers>
+   
+    <code>
+        import com.rameses.rcp.annotations.*; 
+        import com.rameses.rcp.common.*; 
+
+        class CashReceiptListModel extends com.rameses.seti2.models.CrudListModel {
+
+            
+            public void initColumn( c ) { 
+                if ( c.name == 'series' ) { 
+                    c.visible = false; 
+                    c.hidden = true; 
+                } 
+            } 
+        }         
+    </code>
+    <!--
+    <pages>
+        <page name="queryForm" template="com.rameses.enterprise.treasury.views.AFListQueryPanel"/>
+    </pages>
+    -->
+</workunit>

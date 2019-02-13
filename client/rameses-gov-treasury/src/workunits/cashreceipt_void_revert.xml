@@ -1,0 +1,73 @@
+<workunit>
+    <invokers>
+        <invoker type="cashreceipt:form:formActions" 
+                 caption="Revert Void" action="init" 
+                 role="ADMIN" permission="receipt.void" 
+                 visibleWhen="#{allowRevertVoid==true}" 
+                 target="popup" /> 
+    </invokers>
+   
+    <code>
+    <![CDATA[
+import com.rameses.osiris2.common.*;
+import com.rameses.rcp.common.*;
+import com.rameses.rcp.annotations.*;
+import com.rameses.osiris2.client.*;
+import com.rameses.util.*;
+
+class CashReceiptRevertVoidController {
+
+    @Service("CashReceiptVoidService")
+    def service;
+
+    @Binding
+    def binding;
+
+    @Caller
+    def caller;
+    
+    def data; 
+    def handler; 
+
+    void init() {
+        data = [:];
+    } 
+    
+    def getReceipt() { 
+        return caller?.entityContext; 
+    } 
+
+    def doOk() {
+        if( MsgBox.confirm( "You are about to revert a void receipt. Continue?")) {
+            data.objid = receipt.objid; 
+            service.revert( data ); 
+            receipt.voided = 0;
+            
+            if ( handler ) handler(); 
+            else { 
+                try { 
+                    if ( caller.metaClass.respondsTo(caller, 'refresh')) {
+                        caller.refresh(); 
+                    } else if ( caller.metaClass.hasProperty(caller, 'binding')) {
+                        caller.binding.refresh(); 
+                    } 
+                } catch(Throwable t) {
+                    t.printStackTrace(); 
+                } 
+            } 
+            return "_close";
+        } 
+    } 
+
+    def doCancel() {
+        return "_close";
+    }
+}      
+    ]]>
+    </code>
+   
+    <pages>
+        <page template="com.rameses.enterprise.treasury.cashreceipt.CashReceiptRevertVoidPage"/>
+    </pages>
+   
+</workunit>

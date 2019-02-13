@@ -1,0 +1,33 @@
+<workunit>
+    <!--
+    <invokers>
+        <invoker type="formActions" action="doClose" caption="Back" immediate="true" visibleWhen="#{!completed}" 
+            icon="images/toolbars/arrow_left.png" mnemonic="b" shortcut="ctrl B"/>
+
+        <invoker type="formActions" action="post" caption="Save" visibleWhen="#{!completed}"
+            icon="images/toolbars/save.png" shortcut="ctrl S" mnemonic="s" />
+        
+    </invokers>
+    -->
+    <code class="com.rameses.treasury.common.models.BasicBillingCashReceiptModel" />
+    <pageflow>
+        <start>
+            <transition to="initial" />
+            <transition name="entry" to="entry" />
+        </start>
+        <page name="initial" title="Billing Initial">
+            <transition to="end" action="doClose" caption="Back" mnemonic="B"/>
+            <transition to="entry" caption="Next" action="findTxn" mnemonic="N"/>
+        </page>
+        <page name="entry" title="#{title}">
+            <transition to="initial" caption="Back" mnemonic="B"/>
+            <transition to="end" caption="Save" action="post"/>
+        </page>
+        <end/>
+    </pageflow>
+    <pages>
+        <page name="initial" template="com.rameses.treasury.common.views.BillingCashReceiptInitialPage"/>
+        <page name="entry" template="com.rameses.treasury.common.views.BillingCashReceiptPage"/>
+    </pages>
+    
+</workunit>

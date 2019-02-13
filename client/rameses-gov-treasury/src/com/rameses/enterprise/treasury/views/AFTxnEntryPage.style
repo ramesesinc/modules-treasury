@@ -1,0 +1,18 @@
+"itemListHandler:item.*" [ afrequest != null ]{
+    editable:false;
+}
+"itemListHandler:item.*" [ afrequest == null ]{
+    editable:true;
+}
+
+"itemListHandler:item.cost" [ entity.txntype == 'ISSUE' ]{
+    editable:false;
+}
+
+"entity.(issueto|respcenter).*" [ entity.txntype != 'ISSUE' ]{
+    visible: false;
+}
+"entity.(issueto|respcenter).*" [ entity.txntype == 'ISSUE' ]{
+    visible: true;
+}
+

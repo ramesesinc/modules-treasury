@@ -1,0 +1,38 @@
+<workunit>
+    <invokers>
+        <!-- this is for the new setup -->
+        <invoker type="cashreceiptdetail:printout" caption="AF 51 (Print Details)" name="cashreceiptdetail:printout:51"/>
+        <invoker type="cashreceiptdetail:printout:51" index="-1000"/>
+        
+        <!-- this is for the old setup -->
+        <invoker type="cashreceipt:printdetail:51" />
+    </invokers>
+    
+    <code>
+        <![CDATA[
+        import com.rameses.rcp.annotations.*
+        import com.rameses.rcp.common.*
+        import com.rameses.osiris2.client.*
+        import com.rameses.osiris2.common.*
+        import com.rameses.osiris2.reports.*;
+        import com.rameses.enterprise.treasury.models.*; 
+
+        class CashReceiptForm51Detail extends CashReceiptPrintoutModel {
+
+           def reportPath = 'com/rameses/gov/treasury/cashreceipt/forms/'
+
+           public String getReportName() { 
+                return reportPath + "af51detail.jasper" 
+           }
+           
+           public SubReport[] getSubReports() {
+                return [
+                    new SubReport("ITEM", reportPath + "af51detailitem.jasper")
+                ] as SubReport[];  
+            }
+        }
+
+        ]]>
+    </code>    
+        
+</workunit>

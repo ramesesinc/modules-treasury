@@ -1,0 +1,32 @@
+<workunit extends="com/rameses/seti2/templates/CrudForm.xml" schemaName="remittance" 
+          allowCreate="false" allowEdit="false" allowDelete="false">
+    <invokers>
+        <invoker type="remittance:open" 
+                 caption="Remittance" 
+                 windowTitle="#{entity.controlno}"
+                 formTitle="Remittance #{entity.controlno}"
+                 formId="#{entity.objid}"
+                 action="open" target="window" 
+                 index="10"/>
+        
+        <!-- Buttons -->
+        <invoker type="formActions" caption="Submit for Liquidation" 
+                 action="remit" visibleWhen="#{ entity.state == 'DRAFT' }"/>
+        
+        <invoker type="formActions" caption="Reports" name="popupReports" 
+                 visibleWhen="#{entity.state != 'DRAFT' }" category="remittance:reports" /> 
+        
+        <invoker type="formActions" caption="Cash Breakdown" name="updateCashByRemittance" 
+                 visibleWhen="#{entity.state == 'DRAFT' }"  />
+        
+        <invoker type="formActions" caption="Export" name="doExport" 
+                 visibleWhen="#{entity.state != 'DRAFT'}" mnemonic="e" index="100" />        
+    </invokers>
+   
+   <code class="com.rameses.enterprise.treasury.models.RemittanceModel" />
+  
+   <pages>
+       <page template="com.rameses.enterprise.treasury.views.RemittancePage" />
+   </pages>
+   
+</workunit>

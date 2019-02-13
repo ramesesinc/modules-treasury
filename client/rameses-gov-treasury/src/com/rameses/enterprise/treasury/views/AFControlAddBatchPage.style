@@ -1,0 +1,3 @@
+"entry.(.*series)" [ refitem.afunit.formtype == 'cashticket' ] {
+    visible: false;
+}

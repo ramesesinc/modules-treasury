@@ -1,0 +1,25 @@
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" 
+          schemaName="checkpayment" allowCreate="false" allowDelete="false">
+    <invokers>
+        <invoker folderid="menucategory/treasury/mgmt" action="init" 
+                 caption="Incoming Check Payments" target="window" index="10" 
+                 cols="refno,receivedfrom,refdate,bank.name,amount,balance,collector.name,subcollector.name"
+                 role="COLLECTOR,SHARED" /> 
+
+        <invoker folderid="menucategory/treasury/collection" action="init" 
+                 caption="View Checks Issued" target="window" index="200" 
+                 cols="refno,receivedfrom,refdate,bank.name,amount,balance" 
+                 hiddenCols="amtused" 
+                 role="COLLECTOR" tag="COLLECTOR" 
+                 allowDelete="#{entity?.amtused == 0}" /> 
+
+        <invoker folderid="menucategory/treasury/subcollection" action="init" 
+                 caption="View Checks Issued" target="window" index="200" 
+                 cols="refno,receivedfrom,refdate,bank.name,amount,balance,collector.name" 
+                 hiddenCols="amtused" 
+                 role="SUBCOLLECTOR" tag="SUBCOLLECTOR" 
+                 allowDelete="#{entity?.amtused == 0}" /> 
+
+    </invokers>
+    
+</workunit>

@@ -1,0 +1,25 @@
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" 
+          schemaName="batchcapture_collection" 
+          cols="txndate,formno,collector.name,startseries,endseries,totalamount,capturedby.name" 
+          hiddenCols="state"
+          allowDelete="#{ entity.state == 'DRAFT' }"
+          orderBy="txndate">
+    
+    <invokers>
+        <invoker folderid="menucategory/treasury/mgmt" index="-5"
+                 caption="Batch Capture List" action="init" 
+                 role="DATA_CONTROLLER" tag="shared"
+                 allowCreate="false" allowDelete="false"/>
+
+        <invoker folderid="menucategory/treasury/collection" 
+                 caption="Batch Capture List" action="init" 
+                 role="COLLECTOR" tag="collector" />
+        
+        <invoker folderid="menucategory/treasury/subcollection" 
+                 caption="Batch Capture List" action="init" 
+                 role="SUBCOLLECTOR" tag="subcollector" 
+                 index="-5" />
+
+    </invokers>
+    
+</workunit>

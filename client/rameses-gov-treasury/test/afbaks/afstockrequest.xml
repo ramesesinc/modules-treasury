@@ -1,0 +1,155 @@
+<!-- REQUISITION ISSUE SLIP -->
+<workunit extends="wtemplates/StockRequestController.xml">
+    
+    <invokers>
+        <!-- 
+        <invoker type="afris:type" caption="Collection" reqtype="ISSUANCE" role="COLLECTOR,AFO"/>
+        <invoker type="afris:type" caption="Purchase Stock" reqtype="PURCHASE" role="AFO"/>
+        <invoker type="afris:type" caption="Sale" reqtype="SALE" role="COLLECTOR,AFO"/>
+
+        <invoker folderid="home/treasury" caption="AF Request"  index="1" role="COLLECTOR" target="window" action="initCollector"/>
+        <invoker folderid="/menu/txn/treasury" caption="AF Request" index="10" role="COLLECTOR" action="initCollector"/>
+        <invoker type="quick_launcher" code="AFRIS" caption="Accountable Form RIS" index="1" role="COLLECTOR" target="window" action="initCollector"/>
+        
+        <invoker folderid="home/treasury" caption="AF Request" index="1" role="AFO" target="window" action="initAFO"/>
+        <invoker folderid="/menu/txn/treasury" caption="AF Request" index="10" role="AFO" action="initAFO"/>
+        <invoker type="quick_launcher" code="AFRIS" caption="Accountable Form RIS" aindex="1" role="AFO" target="window" action="initAFO"/>
+        --> 
+        
+        <invoker type="afrequest:create" caption="AF Request" action="create" role="COLLECTOR,AFO" target="window"/>
+        <invoker type="afrequest1:open" caption="AF Request" action="open" role="COLLECTOR,AFO" target="window"/>
+        
+        <invoker type="formActions" caption="Delete" action="delete" role="AFO" visibleWhen="#{mode=='read' &amp;&amp; entity.state=='OPEN'}"/>
+        
+        <invoker type="afreq:afo" role="AFO"/> 
+        <invoker type="afreq:type:collection" caption="Collection" reqtype="ISSUANCE" role="AFO,COLLECTOR"/>
+        <invoker type="afreq:type:purchase" caption="Purchase Stock" reqtype="PURCHASE" role="AFO"/>
+        <invoker type="afreq:type:sale" caption="Sale" reqtype="SALE" role="AFO"/>
+        
+        <invoker folderid="home/treasury/af" caption="Collection Request" role="AFO,COLLECTOR" action="initReqCollection" target="window" index="10"/>
+        <invoker folderid="home/treasury/af" caption="Purchase Stock Request" role="AFO" action="initReqPurchase" target="window" index="10"/>
+        <invoker folderid="home/treasury/af" caption="Sale Request" role="AFO" action="initReqSale" target="window" index="10"/>
+
+        <invoker folderid="/menu/txn/treasury/af" caption="Request AF For Collection" role="AFO,COLLECTOR" action="initReqCollection" target="window" index="10"/>
+        <invoker folderid="/menu/txn/treasury/af" caption="Request AF For Purchase" role="AFO" action="initReqPurchase" target="window" index="10"/>
+        <invoker folderid="/menu/txn/treasury/af" caption="Request AF For Sale" role="AFO" action="initReqSale" target="window" index="10"/>
+
+        <invoker type="quick_launcher" code="AFREQC" caption="Collection Request" role="AFO,COLLECTOR" action="initReqCollection" target="window" index="10"/>
+        <invoker type="quick_launcher" code="AFREQP" caption="Purchase Stock Request" role="AFO" action="initReqPurchase" target="window" index="10"/>
+        <invoker type="quick_launcher" code="AFREQS" caption="Sale Request" role="AFO" action="initReqSale" target="window" index="10"/>      
+        
+    </invokers>
+    
+    <code>
+<![CDATA[
+import com.rameses.rcp.annotations.*
+import com.rameses.rcp.common.*
+import com.rameses.osiris2.client.*
+import com.rameses.osiris2.common.*
+import java.rmi.server.*;
+import com.rameses.enterprise.inventory.stock.*;
+
+class AFRIS extends StockRequestController {
+
+    String title = "Request Accountable Form";
+    
+    @Service("UsergroupMemberLookupService")
+    def ugmSvc;
+    
+    @Script("User")
+    def user;
+
+    def reqType;
+    def reqTypes;
+    
+    def requestedbylist;
+    
+    def role 
+    
+    @PropertyChangeListener
+    def listener = [
+        "reqType": {o->
+            entity.reqtype = o.properties.reqtype
+         }
+    ] 
+
+    void initReqCollection() {
+        def params = [ types: getRequestTypes('collection') ]; 
+        def afreqafo = InvokerUtil.lookup("afreq:afo");  
+        if ( afreqafo ) params.afo = true; 
+
+        params.requesters = ugmSvc.getList(['_tag':'COLLECTOR']); 
+        initReq( params ); 
+    }
+
+    void initReqPurchase() {
+        def params = [ types: getRequestTypes('purchase') ]; 
+        initReq( params ); 
+    }
+
+    void initReqSale() {
+        def params = [ types: getRequestTypes('sale') ]; 
+        def afreqafo = InvokerUtil.lookup("afreq:afo");  
+        if ( afreqafo ) params.afo = true;         
+        
+        params.requesters = ugmSvc.getList(['_tag':'COLLECTOR']);         
+        initReq( params ); 
+    } 
+
+    void initReq( params ) { 
+        if ( !params.types ) params.types = []; 
+
+        entity = [items:[]];
+        entity.state = "DRAFT";
+        entity.itemclass = "AF";
+        reqTypes = params.types;
+
+        if ( params.requesters == null ) { 
+            params.requesters=[]; 
+        } 
+        if ( params.afo != true ) { 
+            params.requesters.clear(); 
+        } 
+        
+        if ( !params.requesters ) {
+            params.requesters = [[objid: user.env.USERID, name:user.env.FULLNAME, jobtitle:user.env.JOBTITLE]]; 
+        } 
+
+        requestedbylist = params.requesters.collect{[ 
+            objid: it.objid, name: it.name, lastname: it.lastname, 
+            firstname: it.firstname, middlename: it.middlename, 
+            title: it.jobtitle 
+        ]}.unique().sort{ it.name }  
+
+        entity.requester = (requestedbylist? requestedbylist.first(): null); 
+        super.create(); 
+    } 
+
+    void open() {
+        super.open();
+        title = "Request Accountable Form - " + entity.reqno;
+        requestedbylist = [ entity.requester ]; 
+        reqTypes = getRequestTypes( entity.reqtype ); 
+        reqType = reqTypes.find{( it.properties?.reqtype==entity.reqtype )} 
+    }
+    
+    def delete() {
+        if( MsgBox.confirm("Are you sure you want to delete this request? ")) { 
+            service.deleteRequest(entity );
+            entity.state = 'DISAPPROVED'; 
+            return '_close';
+        } else {
+            return null; 
+        } 
+    }
+    
+    def getRequestTypes( type ) { 
+        def stype = type.toString().toLowerCase(); 
+        if ( stype == 'issuance' ) stype='collection'; 
+        
+        return InvokerUtil.lookupOpeners('afreq:type:'+ stype, [:]); 
+    }  
+}
+    ]]>
+    </code>
+</workunit>

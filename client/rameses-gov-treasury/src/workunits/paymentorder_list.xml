@@ -1,0 +1,14 @@
+<workunit extends="com/rameses/seti2/templates/CrudList.xml" 
+         schemaName="paymentorder">
+    <invokers>
+        <invoker folderid="/explorer/txn/treasury" 
+                 caption="Payment Order List" 
+                 role="SHARED" action="init"
+                 cols="objid,controlno,txndate,issuedby.name,payer.name,remarks,amount,expirydate,org.name"
+                 index="1" />
+        
+    </invokers>
+    <!--
+    <code class="com.rameses.enterprise.treasury.models.PaymentOrderListModel" />
+    -->
+</workunit>
