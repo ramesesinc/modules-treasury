@@ -8,15 +8,20 @@ import com.rameses.util.*;
 
 public class BillingRuleModel extends AbstractRuleProcessorModel  {
 
-    @Service("BillingRuleService")    
-    def ruleExecutor;
-
     //by default retrieve the billitems
     boolean include_billitems = true;
 
     //set this true for cash receipts 
     boolean include_items = false;
 
+    def _ruleExecutor;
+    public def  getRuleExecutor() {
+        if(!_ruleExecutor) {
+            _ruleExecutor = createService("BillingRuleService" );
+        }
+        return _ruleExecutor;
+    }
+    
     void init() {
         options = [:];
         options.include_billitems = include_billitems;

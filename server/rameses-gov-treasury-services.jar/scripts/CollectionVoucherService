@@ -70,16 +70,6 @@ class CollectionVoucherService  {
 		//build voucher funds
 		cvEm.insertCollectionVoucherFund( z );
 
-		//update cash breakdown totals in each collection fund
-		def lfList = cvFundEm.find( [ parentid: m.objid ] ).list();
-		lfList.each {
-			def cc = [cvid: it.parentid, fundid: it.fund.objid]; 
-			def subList = remFundEm.select("cashbreakdown").where( "remittance.collectionvoucherid=:cvid AND fund.objid=:fundid" , cc).list()*.cashbreakdown; 
-			def bd = cashBreakdownSvc.summarize( subList ); 
-			cvFundEm.find([ objid: it.objid ]).update([ cashbreakdown: bd ]); 
-		} 
-
-
 		//totals in collection
 		def u = [cashbreakdown: [], totalcash:0, totalcheck:0, totalcr: 0, amount:0 ];
 		def remList = remEm.find( z ).list().each { 
@@ -127,17 +117,11 @@ class CollectionVoucherService  {
 		if ( p.controlno.toString().toUpperCase().startsWith("TMP-")) {
 			def txncode = [ "LIQ", env.TXNCODE, env.ORGTXNCODE ].findAll{( it )}.join("-");
 			m.controlno = controlSvc.formatTxnno([ txncode: txncode, txndate: m.dtposted, format: var.liquidation_format, sequenceid_format: var.liquidation_sequenceid_format ]); 
-
-			cvFundEm.find([ parentid: p.objid ]).select('objid,fund.code').list().each{ 
-				def txnno = m.controlno + (it.fund?.code ? ('-'+it.fund.code) : ""); 
-				cvFundEm.find([ objid: it.objid ]).update([ controlno: txnno ]); 
-			} 
 		} 
 		cvEm.find([ objid: p.objid ]).update( m ); 
 
 		//auto post to ledger
-		postJev( [objid: p.objid] );
-
+		//postJev( [objid: p.objid] );
 		return m; 
 	}	
 

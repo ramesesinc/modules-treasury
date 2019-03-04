@@ -180,14 +180,11 @@ CREATE TABLE `af_control` (
   `prefix` varchar(10) NOT NULL,
   `suffix` varchar(10) NOT NULL,
   `dtfiled` date DEFAULT NULL,
-  `currentindexno` int(11) DEFAULT NULL,
-  `batchref` varchar(50) DEFAULT NULL,
   `batchno` int(50) DEFAULT NULL,
   `lockid` varchar(50) DEFAULT NULL,
   `respcenter_objid` varchar(50) DEFAULT NULL,
   `respcenter_name` varchar(100) DEFAULT NULL,
   `cost` decimal(16,2) DEFAULT NULL,
-  `currentdetailid` varchar(50) DEFAULT NULL,
   `allocid` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`objid`),
   UNIQUE KEY `uix_code` (`afid`,`startseries`,`prefix`,`suffix`),
@@ -196,9 +193,8 @@ CREATE TABLE `af_control` (
   KEY `ix_owner_objid` (`owner_objid`),
   KEY `ix_fund_objid` (`fund_objid`),
   KEY `ix_org_objid` (`org_objid`),
-  KEY `ix_org_name` (`org_name`),
-  KEY `fk_af_contrl_currentdetail` (`currentdetailid`),
-  CONSTRAINT `fk_af_contrl_currentdetail` FOREIGN KEY (`currentdetailid`) REFERENCES `af_control_detail` (`objid`)
+  KEY `ix_org_name` (`org_name`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `af_control_detail` */
@@ -209,7 +205,6 @@ CREATE TABLE `af_control_detail` (
   `objid` varchar(150) NOT NULL,
   `state` int(2) DEFAULT NULL,
   `controlid` varchar(50) NOT NULL,
-  `indexno` int(11) NOT NULL,
   `refid` varchar(50) NOT NULL,
   `refitemid` varchar(50) DEFAULT NULL,
   `refno` varchar(32) NOT NULL,
@@ -235,7 +230,6 @@ CREATE TABLE `af_control_detail` (
   `issuedto_name` varchar(255) DEFAULT NULL,
   `respcenter_objid` varchar(50) DEFAULT NULL,
   `respcenter_name` varchar(255) DEFAULT NULL,
-  `prevdetailid` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`objid`),
   KEY `ix_controlid` (`controlid`),
   KEY `ix_refid` (`refid`),

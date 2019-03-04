@@ -6,7 +6,7 @@ import com.rameses.osiris2.client.*
 import com.rameses.osiris2.common.*
 import com.rameses.util.*;
 
-public abstract class AbstractRuleProcessorModel  {
+public abstract class AbstractRuleProcessorModel extends AbstractConnectorModel  {
 
     abstract def getRuleExecutor();
     

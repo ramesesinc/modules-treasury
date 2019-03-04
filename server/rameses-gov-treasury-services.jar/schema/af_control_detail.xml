@@ -1,8 +1,6 @@
 <schema>
 	<element tablename="af_control_detail">
 		<field name="objid" primary="true" prefix="AFCTRLD" />
-		<field name="state" required="true" type="integer" defaultValue="0"/>
-		<field name="indexno" required="true" />
 		<field name="aftxnid" />
 		<field name="aftxnitemid" />
 		<field name="refid" required="true" />

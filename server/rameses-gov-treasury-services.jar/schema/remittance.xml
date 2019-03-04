@@ -23,6 +23,9 @@
 		<field name="remarks" />
 
 		<field name="collectionvoucherid"/>
+
+		<!-- remittance fund group -->
+		<field name="fundgroupid"/>
 		
 		<complex name="collection" ref="collectionvoucher" jointype="many-to-one" includefields="controlno,controldate,state" required="false">
 			<key field="collectionvoucherid" target="objid" />

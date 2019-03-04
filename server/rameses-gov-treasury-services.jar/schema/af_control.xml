@@ -21,9 +21,7 @@
 		<field name="prefix" caption="Prefix" indexed="true"/> 
 		<field name="suffix" caption="Suffix" indexed="true"/> 
 		<field name="dtfiled" required="true" type="date" caption="Date Filed" /> 
-		<field name="currentindexno" required="true" type="integer"/>
 
-		<field name="batchref" />
 		<field name="batchno" indexed="true" caption="Batch No"/> 
 
 		<field name="qtybalance" expr="endseries-currentseries+1" caption="Qty Balance" type="integer"/>
@@ -38,10 +36,6 @@
 		<complex name="af" ref="af" jointype="many-to-one" includefields="objid,title,formtype,serieslength" required="false">
 			<key field="afid" target="objid" />
 		</complex>	
-
-		<complex name="currentdetail" ref="af_control_detail" jointype="many-to-one" includefields="objid,aftxnid,aftxnitemid,refid,refno,refdate,reftype,txntype,txndate,statetype.*,endingstartseries,endingendseries,issuedto.*,respcenter.*" required="false">
-			<key field="currentdetailid" target="objid" />
-		</complex>
 
 		<complex name="afunit" ref="vw_afunit" jointype="many-to-one" required="false" includefields="serieslength,denomination,formtype,saleprice,qty,interval,cashreceiptprintout,cashreceiptdetailprintout">
 			<key field="afid" target="itemid" />

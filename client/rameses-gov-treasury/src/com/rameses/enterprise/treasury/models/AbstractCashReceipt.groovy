@@ -9,8 +9,13 @@ import com.rameses.util.*;
 
 public abstract class AbstractCashReceipt extends PageFlowController  {
         
-    @Service("CashReceiptService")
-    def service;
+    def _cashRctSvc;
+    public def getService() {
+        if(!_cashRctSvc) {
+            _cashRctSvc = InvokerProxy.instance.create("CashReceiptService", null, null );
+        }
+        return _cashRctSvc; 
+    }
     
     def entity;
     def info;
@@ -59,7 +64,6 @@ public abstract class AbstractCashReceipt extends PageFlowController  {
     }
     
     public def loadInfo(def o ) {
-        MsgBox.alert("Please override the 'void loadInfo(def o)' method ");
         return super.start();
     }
     

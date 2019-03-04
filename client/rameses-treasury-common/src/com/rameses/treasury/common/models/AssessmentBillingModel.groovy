@@ -8,7 +8,12 @@ import com.rameses.util.*;
 
 public class AssessmentBillingModel extends AbstractRuleProcessorModel  {
 
-    @Service("AssessmentBillingService")    
-    def ruleExecutor;
+    def _ruleExecutor;
+    public def  getRuleExecutor() {
+        if(!_ruleExecutor) {
+            _ruleExecutor = createService("AssessmentBillingService" );
+        }
+        return _ruleExecutor;
+    }
     
 }

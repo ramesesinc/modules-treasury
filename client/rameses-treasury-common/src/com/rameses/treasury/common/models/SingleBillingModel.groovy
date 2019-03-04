@@ -9,17 +9,14 @@ import com.rameses.seti2.models.*;
 
 public class SingleBillingModel extends FormReportModel {
 
-    @Controller
-    def workunit;
-        
-    @Invoker
-    def invoker;
+    def _billingSvc;
+    public def  getRuleExecutor() {
+        if(!_billingSvc) {
+            _billingSvc = createService("SingleBillingService" );
+        }
+        return _billingSvc;
+    }
     
-    @Service("SingleBillingService")    
-    def billingSvc;
-    
-    @Caller
-    def caller;
     
     public String getRulename() {
         def pfn = invoker.properties.rulename;

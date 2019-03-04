@@ -1,0 +1,25 @@
+import com.rameses.annotations.*;
+import com.rameses.util.*;
+import java.rmi.server.*;
+import com.rameses.common.*;
+import com.rameses.services.extended.*;
+
+public class BillingCashReceiptInterceptor { 
+	
+	@Service(dynamic=true)
+	def svc;
+
+	@After(pattern="CashReceiptService.post", eval="#{ args[0]._postpayment == true }",  index=50)
+	public void postCashReceipt( evt ) { 
+		def a = evt.args[0];
+		def r = evt.result;
+		if( !a._connection ) {
+			throw new Exception("Please specify _connection in BillingInfoHandler.formatReceiptInfo");
+		}
+		
+		def bs = svc.lookup( "BillingCashReceiptService", a._connection );
+		bs.post( a );
+	}
+
+
+}

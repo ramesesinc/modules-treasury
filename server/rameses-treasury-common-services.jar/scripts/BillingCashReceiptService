@@ -73,4 +73,11 @@ class BillingCashReceiptService {
 		bill._warning = warning; 
 		return bill; 
 	} 
+
+	@ProxyMethod
+	public def post( def o ) {
+		throw new Exception("posting in BillingCashReceiptService " + o);
+	} 
+
+
 }

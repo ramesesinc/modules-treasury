@@ -8,9 +8,6 @@ import com.rameses.util.*;
 
 public class BasicBillingCashReceiptModel extends com.rameses.enterprise.treasury.models.AbstractCashReceipt {
     
-    @Service("BillingCashReceiptService")
-    def billingSvc;
-    
     def prefix;
 
     def status;   
@@ -25,6 +22,18 @@ public class BasicBillingCashReceiptModel extends com.rameses.enterprise.treasur
     def billItemList = [];
     
     boolean amountSpecified = false;
+    
+    public String getConnection() {
+        return invoker.module.properties.connection;
+    }
+    
+    def _billsvc;
+    public def getBillingSvc() {
+        if(!_billsvc) {
+            _billsvc = InvokerProxy.instance.create("BillingCashReceiptService", null, getConnection() );
+        }
+        return _billsvc;
+    }
     
     public String getTitle() {
         if( invoker.properties.formTitle ) {

@@ -31,7 +31,6 @@ public class BillingRuleService {
 	********************************************************************************/
 	@ProxyMethod
 	public def execute( def request ) {
-
 		if( !request.rulename ) throw new Exception("BillingService error. rulename is required");
 		if( !request.params) throw new Exception("BillingService error. params is required");
 

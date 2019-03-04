@@ -6,22 +6,17 @@ import com.rameses.osiris2.client.*
 import com.rameses.osiris2.common.*
 import com.rameses.util.*;
 
-public class BasicBillingCapturePaymentModel {
+public class BasicBillingCapturePaymentModel extends AbstractConnectorModel {
     
     @Controller
     def workunit;
         
-    @Invoker
-    def invoker;
-    
     @Binding
     def binding; 
     
     @Caller 
     def caller; 
     
-    @Service("BasicCapturePaymentService")
-    def paySvc;
         
     def parent;
     def txnid;
@@ -30,6 +25,16 @@ public class BasicBillingCapturePaymentModel {
         
     boolean amountSpecified = false;
 
+    
+    def _paySvc;
+    public def getPaySvc() {
+        if(!_paySvc) {
+            _paySvc = createService("BasicCapturePaymentService" );
+        }
+        return _PaySvc;  
+    }
+
+    
     public String getRulename() {
         String s = invoker.properties.rulename;
         if( s!=null ) {
