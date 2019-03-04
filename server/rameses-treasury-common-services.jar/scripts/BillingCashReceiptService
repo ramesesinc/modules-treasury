@@ -8,6 +8,12 @@ class BillingCashReceiptService {
 	@Service("BillingRuleService")
 	def ruleSvc;	
 
+	@Service("PaymentPostingService")
+	def pmtSvc;
+
+	@Service("PaymentPostingHandler")
+	def pmtHandler;
+
 	@ProxyMethod
 	public def getInfo( pp ) { 
 		if ( pp.options == null ) pp.options = [:];
@@ -75,9 +81,23 @@ class BillingCashReceiptService {
 	} 
 
 	@ProxyMethod
-	public def post( def o ) {
-		throw new Exception("posting in BillingCashReceiptService " + o);
+	public def post( def e ) {
+		if ( !e.txntype ) throw new Exception('txntype parameter is required');
+
+		def payinfo = pmtHandler.getPaymentInfo( e ); 
+		payinfo.putAll( e );
+		if ( !payinfo._schemaname ) throw new Exception("payinfo._schemaname is required");
+		if ( !payinfo.items ) throw new Exception('payinfo.items is required'); 
+
+		payinfo.items.each {
+			println it.reftype + " " + it.refid + " " + it.amount;
+		}
+		//throw new Exception("stop payment");
+
+		//payinfo._workflow = pmtHandler.getPaymentWorkflow( e ); 
+		pmtSvc.post( payinfo );
 	} 
+
 
 
 }

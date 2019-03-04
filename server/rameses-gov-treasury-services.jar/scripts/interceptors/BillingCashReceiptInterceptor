@@ -16,9 +16,19 @@ public class BillingCashReceiptInterceptor {
 		if( !a._connection ) {
 			throw new Exception("Please specify _connection in BillingInfoHandler.formatReceiptInfo");
 		}
-		
 		def bs = svc.lookup( "BillingCashReceiptService", a._connection );
-		bs.post( a );
+
+		def z = [:];
+		z.putAll( a );
+		z.txntype = a?.collectiontype?.handler;
+		z.reftype = "cashreceipt";
+		z.refdate = a.receiptdate;
+		z.refno = a.receiptno;
+		z.refid = a.objid;
+		z.txndate = r.txndate;
+		z.amount = a.amount;
+		z.txnmode = a.txnmode;
+		bs.post( z );
 	}
 
 
