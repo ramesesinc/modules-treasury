@@ -89,12 +89,7 @@ class BillingCashReceiptService {
 		if ( !payinfo._schemaname ) throw new Exception("payinfo._schemaname is required");
 		if ( !payinfo.items ) throw new Exception('payinfo.items is required'); 
 
-		payinfo.items.each {
-			println it.reftype + " " + it.refid + " " + it.amount;
-		}
-		//throw new Exception("stop payment");
-
-		//payinfo._workflow = pmtHandler.getPaymentWorkflow( e ); 
+		payinfo._workflow = pmtHandler.getPaymentWorkflow( e ); 
 		pmtSvc.post( payinfo );
 	} 
 
