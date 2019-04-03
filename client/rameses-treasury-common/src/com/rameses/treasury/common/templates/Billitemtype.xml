@@ -1,0 +1,5 @@
+<workunit extends="com/rameses/seti2/templates/CrudForm.xml">
+    <pages>
+        <page template="com.rameses.treasury.common.views.BillitemtypePage" />
+    </pages>
+</workunit>
