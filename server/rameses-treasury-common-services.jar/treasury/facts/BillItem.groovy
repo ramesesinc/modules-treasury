@@ -56,6 +56,7 @@ class BillItem extends AbstractBillItem {
 
 	public String toString() {
 		def buff = new StringBuffer();
+		buff.append( super.toString() );
 		if( year > 0 ) buff.append("y:"+year+";");
 		if( month > 0 ) buff.append( "m:"+month+";");
 		if( qtr > 0 ) buff.append("q:"+qtr+";");

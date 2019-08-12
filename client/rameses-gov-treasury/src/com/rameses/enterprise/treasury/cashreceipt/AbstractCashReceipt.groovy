@@ -18,9 +18,13 @@ public abstract class AbstractCashReceipt {
     @Binding
     def binding;
     
-    
-    @Service("CashReceiptService")
-    def service;
+    def _cashRctSvc;
+    public def getService() {
+        if(!_cashRctSvc) {
+            _cashRctSvc = InvokerProxy.instance.create("CashReceiptService", null, null );
+        }
+        return _cashRctSvc; 
+    }
     
     def entity;
     def info;

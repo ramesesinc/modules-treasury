@@ -36,8 +36,11 @@ public class BillingRuleService {
 
 		def rulename = request.rulename;
 		def data = request.params;
-		
-		def factBuilder = factSvc.getFacts([ rulename: rulename, params: data ]);
+
+		def factBuilder = request.factBuilder;
+		if(!factBuilder ) {
+			factBuilder = factSvc.getFacts([ rulename: rulename, params: data ]);
+		}		
 
 		def facts = factBuilder.facts;
 		if(!facts) throw new Exception("There should be at least one fact in RuleProcessorService" );
