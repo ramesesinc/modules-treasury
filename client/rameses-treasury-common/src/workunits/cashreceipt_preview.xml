@@ -1,0 +1,17 @@
+<workunit>
+    <invokers>
+        <invoker type="cashreceipt_preview" caption="Cash Receipt Preview" target="popup" />
+    </invokers>
+    <code>
+        class CashReceiptPreviewModel {
+            def entity;
+        
+            def doClose() {
+                return "_close";
+            }
+        }
+    </code>
+    <pages>
+        <page template="com.rameses.treasury.common.views.CashReceiptPreview" />
+    </pages>
+</workunit>

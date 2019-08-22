@@ -209,5 +209,9 @@ public class BasicBillingCashReceiptModel extends com.rameses.enterprise.treasur
         }
     ] as BasicListModel;
           
+    public def previewReceipt() {
+        return Inv.lookupOpener("cashreceipt_preview", [entity: entity] );
+    }
+    
     
 }
