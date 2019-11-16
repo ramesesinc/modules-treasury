@@ -19,7 +19,7 @@ public class BillingRuleService {
 	@Service("FactBuilderService")
 	def factSvc;
 
-	@Service("HolidayService")
+	@Service(value="HolidayService", connection="local-enterprise-server")
 	def holidaySvc;
 
 	/*******************************************************************************
