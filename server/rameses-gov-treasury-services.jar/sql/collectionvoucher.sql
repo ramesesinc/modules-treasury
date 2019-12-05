@@ -1,10 +1,13 @@
 [insertCollectionVoucherFund]
 INSERT INTO collectionvoucher_fund ( 
-  objid, parentid, fund_objid, fund_title, amount 
+  objid, controlno, parentid, fund_objid, fund_title, 
+  amount, totalcash, totalcheck, totalcr, cashbreakdown 
 ) 
 SELECT 
-  CONCAT(cv.objid, '-', rf.fund_objid) AS objid, 
-  cv.objid AS parentid, rf.fund_objid, rf.fund_title, SUM(rf.amount) AS amount
+  CONCAT(cv.objid, '-', rf.fund_objid) AS objid, CONCAT(cv.controlno, '-', f.code) AS controlno, 
+  cv.objid AS parentid, rf.fund_objid, rf.fund_title, SUM(rf.amount) AS amount, 
+  SUM(rf.totalcash) AS totalcash, SUM(rf.totalcheck) AS totalcheck, 
+  SUM(rf.totalcr) AS totalcr, '[]' AS cashbreakdown 
 FROM remittance_fund rf
   INNER JOIN remittance r ON rf.remittanceid = r.objid 
   INNER JOIN collectionvoucher cv ON cv.objid = r.collectionvoucherid 
@@ -12,6 +15,7 @@ FROM remittance_fund rf
 WHERE cv.objid = $P{collectionvoucherid} 
 GROUP BY 
   CONCAT(cv.objid, '-', rf.fund_objid), 
+  CONCAT(cv.controlno, '-', f.code), 
   cv.objid, rf.fund_objid, rf.fund_title 
 
 

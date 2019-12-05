@@ -9,13 +9,7 @@ import com.rameses.util.*;
 
 public abstract class AbstractCashReceipt extends PageFlowController  {
         
-    def _cashRctSvc;
-    public def getService() {
-        if(!_cashRctSvc) {
-            _cashRctSvc = InvokerProxy.instance.create("CashReceiptService", null, null );
-        }
-        return _cashRctSvc; 
-    }
+    def _service;
     
     def entity;
     def info;
@@ -34,6 +28,13 @@ public abstract class AbstractCashReceipt extends PageFlowController  {
     def barcodeid;
 
     def YMD = new java.text.SimpleDateFormat('yyyy-MM-dd');  
+    
+    public def getService() {
+        if ( _service == null ) {
+            _service = InvokerProxy.getInstance().create("CashReceiptService", null);
+        }
+        return _service; 
+    }
     
     void init() {
         title = entity.collectiontype.title;
@@ -271,7 +272,7 @@ public abstract class AbstractCashReceipt extends PageFlowController  {
         }
 
         if( mainProcessHandler ) {
-            mainProcessHandler.forward( entity );
+            mainProcessHandler.forward(entity);
         }
         return null; 
     }

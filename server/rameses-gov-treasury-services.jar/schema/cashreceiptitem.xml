@@ -12,7 +12,6 @@
 			<key field="item_fund_objid" target="objid" />
 		</complex>	
 		<field name="remarks"  />
-		<field name="remittancefundid"  />
 	</element>
 
 </schema>

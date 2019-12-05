@@ -70,6 +70,8 @@ class AFInventoryService {
 			m.prefix = afc.prefix;
 			m.suffix = afc.suffix;
 			m.batchno = afc.batchno;
+			m.batchref = ref.refno;
+			m.currentindexno = 1;
 			m.allocation = afc.allocation;
 
 			afc = afCtrl.create( m ); 
@@ -84,6 +86,7 @@ class AFInventoryService {
 		d.issuedto = ref.issueto;
 		d.respcenter = ref.respcenter;
 		d.state = 0;
+		d.indexno = 1;
 
 		//initialize the values
 		d.receivedstartseries = 0;
@@ -185,6 +188,7 @@ class AFInventoryService {
 		d = afDetail.create( d ); 
 		oldref.objid = d.objid;
 
+		u.currentdetailid = d.objid; 
 		afCtrl.find([ objid: afc.objid ]).update( u );
 	}
 

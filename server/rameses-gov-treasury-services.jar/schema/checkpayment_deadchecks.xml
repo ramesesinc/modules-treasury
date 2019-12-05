@@ -22,7 +22,7 @@
 
 		<field name="balance" expr="amount - amtused" type="decimal" caption="Amount Balance"/>
 		<!-- collector info -->
-		<field name="collector_objid" />
+		<field name="collectorid" />
 		<field name="external" />
 	</element>
 

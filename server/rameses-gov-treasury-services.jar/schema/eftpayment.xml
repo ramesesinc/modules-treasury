@@ -22,7 +22,7 @@
 		<field name="payer_name" />
 		<field name="payer_address_objid" />
 		<field name="payer_address_text" />
-		<field name="remittanceid" />
+
 	</element>
 
 
