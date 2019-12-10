@@ -279,30 +279,76 @@ class RAAFReportService {
 			def receivedendseries = vv.collect{ it.receivedendseries }.findAll{( it )}.max{( it )}
 			def beginstartseries = vv.collect{ it.beginstartseries }.findAll{( it )}.min{( it )}
 			def beginendseries = vv.collect{ it.beginendseries }.findAll{( it )}.max{( it )}
-			def endingstartseries = vv.collect{ it.endingstartseries }.findAll{( it )}.min{( it )}
-			def endingendseries = vv.collect{ it.endingendseries }.findAll{( it )}.max{( it )}
 
 			fo.qtyreceived = vv.findAll{( it.qtyreceived > 0 )}.sum{ it.qtyreceived } 
 			if ( fo.qtyreceived == null ) fo.qtyreceived = 0; 
 
-			fo.qtyending = vv.findAll{( it.qtyending > 0 )}.sum{ it.qtyending } 
-			if ( fo.qtyending == null ) fo.qtyending = 0; 
-
 			fo.qtybegin = vv.findAll{( it.qtybegin > 0 )}.sum{ it.qtybegin } 
 			if ( fo.qtybegin == null ) fo.qtybegin = 0; 
 
+			if ( receivedstartseries != null && receivedstartseries > 0 ) { 
+				beginstartseries = beginendseries = null; 
+				fo.qtybegin = 0; 
+			} 
+			if ( beginstartseries != null && beginstartseries > 0 ) { 
+				receivedstartseries = receivedendseries = null; 
+				fo.qtyreceived = 0; 
+			} 
+
+			if ( fo.qtyreceived == null ) fo.qtyreceived = 0; 
+			if ( fo.qtybegin == null ) fo.qtybegin = 0; 
+			if ((fo.qtyreceived + fo.qtybegin) == 0) return; 
+
+			fo.qtyissued = 0; 
 			fo.issuedstartseries = fo.issuedendseries = null; 
+
 			fo.receivedstartseries = receivedstartseries; 
 			fo.receivedendseries = receivedendseries; 
 			fo.beginstartseries = beginstartseries; 
 			fo.beginendseries = beginendseries; 
-			fo.endingstartseries = endingstartseries; 
-			fo.endingendseries = endingendseries
 			fo.formindex = 0; 
-			result << fo; 			
+
+			if ( fo.qtyreceived > 0 ) {
+				fo.endingstartseries = receivedstartseries; 
+				fo.endingendseries = receivedendseries; 
+				fo.qtyending = fo.qtyreceived; 
+			}
+			else if ( fo.qtybegin > 0 ) {
+				fo.endingstartseries = beginstartseries; 
+				fo.endingendseries = beginendseries; 
+				fo.qtyending = fo.qtybegin; 	
+			}
+			result << fo; 
 		}
+
 		serials.findAll{( it.qtyissued > 0 )}.each{ o-> 
 			o.formindex = 0;
+
+			if ( o.receivedstartseries != null && o.receivedstartseries > 0 ) {
+				o.beginstartseries = o.beginendseries = null; 
+				o.qtybegin = 0; 
+			}
+			if ( o.beginstartseries != null && o.beginstartseries > 0 ) {
+				o.receivedstartseries = o.receivedendseries = null; 
+				o.qtyreceived = 0; 
+			}
+
+			o.qtyending = 0; 
+			o.endingstartseries = o.endingendseries = null; 
+
+			if ( o.qtyreceived == null ) o.qtyreceived = 0; 
+			if ( o.qtybegin == null ) o.qtybegin = 0; 
+			if ( o.qtyissued == null ) o.qtyissued = 0; 
+
+			o.endingstartseries = o.issuedendseries+1; 
+			if ( o.endingstartseries > o.endseries ) {
+				o.endingstartseries = o.endingendseries = null; 
+				o.qtyending = 0; 
+			}
+			else {
+				o.endingendseries = o.endseries; 
+				o.qtyending = (o.endingendseries - o.endingstartseries)+1;
+			}
 			result << o; 
 		} 
 	} 
@@ -316,17 +362,21 @@ class RAAFReportService {
 			fo.beginstartseries = fo.beginendseries = null;   
 			fo.issuedstartseries = fo.issuedendseries = null;   
 			fo.endingstartseries = fo.endingendseries = null;   
-			fo.qtyreceived = v.sum{ it.qtyreceived } 
-			fo.qtyending = v.sum{ it.qtyending }
-			fo.qtyissued = v.sum{ it.qtyissued }
-			fo.qtybegin = v.sum{ it.qtybegin } 
+			fo.qtyreceived = v.sum{( it.qtyreceived ? it.qtyreceived : 0 )} 
+			fo.qtyissued = v.sum{( it.qtyissued ? it.qtyissued : 0 )}
+			fo.qtybegin = v.sum{( it.qtybegin ? it.qtybegin : 0 )} 
+
+			if ( fo.qtyreceived == null ) fo.qtyreceived = 0; 
+			if ( fo.qtyissued == null ) fo.qtyissued = 0; 
+			if ( fo.qtybegin == null ) fo.qtybegin = 0; 
+
+			fo.qtyending = (fo.qtyreceived + fo.qtybegin) - fo.qtyissued; 
 			fo.formindex = 1; 
 
 			if ( !fo.qtyreceived ) fo.qtyreceived = null; 
 			if ( !fo.qtyending ) fo.qtyending = null; 
 			if ( !fo.qtyissued ) fo.qtyissued = null; 
 			if ( !fo.qtybegin ) fo.qtybegin = null; 
-
 			result << fo; 
 		} 
 	}
