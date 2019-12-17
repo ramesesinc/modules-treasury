@@ -9,7 +9,7 @@ class AFControlListInterceptor {
 	public void getNodes( evt ) { 
 		def x = evt.args[0];
 		def result = evt.result;
-		if( x._tag == "AFO" ) {
+		if( x._tag.toString().matches("AFO|SHARED")) {
 			result << [  title: 'Open', state:'OPEN' ];
 			result << [  title: 'Issued', state:'ISSUED' ];
 			result << [  title: 'Sold', state:'SOLD' ];
@@ -45,10 +45,10 @@ class AFControlListInterceptor {
 			//do nothing 
 		}
 		else if( o.node.state == 'ISSUED' ) {
-			str.append( " state='ISSUED' AND (remittedseries IS NULL OR remittedseries < endseries) " );
+			str.append( " state='ISSUED' AND currentseries <= endseries " );
 		}
 		else if( o.node.state == 'CONSUMED' ) {
-			str.append(" state='ISSUED' AND remittedseries >= endseries ");
+			str.append(" state='ISSUED' AND currentseries > endseries ");
 		}
 		else if ( o.node.state ) { 
 			str.append(" state = :state ");

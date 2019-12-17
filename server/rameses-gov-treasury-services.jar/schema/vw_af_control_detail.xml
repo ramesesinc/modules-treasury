@@ -3,6 +3,7 @@
 		<field name="objid" primary="true"/> 
 		<field name="state" /> 
 		<field name="controlid" /> 
+		<field name="indexno" type="integer"/> 
 		<field name="aftxnid" /> 
 		<field name="aftxnitemid" /> 
 		<field name="refid" /> 

@@ -9,6 +9,7 @@
 		<field name="amount" />
 		<field name="voidamount" />
 		<field name="particulars" />
+		<field name="fund_objid" required="true"/>
 
 		<!-- this one is placed to provide strong relationship with checkpayment -->
 		<field name="checkid" />
@@ -17,6 +18,10 @@
 			includefields="receiptno,receiptdate,collector.name,remittanceid,remittance.collectionvoucherid" required="false">
 			<key field="receiptid" target="objid" />
 		</complex> 
+
+		<complex name="fund" ref="fund" jointype="many-to-one"  includefields="objid,code,title">
+			<key field="fund_objid" target="objid" />
+		</complex>  
 
 	</element>
 </schema>

@@ -18,15 +18,14 @@ public class CollectionRuleInterceptor {
 		def params = evt.args[0].params;
 		def facts = factBuilder.facts;
 
-		def vp = [
+		def vp = new VariableInfoProvider(
 			schemaName:"treasury_variableinfo"
-		] as VariableInfoProvider;
+		);
 		factBuilder.variableInfoProvider = vp;
 		if( params.collectiongroup ) {
 			def cg = params.collectiongroup;
 			facts << new treasury.facts.CollectionGroup( objid:cg.objid, name: cg.name );
 		}
-
 	}
 
 
