@@ -31,7 +31,7 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
     def totalcash = 0;
     def cashchange = 0;
     def openFundList;
-    
+
     def noncashListHandler = [
         fetchList: { return payments; }, 
     ] as BasicListModel;
@@ -61,7 +61,13 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
         check = [split:0];
         check.receivedfrom = entity.paidby;
         balance = entity.amount;
-        fundList.each {it.used=0};
+
+        def numformat = new java.text.DecimalFormat('0.00'); 
+        fundList.each {
+            it.used = 0;
+            it.amount = new BigDecimal( numformat.format( it.amount )); 
+        } 
+
         if( fundList.size() == 1 ) {
             fund = fundList[0].fund;
             openFundList = [];
@@ -78,7 +84,7 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
     void searchCheckIfExists() {
         new_check = true;
         def m = [_schemaname:'checkpayment'];
-        m.where = [ " amount - amtused > 0 AND collector.objid =:collectorid", [collectorid: entity?.collector?.objid] ];
+        m.where = [" amount - amtused > 0 AND collector.objid = :collectorid ", [ collectorid: entity?.collector?.objid]];
         selectionList = queryService.getList( m );
         if(selectionList ) {
             check_exists = true;
@@ -125,15 +131,17 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
         check.collector = entity.collector;
         if( entity.subcollector ) {
             check.subcollector = entity.subcollector;
-        };
-        def _total = fundList.sum{ it.amount - it.used };
+        } 
+
+        def _total = fundList.sum{ it.amount - it.used } 
+
         if( check.amount > _total && check.split != 1 ) {
             throw new Exception("Amount of check must be less than or equal to amount to pay for non split checks");
         }
         
-        if( check.split == 1 ) {
+        if( check.split == 1 ) { 
             check = persistenceService.create( check );
-        }
+        } 
         else {
             check.objid = "CHKPMT"+ new UID();
             checks << check;
@@ -164,26 +172,27 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
         //update fundList immediately
         entry.used += vamt;
         openFundList = fundList.findAll{ (it.amount - it.used) > 0 }*.fund;
-    }
+    } 
     
-    void addCheck() {
+    void addCheck() { 
         if ( !check.bank ) throw new Exception('Please specify a bank'); 
-        if( check.amount==null || check.amount <= 0 ) 
-            throw new Exception("Amount must be greater than 0.0 ");
+        if ( check.amount == null || check.amount <= 0 ) 
+            throw new Exception("Amount must be greater than 0.0 "); 
         
         def numformat = new java.text.DecimalFormat('0.00'); 
-        balance = new BigDecimal(numformat.format( balance )); 
-        check.amount = new BigDecimal(numformat.format( check.amount )); 
-        if(balance - check.amount < 0 )
+        balance = new BigDecimal( numformat.format( balance )); 
+        check.amount = new BigDecimal( numformat.format( check.amount )); 
+        if (balance - check.amount < 0) 
             throw new Exception("Check amount must be greater than the balance unpaid");
+
         cashReceiptSvc.validateCheckDate( check.refdate );
         
-        if( fund == null ) {
-            //split the check
-            def _list = fundList.findAll{ (it.amount - it.used)>0 };
-            def _total = _list.sum{ it.amount - it.used };
+        if ( fund == null ) { 
+            //split the check 
+            def _list = fundList.findAll{( it.amount - it.used ) > 0 } 
+            def _total = _list.sum{ it.amount - it.used } 
             _list.each { fa->
-               def _amt = NumberUtil.round( ((fa.amount - fa.used)/ _total)*check.amount );
+               def _amt = NumberUtil.round( ((fa.amount - fa.used) / _total)*check.amount );
                addCheckEntry( fa.fund, _amt );
             }
         } 

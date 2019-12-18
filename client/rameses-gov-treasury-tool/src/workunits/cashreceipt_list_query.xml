@@ -6,7 +6,7 @@
     <invokers>
         <invoker folderid="menucategory/treasury/mgmt" action="init" 
                  caption="Cash Receipts Query" tag="mgmt" 
-                 role="SHARED" permission="cashreceipt.query" />
+                 role="SHARED,COLLECTOR" permission="cashreceipt.query" />
         
         <invoker type="formActions" caption="Revert Void" action="revertVoid" 
                  role="ADMIN" permission="cashreceiptvoid.revert" 
