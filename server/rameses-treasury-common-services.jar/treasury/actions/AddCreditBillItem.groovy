@@ -19,16 +19,25 @@ class AddCreditBillItem extends AddBillItem {
 	public void execute(def params, def drools) {
 		def amt = params.amount.decimalValue;
 
-		if( !params.account || params.account.key == "null" ) 
-			throw new Exception("Account is required in AddCreditBillItem");
+		boolean hasAccount = ( params.account && params.account.key != "null" );
+		boolean hasTxntype = ( params.txntype && params.txntype.key != "null" );
+		boolean hasBillcode = ( params.billcode && params.billcode.key != "null" );
 
+		if(!hasAccount && !hasTxntype && !hasBillcode)
+			throw new Exception("AddCreditBillItem error. Please specify an account, txntype or billcode in rule "  );
 
 		def billitem = new CreditBillItem(amount: NumberUtil.round( amt), txntype: 'credit');
-		def acct = params.account;
-		if ( acct ) {
-			setAccountFact( billitem, acct.key );
+		if(  hasAccount ) {
+			setAccountFact( billitem, params.account.key );
 		}
-		addToFacts( billitem );
+		if( hasTxntype ) {
+			billitem.txntype = params.txntype.key;
+		}
+		if( hasBillcode ) {
+			billitem.billcode = params.billcode.key;
+		}
+
+		getFacts().add( billitem );
 	}
 
 

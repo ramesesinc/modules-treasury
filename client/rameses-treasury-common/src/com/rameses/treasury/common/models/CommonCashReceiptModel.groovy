@@ -25,7 +25,11 @@ public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.mode
     def billingSvc;
     String _ruleName;
     boolean amountSpecified = false;
-    boolean allowAdvancePayment = false;
+    
+    public boolean getAllowAdvancePayment() {
+        return false;
+    }
+    
     
     public String getConnection() {
         return invoker.module.properties.connection;
