@@ -191,9 +191,22 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
             //split the check 
             def _list = fundList.findAll{( it.amount - it.used ) > 0 } 
             def _total = _list.sum{ it.amount - it.used } 
+            
+            def sumlist = [];
             _list.each { fa->
-               def _amt = NumberUtil.round( ((fa.amount - fa.used) / _total)*check.amount );
-               addCheckEntry( fa.fund, _amt );
+                def _amt = ((fa.amount - fa.used) / _total) * check.amount; 
+                _amt = new BigDecimal( numformat.format( _amt ));  
+                sumlist << [fund: fa.fund, amount: _amt];
+            } 
+            
+            def sumamt = sumlist.sum{ it.amount }  
+            def sumdiff = check.amount - sumamt; 
+            if ( sumdiff > 0 ) { 
+                sumlist.last().amount += sumdiff; 
+            } 
+
+            sumlist.each{ fa-> 
+                addCheckEntry( fa.fund, fa.amount ); 
             }
         } 
         else {
