@@ -6,19 +6,19 @@
     
     <invokers>
         <invoker type="collector:lookup"  caption="Lookup Collectors"
-                 customFilter=" role = 'COLLECTOR' "
+                 customFilter=" domain = 'TREASURY' AND role = 'COLLECTOR' "
                  action="init" target="popup"/>
         
         <invoker type="subcollector:lookup" caption="Lookup Subollectors"  
-                 customFilter=" role = 'SUBCOLLECTOR' "
+                 customFilter=" domain = 'TREASURY' AND role = 'SUBCOLLECTOR' "
                  action="init" target="popup"/> 
         
         <invoker type="liquidatingofficer:lookup" caption="Lookup Liquidating Officer"
-                 customFilter=" role = 'LIQUIDATING_OFFICER' "
+                 customFilter=" domain = 'TREASURY' AND role = 'LIQUIDATING_OFFICER' "
                  action="init" target="popup" width="500"/> 
         
         <invoker type="cashier:lookup" caption="Lookup Cashier"
-                 customFilter=" role = 'CASHIER' "
+                 customFilter=" domain = 'TREASURY' AND role = 'CASHIER' "
                  action="init" target="popup"/> 
         
     </invokers>
