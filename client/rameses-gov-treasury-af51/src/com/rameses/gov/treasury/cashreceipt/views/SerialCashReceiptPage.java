@@ -1,10 +1,10 @@
 /*
- * CashReceiptPage.java
+ * SerialCashReceiptPage.java
  *
  * Created on August 2, 2013, 2:19 PM
  */
 
-package com.rameses.enterprise.treasury.cashreceipt;
+package com.rameses.gov.treasury.cashreceipt.views;
 
 import com.rameses.osiris2.themes.FormPage;
 import com.rameses.rcp.ui.annotations.StyleSheet;
@@ -12,12 +12,12 @@ import com.rameses.rcp.ui.annotations.Template;
 
 /**
  *
- * @author  wflores
+ * @author  compaq
  */
 @Template(FormPage.class)
 public class SerialCashReceiptPage extends javax.swing.JPanel {
     
-    /** Creates new form CashReceiptPage */
+    /** Creates new form SerialCashReceiptPage */
     public SerialCashReceiptPage() {
         initComponents();
     }
@@ -316,9 +316,9 @@ public class SerialCashReceiptPage extends javax.swing.JPanel {
         xFormPanel3.setPreferredSize(new java.awt.Dimension(200, 50));
         xFormPanel3.setShowCaption(false);
 
+        xLabel2.setExpression("MULTI-RECEIPT");
         xLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         xLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        xLabel2.setExpression("#{entity.receiptno}");
         xLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         xLabel2.setPreferredSize(new java.awt.Dimension(0, 26));
         xLabel2.setShowCaption(false);

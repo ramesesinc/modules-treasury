@@ -311,7 +311,7 @@ public abstract class AbstractCashReceipt {
         }
     }
     
-    private def findReportModel( o ) {
+    def findReportModel( o ) {
         if ( o == null ) return null; 
         else if (o instanceof ReportModel ) return o; 
         else if (o instanceof Opener) return findReportModel( o.handle ); 

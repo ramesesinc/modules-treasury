@@ -123,17 +123,26 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
     }
 
     public void print( def name ) {
-        def op = Inv.lookupOpener( name, [reportData: entity] );
-        def opHandle = op.handle;
-        def reportHandle = findReportModel( opHandle ); 
-        if ( reportHandle == null ) {
-            MsgBox.alert("Report Handle for " + name + " must be a ReportModel " );
-            return; 
+        def receipts = entity.receipts;
+        if ( receipts == null ) receipts = [ entity ]; 
+                
+        boolean haserrors = false; 
+        receipts.each{ rct-> 
+            if ( haserrors ) return; 
+            
+            def op = Inv.lookupOpener( name, [reportData: rct] );
+            def opHandle = op.handle;
+            def reportHandle = findReportModel( opHandle ); 
+            if ( reportHandle == null ) {
+                haserrors = true; 
+                MsgBox.alert("Report Handle for " + name + " must be a ReportModel " );
+                return; 
+            }
+
+            reportHandle.viewReport(); 
+            showPrintDialog = true;
+            ReportUtil.print(reportHandle.report, showPrintDialog);
         }
-        
-        reportHandle.viewReport(); 
-        showPrintDialog = true;
-        ReportUtil.print(reportHandle.report, showPrintDialog);
     }
     
     def void_requires_approval; 
