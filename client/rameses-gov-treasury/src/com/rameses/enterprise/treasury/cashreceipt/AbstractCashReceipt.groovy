@@ -211,7 +211,7 @@ public abstract class AbstractCashReceipt {
 
     void beforePost() {}
     void postError() {}
-    
+        
     def post() {
         if( entity.amount <= 0 ) 
             throw new Exception("Please select at least an item to pay");

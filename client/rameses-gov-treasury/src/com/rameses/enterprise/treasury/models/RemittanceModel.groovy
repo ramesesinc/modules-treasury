@@ -20,6 +20,9 @@ class RemittanceModel extends CrudFormModel {
     
     @SubWindow 
     def subWin;
+    
+    @Script("User")
+    def user;    
 
     //this is passed 
     def handler;
@@ -202,4 +205,27 @@ class RemittanceModel extends CrudFormModel {
             MsgBox.alert("Remittance has been successfully exported!");
         } 
     } 
+    
+    boolean isChangeLiqOfficerAllowed() {
+        if ( user == null ) return false; 
+        if ( !entity.state.toString().toUpperCase().matches('OPEN')) return false; 
+        return ( entity.collector?.objid == user.userid ); 
+    }
+    void changeLiqOfficer() {
+        boolean pass = false;
+        def officer = null;
+        def param = [:]; 
+        param.onselect = { o-> 
+            officer = o; 
+            officer.title = o.jobtitle; 
+            pass = true; 
+        } 
+        Modal.show('liquidatingofficer:lookup', param);
+        if ( !pass ) return; 
+        
+        if ( officer?.objid ) { 
+            def res = remSvc.changeLiqOfficer([ objid: entity.objid, liquidatingofficer: officer ]); 
+            if ( res ) entity.putAll( res ); 
+        }
+    }
 } 

@@ -32,22 +32,6 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
 
         validateBeforePost();
         
-        if ( entity.checks && entity.checks.size() > 1 ) {
-            throw new Exception("Multiple checks is not supported at this time"); 
-        }
-        
-        println '\n** entity'
-        entity.each{
-            println '> '+ it;
-        }
-        
-        def amount = entity.amount;
-        def totalcash = entity.totalcash;
-        def totalnoncash = entity.totalnoncash;
-        if ( totalcash > 0 && totalnoncash > 0 ) {
-            throw new Exception("Please select only 1 method of payment"); 
-        }
-        
         int itemsperpage = -1; 
         try {
             def vars = multiReceiptSvc.getSysVars([ formno: entity.formno ]);
@@ -58,6 +42,23 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
         if ( itemsperpage <= 0 ) {
             itemsperpage = 1000; 
         }
+        
+        println 'items-size = '+ entity.items.size() +', itemsperpage = '+ itemsperpage; 
+        if ( entity.items.size() <= itemsperpage ) {
+            return super.post(); 
+        } 
+        else {
+            entity.itemsperpage = itemsperpage;
+            return postReceipts(); 
+        } 
+    } 
+    
+    void postReceipts() {
+        if ( entity.checks && entity.checks.size() > 1 ) {
+            throw new Exception("Multiple checks is not supported at this time"); 
+        }
+
+        int itemsperpage = entity.itemsperpage;
         
         def receipts = [];
         entity.items.eachWithIndex{ o,idx-> 
@@ -92,6 +93,13 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
             } 
             
             rct.items << o; 
+        }
+        
+        def amount = entity.amount;
+        def totalcash = entity.totalcash;
+        def totalnoncash = entity.totalnoncash;
+        if ( totalcash > 0 && totalnoncash > 0 ) { 
+            throw new Exception("Please select only 1 method of payment"); 
         }
         
         def series = entity.series; 
@@ -195,10 +203,19 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
         if( mainProcessHandler ) {
             mainProcessHandler.forward( entity );
         }
-        return null; 
-    }    
+        return null;         
+    }
     
     void print() {
+        if ( entity.receipts ) {
+            printReceipts(); 
+        } 
+        else {
+            super.print(); 
+        }
+    } 
+    
+    void printReceipts() {
         boolean haserrors = false; 
         entity.receipts.each{ rct-> 
             if ( haserrors ) return;
@@ -218,5 +235,5 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
                 ReportUtil.print(handle.report, canShowPrinterDialog);
             } 
         } 
-    } 
+    }
 }
