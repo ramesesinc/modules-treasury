@@ -43,7 +43,6 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
             itemsperpage = 1000; 
         }
         
-        println 'items-size = '+ entity.items.size() +', itemsperpage = '+ itemsperpage; 
         if ( entity.items.size() <= itemsperpage ) {
             return super.post(); 
         } 
