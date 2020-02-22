@@ -190,9 +190,12 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
         } 
         
         try {
+            def fo = ( entity.receipts ? entity.receipts.first() : null ); 
+            entity._options = (fo?._options == null ? [:] : fo._options);
+
             if(entity.txnmode.equalsIgnoreCase("ONLINE") && mainProcessHandler==null) { 
                 print();
-            }    
+            } 
         }
         catch(e) {
             e.printStackTrace();
