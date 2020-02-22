@@ -2,7 +2,8 @@
           cols="lastname,firstname,username,orgid,respcenter.objid"
           hiddenCols="name,middlename,txncode,jobtitle,domain,respcenter.name"
           orderBy="lastname,firstname,middlename"
-          schemaName="sys_user_role">
+          schemaName="sys_user_role" 
+          allowCreate="false">
     
     <invokers>
         <invoker type="collector:lookup"  caption="Lookup Collectors"
@@ -20,6 +21,5 @@
         <invoker type="cashier:lookup" caption="Lookup Cashier"
                  customFilter=" domain = 'TREASURY' AND role = 'CASHIER' "
                  action="init" target="popup"/> 
-        
     </invokers>
 </workunit>

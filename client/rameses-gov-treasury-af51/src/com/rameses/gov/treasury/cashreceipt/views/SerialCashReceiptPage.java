@@ -316,7 +316,7 @@ public class SerialCashReceiptPage extends javax.swing.JPanel {
         xFormPanel3.setPreferredSize(new java.awt.Dimension(200, 50));
         xFormPanel3.setShowCaption(false);
 
-        xLabel2.setExpression("MULTI-RECEIPT");
+        xLabel2.setExpression("#{entity.receiptno}");
         xLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         xLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         xLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

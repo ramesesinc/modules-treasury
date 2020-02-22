@@ -1,5 +1,6 @@
 <workunit extends="com/rameses/seti2/templates/CrudLookup.xml" 
-          schemaName="vw_collectiongroup">
+          schemaName="vw_collectiongroup" 
+          allowCreate="false">
     <invokers>
         <invoker type="collectiongroup:lookup" action="init" 
                  caption="Lookup Collection Group" target="popup" 

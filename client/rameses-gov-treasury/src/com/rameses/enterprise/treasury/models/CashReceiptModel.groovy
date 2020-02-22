@@ -7,6 +7,7 @@ import com.rameses.osiris2.common.*;
 import com.rameses.seti2.models.*;
 import com.rameses.osiris2.reports.*;
 import com.rameses.util.*;
+import com.rameses.enterprise.treasury.util.CashReceiptPrintUtil;
 
 class CashReceiptModel extends CrudFormModel { 
 
@@ -48,12 +49,24 @@ class CashReceiptModel extends CrudFormModel {
         if ( !entity?.voided.toString().matches("1|true") ) return false; 
         return ( entity?.remittance?.objid ? false : true ); 
     } 
+
+    def onbeforePrintHandler = { 
+        boolean pass = false; 
+        def m = [ receipt: entity ];
+        m.handler = { pass = true; }
+        m.applySecurity = isReprintRequiresApproval(); 
+        Modal.show("cashreceipt:reprint:verify", m ); 
+        return pass; 
+    }
     
     public void printReceipt() {
         loadAfControl();
         if ( afcontrol?.afunit?.cashreceiptprintout ) { 
-            print( afcontrol.afunit.cashreceiptprintout ); 
-        } else { 
+            def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.onbeforePrint = onbeforePrintHandler; 
+            u.reprint( afcontrol?.afunit?.cashreceiptprintout, entity );
+        } 
+        else { 
             MsgBox.alert("Unable to print receipt. Please define a setting for cashreceipt printout in AF Unit"); 
         } 
     }
@@ -61,34 +74,13 @@ class CashReceiptModel extends CrudFormModel {
     public void printReceiptDetail() {
         loadAfControl();
         if ( afcontrol?.afunit?.cashreceiptdetailprintout ) {
-            print( afcontrol.afunit.cashreceiptdetailprintout );
-        } else {
+            def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.onbeforePrint = onbeforePrintHandler; 
+            u.printDetails( afcontrol?.afunit?.cashreceiptdetailprintout, entity );
+        } 
+        else {
             MsgBox.alert("Unable to print receipt detail. Please define a setting for cashreceipt detail printout in AF Unit"); 
         }
-    }
-    
-    public void print( def name ) { 
-        boolean pass = false; 
-        def h = { pass = true; } 
-        Modal.show("cashreceipt:reprint:verify", [ handler: h, receipt: entity, applySecurity: isReprintRequiresApproval() ]); 
-        if ( !pass ) return; 
-        
-        def op = null; 
-        try {
-            op = Inv.lookupOpener( name, [ reportData: entity ]);
-        } catch(Throwable t) { 
-            t.printStackTrace(); 
-        } 
-        
-        def opHandle = (op ? op.handle : null); 
-        def reportHandle = findReportModel( opHandle ); 
-        if ( reportHandle == null ) {
-            MsgBox.alert("Report Handle for " + name + " must be a ReportModel " );
-            return; 
-        }
-        
-        reportHandle.viewReport(); 
-        ReportUtil.print(reportHandle.report, true);
     }
     
     public void voidReceipt() {
@@ -98,21 +90,6 @@ class CashReceiptModel extends CrudFormModel {
             Modal.show( "void_cashreceipt", [applySecurity : true, receipt: entity ]);
         }
     }
-    
-    private def findReportModel( o ) {
-        if ( o == null ) return null; 
-        else if (o instanceof ReportModel ) return o; 
-        else if (o instanceof Opener) return findReportModel( o.handle ); 
-        
-        if ( o.metaClass.respondsTo(o, 'viewReport' )) {
-            def oo = o.viewReport(); 
-            return findReportModel( oo ); 
-        } else if ( o.metaClass.hasProperty(o, 'report' )) {
-            return findReportModel( o.report ); 
-        } else {
-            return null; 
-        }
-    }    
     
     def decformat = new java.text.DecimalFormat('#,##0.00'); 
     def getFormattedAmount() {

@@ -199,40 +199,14 @@ class MiscMultiCashReceiptModel extends BasicCashReceipt {
             MsgBox.alert("warning! no form handler found for.  " + entity.formno +". Printout is not handled" );
         }
 
-        if( mainProcessHandler ) {
+        if( mainProcessHandler ) { 
             mainProcessHandler.forward( entity );
         }
         return null;         
     }
     
     void print() {
-        if ( entity.receipts ) {
-            printReceipts(); 
-        } 
-        else {
-            super.print(); 
-        }
+        // printing of receipts is handled by the mainProcessHandler
+        // when forward method is called 
     } 
-    
-    void printReceipts() {
-        boolean haserrors = false; 
-        entity.receipts.each{ rct-> 
-            if ( haserrors ) return;
-            
-            def op = findReportOpener( rct ); 
-
-            def handlerName = "cashreceipt-form:" + rct.formno; 
-            def handle = findReportModel( op );         
-            if ( handle == null ) {
-                haserrors = true; 
-                MsgBox.alert("No available handler found for "+ handlerName); 
-
-            } else {
-                handle.viewReport(); 
-
-                def canShowPrinterDialog = ( entity._options?.canShowPrinterDialog == false ? false : true ); 
-                ReportUtil.print(handle.report, canShowPrinterDialog);
-            } 
-        } 
-    }
 }
