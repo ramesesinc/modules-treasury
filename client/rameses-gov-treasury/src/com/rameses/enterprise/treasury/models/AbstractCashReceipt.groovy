@@ -284,7 +284,7 @@ public abstract class AbstractCashReceipt extends PageFlowController  {
     
     void printReceipt( boolean reprint ) {
         def u = new CashReceiptPrintUtil( binding: binding ); 
-        u.showPrinterDialog = ( entity._options?.canShowPrinterDialog == false ? false : true ); 
+        u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true ); 
         
         def template_name = "cashreceipt-form:" + entity.formno; 
         if ( reprint ) {

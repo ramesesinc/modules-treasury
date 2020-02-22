@@ -120,6 +120,7 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
     public void printReceipt() {
         if ( afcontrol?.afunit?.cashreceiptprintout ) { 
             def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true ); 
             u.print( afcontrol.afunit.cashreceiptprintout, entity );
         } 
         else {
@@ -130,6 +131,7 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
     public void reprintReceipt() {
         if ( afcontrol?.afunit?.cashreceiptprintout ) { 
             def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true );             
             u.reprint( afcontrol.afunit.cashreceiptprintout, entity );
         } 
         else {

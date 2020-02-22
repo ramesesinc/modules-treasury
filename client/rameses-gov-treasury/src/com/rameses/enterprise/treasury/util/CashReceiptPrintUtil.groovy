@@ -12,7 +12,7 @@ public class CashReceiptPrintUtil {
     
     def onbeforePrint;
     
-    boolean showPrintDialog = true;
+    boolean showPrinterDialog = true;
     
     def reprint_dev_handle;
     boolean reprint_dev_mode;
@@ -88,7 +88,7 @@ public class CashReceiptPrintUtil {
                 reprint_dev_handle = reportHandle; 
             }
             else { 
-                ReportUtil.print(reportHandle.report, showPrintDialog); 
+                ReportUtil.print(reportHandle.report, showPrinterDialog); 
             }
         }
     }
