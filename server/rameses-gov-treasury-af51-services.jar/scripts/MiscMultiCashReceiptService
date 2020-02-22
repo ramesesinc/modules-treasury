@@ -20,6 +20,8 @@ class MiscMultiCashReceiptService {
 	@Service('DateService')
 	def dateSvc; 
 	
+	@Service("Var")
+	def var;	
 
 	@ProxyMethod 
 	public def getSysVars( param ) {
@@ -38,6 +40,9 @@ class MiscMultiCashReceiptService {
 			throw new Exception('Please provide the receipts'); 
 		}
 
+		def varopts = [:]; 
+		varopts.canShowPrinterDialog = (var.cashreceipt_show_printer_dialog.toString().matches('false|0') ? false: true);
+		
 		def rundate = dateSvc.getServerDate(); 
 
 		entity.checks.each {
@@ -63,6 +68,7 @@ class MiscMultiCashReceiptService {
 			if ( c ) it.putAll( c ); 
 			 
 			cashreceipt_groupitem_db.create([ objid: it.objid, parentid: groupid ]);  
+			it._options = varopts; 
 		} 
 		return receipts;
 	}
