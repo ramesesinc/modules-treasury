@@ -19,7 +19,6 @@ public abstract class AbstractCashReceipt {
     @Binding
     def binding;
     
-    
     @Service("CashReceiptService")
     def service;
     

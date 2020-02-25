@@ -86,13 +86,31 @@ class CashReceiptModel extends CrudFormModel {
     public void voidReceipt() {
         if ( entity.voided.toString().matches('1|true')) {
             MsgBox.alert('Cash Receipt is already voided'); 
-        } else {
-            Modal.show( "void_cashreceipt", [applySecurity : true, receipt: entity ]);
+        } 
+        else {
+            def props = getInvokerHandlerProperties(); 
+            def oldhandler = entity.collectiontype.handler; 
+            def invokerhandler = props.handler; 
+            try {
+                if ( invokerhandler ) {
+                    entity.collectiontype.handler = invokerhandler; 
+                }
+                Modal.show( "void_cashreceipt", [applySecurity : true, receipt: entity ]);
+            } 
+            finally {
+                entity.collectiontype.handler = oldhandler; 
+            }
         }
     }
     
     def decformat = new java.text.DecimalFormat('#,##0.00'); 
     def getFormattedAmount() {
         return decformat.format( entity.amount ? entity.amount : 0.0 ); 
+    }
+    
+    def getInvokerHandlerProperties() {
+        def sname = 'cashreceipt:'+ entity.collectiontype?.handler; 
+        def list = Inv.lookup( sname ); 
+        return (list ? list.first().properties : [:]); 
     }
 } 
