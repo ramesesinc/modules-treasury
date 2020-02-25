@@ -100,8 +100,19 @@ abstract class CashReceiptAbstractIssueModel extends PageFlowController  {
     
     //checks and loads the af here
     void createNew() {
-        //sprinkle the selected collection type if it has items
+        //sprinkle the selected collection type if it has items        
         collectionTypes.checkHasItems( collectionType );
+
+        // load collectiontype info for other options 
+        def ctmap = [_schemaname: 'collectiontype'];
+        ctmap.findBy = [objid: collectionType.objid];
+        ctmap.select = 'objid, info'; 
+        def ctinfo = qryService.findFirst( ctmap );
+        ctinfo = ctinfo.remove('info'); 
+        if ( ctinfo ) { 
+            collectionType.putAll( ctinfo ); 
+        } 
+
         params = [:];
         params.txnmode = mode;
         params.formno = afType; 
@@ -143,7 +154,4 @@ abstract class CashReceiptAbstractIssueModel extends PageFlowController  {
         //sprinkled cash receipt
         //if(!entity.items) entity.items = [];
     }
-
-    
-
 }    

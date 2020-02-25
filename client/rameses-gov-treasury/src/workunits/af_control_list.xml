@@ -16,7 +16,7 @@
               formTitle="Manage Accountable Forms" 
               caption="View Accountable Forms" 
               action="init" role="COLLECTOR" tag="COLLECTION" index="102" 
-              cols="afid,stubno,startseries,endseries,currentseries,qtybalance,prefix,suffix,active,txnmode,assignee.name,fund.title,respcenter.name" 
+              cols="afid,dtfiled,stubno,startseries,endseries,currentseries,qtybalance,prefix,suffix,active,txnmode,assignee.name,fund.title,respcenter.name,batchno" 
               customFilter="owner.objid = :userid" 
               orderBy="afid,dtfiled,batchno,startseries" />
     
@@ -24,7 +24,7 @@
                formTitle="Manage Accountable Forms" 
                caption="View Accountable Forms" 
                action="init" role="SUBCOLLECTOR" tag="SUBCOLLECTION" 
-               cols="afid,stubno,startseries,endseries,currentseries,qtybalance,prefix,suffix,active,txnmode,owner.name,fund.title,respcenter.name" 
+               cols="afid,dtfiled,stubno,startseries,endseries,currentseries,qtybalance,prefix,suffix,active,txnmode,owner.name,fund.title,respcenter.name,batchno" 
                customFilter="assignee.objid = :userid" 
                orderBy="afid,dtfiled,batchno,startseries"/> 
   </invokers> 

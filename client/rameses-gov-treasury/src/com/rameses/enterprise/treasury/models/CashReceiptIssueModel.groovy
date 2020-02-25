@@ -6,6 +6,7 @@ import com.rameses.osiris2.client.*;
 import com.rameses.osiris2.common.*;
 import com.rameses.osiris2.reports.*;
 import com.rameses.util.*;
+import com.rameses.enterprise.treasury.util.CashReceiptPrintUtil;
 
 class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
 
@@ -14,6 +15,8 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
 
     def handler;
     boolean showPrintDialog = false;
+    
+    def printPreviewOpener;
 
     //default to af51
     public String getDefaultAfType() {
@@ -31,13 +34,21 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
         },
         forward: { o-> 
             if ( o ) entity.putAll( o ); 
-            
-            //print will be done here
-            if( mode == "ONLINE" ) {
-                printReceipt();
+                        
+            try { 
+                def op = super.signal("forward");
+                binding.fireNavigation( op ); 
             }
-            def op = super.signal("forward");
-            binding.fireNavigation( op );
+            finally {
+                if ( mode == "ONLINE" ) { 
+                    if ( o.hasCustomPrinting ) { 
+                        // it has a custom printing facility, so will do nothing 
+                    } 
+                    else { 
+                        printReceipt();
+                    }
+                }
+            }
         }
     ];
     
@@ -108,34 +119,36 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
     
     public void printReceipt() {
         if ( afcontrol?.afunit?.cashreceiptprintout ) { 
-            print( afcontrol.afunit.cashreceiptprintout );
-        } else {
+            def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true ); 
+            u.print( afcontrol.afunit.cashreceiptprintout, entity );
+        } 
+        else {
             MsgBox.alert("Unable to print receipt. Please define a setting for cashreceipt printout in AF Unit"); 
         }
     }
     
+    public void reprintReceipt() {
+        if ( afcontrol?.afunit?.cashreceiptprintout ) { 
+            def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true );             
+            u.reprint( afcontrol.afunit.cashreceiptprintout, entity );
+        } 
+        else {
+            MsgBox.alert("Unable to print receipt. Please define a setting for cashreceipt printout in AF Unit"); 
+        }
+    } 
+    
     public void printReceiptDetail() {
         if ( afcontrol?.afunit?.cashreceiptdetailprintout ) {
-            print( afcontrol.afunit.cashreceiptdetailprintout );
-        } else {
+            def u = new CashReceiptPrintUtil( binding: binding ); 
+            u.printDetails( afcontrol.afunit.cashreceiptdetailprintout, entity );
+        } 
+        else {
             MsgBox.alert("Unable to print receipt detail. Please define a setting for cashreceipt detail printout in AF Unit"); 
         }
     }
-
-    public void print( def name ) {
-        def op = Inv.lookupOpener( name, [reportData: entity] );
-        def opHandle = op.handle;
-        def reportHandle = findReportModel( opHandle ); 
-        if ( reportHandle == null ) {
-            MsgBox.alert("Report Handle for " + name + " must be a ReportModel " );
-            return; 
-        }
         
-        reportHandle.viewReport(); 
-        showPrintDialog = true;
-        ReportUtil.print(reportHandle.report, showPrintDialog);
-    }
-    
     def void_requires_approval; 
     boolean isVoidRequiresApproval() {
         if ( void_requires_approval == null ) {
@@ -159,20 +172,4 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
     public viewCollectionSummary() {
         Modal.show( "cashreceipt_collection_summary:view", [:] );
     }    
-    
-    private def findReportModel( o ) {
-        if ( o == null ) return null; 
-        else if (o instanceof ReportModel ) return o; 
-        else if (o instanceof Opener) return findReportModel( o.handle ); 
-        
-        if ( o.metaClass.respondsTo(o, 'viewReport' )) {
-            def oo = o.viewReport(); 
-            return findReportModel( oo ); 
-        } else if ( o.metaClass.hasProperty(o, 'report' )) {
-            return findReportModel( o.report ); 
-        } else {
-            return null; 
-        }
-    }
-
 }    

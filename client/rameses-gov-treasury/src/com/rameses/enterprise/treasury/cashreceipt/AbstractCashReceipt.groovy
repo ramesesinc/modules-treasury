@@ -6,6 +6,7 @@ import com.rameses.osiris2.client.*
 import com.rameses.osiris2.reports.*;
 import com.rameses.osiris2.common.*
 import com.rameses.util.*;
+import com.rameses.enterprise.treasury.util.CashReceiptPrintUtil;
 
 /***************************************************************************
 * DO NOT TOUCH THIS CODE. 
@@ -17,7 +18,6 @@ public abstract class AbstractCashReceipt {
         
     @Binding
     def binding;
-    
     
     @Service("CashReceiptService")
     def service;
@@ -211,7 +211,7 @@ public abstract class AbstractCashReceipt {
 
     void beforePost() {}
     void postError() {}
-    
+        
     def post() {
         if( entity.amount <= 0 ) 
             throw new Exception("Please select at least an item to pay");
@@ -257,7 +257,7 @@ public abstract class AbstractCashReceipt {
         
         try {
             if(entity.txnmode.equalsIgnoreCase("ONLINE") && mainProcessHandler==null) { 
-                print();
+                printReceipt( false );
             }    
         }
         catch(e) {
@@ -270,58 +270,23 @@ public abstract class AbstractCashReceipt {
         }
         return null; 
     }
-
-    def findReportOpener( reportData ) { 
-        //check first if form handler exists. 
-        def op = null;
-        try {
-            def handlerName = "cashreceipt-form:" + entity.formno; 
-            op = Inv.lookupOpener( handlerName, [ reportData: reportData ]);
-        } 
-        catch(Throwable t) {;} 
-        
-        if ( op == null ) { 
-            MsgBox.alert("No available handler found for "+ handlerName); 
-            return null; 
-        } 
-        
-        if ( reportData.receiptdate instanceof String ) { 
-            // this is only true when txnmode is OFFLINE 
-            try {
-                def dateobj = YMD.parse( reportData.receiptdate ); 
-                reportData.receiptdate = dateobj;  
-            } catch( Throwable t ) {;} 
-        } 
-        return op; 
-    } 
     
-    void print() {
-        def op = findReportOpener( entity ); 
-
-        def handlerName = "cashreceipt-form:" + entity.formno; 
-        def handle = findReportModel( op );         
-        if ( handle == null ) {
-            MsgBox.alert("No available handler found for "+ handlerName); 
-
-        } else {
-            handle.viewReport(); 
-
-            def canShowPrinterDialog = ( entity._options?.canShowPrinterDialog == false ? false : true ); 
-            ReportUtil.print(handle.report, canShowPrinterDialog);
-        }
+    void print() { 
+        printReceipt( true ); 
     }
     
-    private def findReportModel( o ) {
-        if ( o == null ) return null; 
-        else if (o instanceof ReportModel ) return o; 
-        else if (o instanceof Opener) return findReportModel( o.handle ); 
+    void printReceipt( boolean reprint ) {
+        def u = new CashReceiptPrintUtil( binding: binding ); 
+        u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true ); 
         
-        if ( o.metaClass.hasProperty(o, 'report' )) {
-            return findReportModel( o.report ); 
-        } else {
-            return null; 
+        def template_name = "cashreceipt-form:" + entity.formno; 
+        if ( reprint ) {
+            u.reprint( template_name, entity );
         }
-    }    
+        else {
+            u.print( template_name, entity );
+        }
+    } 
     
     def getInfoHtml() {
         return TemplateProvider.instance.getResult( "com/rameses/enterprise/treasury/cashreceipt/cashreceipt.gtpl", [entity:entity] );

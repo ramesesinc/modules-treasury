@@ -28,62 +28,72 @@ public class CashReceiptPostConfirmPage extends javax.swing.JPanel {
 
         xLabel1 = new com.rameses.rcp.control.XLabel();
         xLabel2 = new com.rameses.rcp.control.XLabel();
+        jPanel1 = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         xButton1 = new com.rameses.rcp.control.XButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         xButton2 = new com.rameses.rcp.control.XButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
+        setMinimumSize(new java.awt.Dimension(645, 317));
+        setPreferredSize(new java.awt.Dimension(645, 317));
+        setLayout(new java.awt.BorderLayout());
+
+        xLabel1.setExpression("<html> Please ensure that the following receipt number matches the actual receipt to use.<br/> <u>Do not proceed if it does not match</u>. Press Enter or click OK to confirm</html>");
         xLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        xLabel1.setExpression("<html> Please ensure that the following receipt number matches the actual receipt to use. <u>Do not proceed if it does not match</u>. Press Enter or click OK to confirm</html>");
-        xLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        xLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        xLabel1.setFontStyle("font-size: 14; font-weight: bold;");
         xLabel1.setForeground(new java.awt.Color(204, 0, 0));
+        add(xLabel1, java.awt.BorderLayout.NORTH);
 
-        xLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         xLabel2.setExpression("#{receiptno}");
-        xLabel2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        xLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        xLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 20, 20));
+        xLabel2.setFontStyle("font-size:36; font-weight: bold;");
+        xLabel2.setUseHtml(true);
+        add(xLabel2, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel1.add(filler1);
+
+        xButton1.setMnemonic('k');
+        xButton1.setName("doOk"); // NOI18N
         xButton1.setDefaultCommand(true);
         xButton1.setFocusable(false);
-        xButton1.setName("doOk"); // NOI18N
-        xButton1.setText("OK");
+        xButton1.setFontStyle("font-size: 14;");
+        xButton1.setMargin(new java.awt.Insets(6, 20, 6, 20));
+        xButton1.setText("  OK  ");
+        xButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(xButton1);
+        jPanel1.add(filler3);
 
+        xButton2.setMnemonic('c');
+        xButton2.setName("doCancel"); // NOI18N
         xButton2.setAccelerator("27");
         xButton2.setFocusable(false);
-        xButton2.setName("doCancel"); // NOI18N
+        xButton2.setFontStyle("font-size: 14;");
+        xButton2.setMargin(new java.awt.Insets(6, 20, 6, 20));
         xButton2.setText("Cancel");
+        jPanel1.add(xButton2);
+        jPanel1.add(filler2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(xLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(xButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(xButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(197, 197, 197))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(xLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(xLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(xButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(xButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
-        );
+        add(jPanel1, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void xButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_xButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.JPanel jPanel1;
     private com.rameses.rcp.control.XButton xButton1;
     private com.rameses.rcp.control.XButton xButton2;
     private com.rameses.rcp.control.XLabel xLabel1;

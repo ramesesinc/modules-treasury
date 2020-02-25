@@ -39,22 +39,40 @@ class CashReceiptVoidModel  {
         }    
         entity = [objid: "CRVOID"+ new java.rmi.server.UID() ];
         entity.receipt = receipt;
+        
+        // This has value if receipt is part of a cashreceipt group 
+        entity.receipts = receipt.receipts;
     }
 
     def doOk() {
-        if( MsgBox.confirm( "You are about to void this receipt. Please ensure you have the original receipt on hand. Continue?")) {
+        def prefixMsg = "You are about to void this receipt.";
+        if ( entity.receipts ) {
+            def receiptnos = entity.receipts.collect{ it.receiptno }.join(", "); 
+            prefixMsg = "You are about to void the following receipts: "+ receiptnos +"\n";
+        }
+        
+        if( MsgBox.confirm( prefixMsg +" Please ensure you have the original receipt on hand. Continue?")) {
             if( applySecurity ) {
                 entity.username = username;
                 entity.password = user.encodePwd( password, username );
             }
             entity.applysecurity = applySecurity;
             entity.reason = remarks;
-            service.post( entity );
-            receipt.voided = true;
+            if ( entity.receipts ) { 
+                entity.remove('receipt'); 
+                service.postReceipts( entity );
+                entity.receipts.each{ it.voided = true }
+            }
+            else {
+                service.post( entity );
+            }
 
+            receipt.voided = true;
+            
             if ( handler ) { 
                 handler(receipt);
-            } else if ( caller ) {
+            } 
+            else if ( caller ) {
                 try { 
                     if ( caller.metaClass.respondsTo(caller, 'refresh')) {
                         caller.refresh(); 

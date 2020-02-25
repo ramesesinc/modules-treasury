@@ -21,7 +21,7 @@ class CashReceiptPluginInterceptor {
 	@DataContext("cashreceipt_plugin")
 	def pluginEm;
 
-	@After(pattern="CashReceiptService.post", eval="#{args[0]?.collectiontype?.handler != null}", index=100 )
+	@After(pattern="CashReceiptService.post", eval="#{args[0]?.collectiontype?.handler != null}", index=10000 )
 	public void onPostPayment(def evt) {
 		def a = evt.args[0];
 		def handler = a.collectiontype.handler;
@@ -37,11 +37,12 @@ class CashReceiptPluginInterceptor {
 			}
 			def t = svc.lookup(serviceName, conn );
 			if(!t) throw new Exception(serviceName + " not found for "+handler +" @connection "+conn);
+			a.reftype = "cashreceipt";
 			t.postPayment( a );
 		}
 	}
 
-	@After(pattern="CashReceiptVoidService.post", eval="#{result?.receipt?.collectiontype?.handler != null}", index=100 )
+	@After(pattern="CashReceiptVoidService.post", eval="#{result?.receipt?.collectiontype?.handler != null}", index=10000 )
 	public void onVoidPayment(def evt) {
 		def a = evt.result;
 		def handler = a.receipt.collectiontype.handler;

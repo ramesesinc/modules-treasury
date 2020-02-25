@@ -12,7 +12,7 @@ import com.rameses.rcp.ui.annotations.Template;
 
 /**
  *
- * @author  compaq
+ * @author  wflores
  */
 @Template(FormPage.class)
 public class SerialCashReceiptPage extends javax.swing.JPanel {
