@@ -31,6 +31,7 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
     def totalcash = 0;
     def cashchange = 0;
     def openFundList;
+    def exitOnSplitCheck = false;
     
     def noncashListHandler = [
         fetchList: { return payments; }, 
@@ -103,6 +104,12 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
         check.refdate = selectedCheck.refdate;
         check.receivedfrom = selectedCheck.receivedfrom;
         check.amount = selectedCheck.amount - selectedCheck.amtused;
+        
+        if (exitOnSplitCheck) {
+            if (saveHandler) saveHandler(check);
+            return '_close';
+        }
+
         if(check.split == 1 ) {
             def _total = fundList.sum{ it.amount - it.used };
             if(_total < check.amount ) {
@@ -131,8 +138,17 @@ class CashReceiptCheckPaymentModel extends PageFlowController {
             throw new Exception("Amount of check must be less than or equal to amount to pay for non split checks");
         }
         
+        if (exitOnSplitCheck) {
+            //force split check if flag is set
+            check.split = 1;
+        }
+
         if( check.split == 1 ) {
             check = persistenceService.create( check );
+            if (exitOnSplitCheck) {
+                if (saveHandler) saveHandler(check);
+                return;
+            }
         }
         else {
             check.objid = "CHKPMT"+ new UID();
