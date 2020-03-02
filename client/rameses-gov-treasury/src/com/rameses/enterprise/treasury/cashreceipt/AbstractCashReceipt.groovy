@@ -32,8 +32,9 @@ public abstract class AbstractCashReceipt {
     //handlers pass by the caller
     def createHandler; 
     
-    //new receipting process
+    // set by the caller
     def mainProcessHandler;
+    def afcontrol;
 
     def YMD = new java.text.SimpleDateFormat('yyyy-MM-dd');  
     
@@ -279,7 +280,11 @@ public abstract class AbstractCashReceipt {
         def u = new CashReceiptPrintUtil( binding: binding ); 
         u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true ); 
         
-        def template_name = "cashreceipt-form:" + entity.formno; 
+        def template_name = afcontrol?.afunit?.cashreceiptprintout; 
+        if ( !template_name ) {
+            template_name = "cashreceipt-form:" + entity.formno; 
+        }
+        
         if ( reprint ) {
             u.reprint( template_name, entity );
         }

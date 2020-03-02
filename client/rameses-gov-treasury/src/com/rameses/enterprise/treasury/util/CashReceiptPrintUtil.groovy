@@ -28,7 +28,10 @@ public class CashReceiptPrintUtil {
                 def m = [ report: reprint_dev_handle, title: 'Cash Receipt: Reprint' ];
                 def op = Inv.lookupOpener('report:preview', m);
                 op.target = 'self';
-                binding.fireNavigation( op ); 
+                
+                if ( binding != null ) {
+                    binding.fireNavigation( op ); 
+                }
             } 
         } 
         finally {
@@ -48,7 +51,10 @@ public class CashReceiptPrintUtil {
                 def m = [ report: reprint_dev_handle, title: 'Cash Receipt Details' ];
                 def op = Inv.lookupOpener('report:preview', m);
                 op.target = 'self';
-                binding.fireNavigation( op ); 
+                
+                if ( binding != null ) {
+                    binding.fireNavigation( op );                     
+                }
             } 
         } 
         finally {

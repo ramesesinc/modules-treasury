@@ -54,7 +54,9 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
     
     void launchNew() {
         createNew();
-        handler = Inv.lookupOpener("cashreceipt:"+ collectionType.handler, [entity: entity, mainProcessHandler: processHandler]);         
+        
+        def m = [entity: entity, afcontrol: afcontrol, mainProcessHandler: processHandler];
+        handler = Inv.lookupOpener("cashreceipt:"+ collectionType.handler, m); 
     }
     
     void cleanUp() {

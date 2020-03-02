@@ -22,8 +22,9 @@ public abstract class AbstractCashReceipt extends PageFlowController  {
     //handlers pass by the caller
     def createHandler; 
     
-    //new receipting process
+    // set by the caller
     def mainProcessHandler;
+    def afcontrol;    
     
     //for barcode processor
     def barcodeid;
@@ -286,7 +287,11 @@ public abstract class AbstractCashReceipt extends PageFlowController  {
         def u = new CashReceiptPrintUtil( binding: binding ); 
         u.showPrinterDialog = ( entity._options?.canShowPrinterDialog.toString() == 'false' ? false : true ); 
         
-        def template_name = "cashreceipt-form:" + entity.formno; 
+        def template_name = afcontrol?.afunit?.cashreceiptprintout; 
+        if ( !template_name ) {
+            template_name = "cashreceipt-form:" + entity.formno; 
+        }
+
         if ( reprint ) {
             u.reprint( template_name, entity );
         }
