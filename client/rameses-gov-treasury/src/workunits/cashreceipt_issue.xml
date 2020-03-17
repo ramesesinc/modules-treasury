@@ -30,7 +30,7 @@
         
         <invoker type="formActions" caption="Reprint" 
                 visibleWhen="#{ state=='completed' }"
-                action="printReceipt" mnemonic="r"/>
+                action="reprintReceipt" mnemonic="r"/>
 
         <invoker type="formActions" caption="Print Detail" 
                 visibleWhen="#{ state=='completed' }"

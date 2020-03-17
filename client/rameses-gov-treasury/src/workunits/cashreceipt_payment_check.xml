@@ -21,6 +21,7 @@
             <transition to="determine-flow"  caption="Next" action="addCheck" mnemonic="N" visibleWhen="#{ new_check == false }"/>
         </page>
         <process name="determine-flow">
+            <transition to="end" cond="#{ exitOnSplitCheck == true }" />
             <transition to="complete-balance" cond="#{ balance  > 0 }"/>
             <transition to="view-summary" cond="#{ balance == 0 }" action="correctNoncashPayment"/>
         </process> 

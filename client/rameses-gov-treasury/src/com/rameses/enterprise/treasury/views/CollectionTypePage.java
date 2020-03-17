@@ -20,6 +20,7 @@ public class CollectionTypePage extends javax.swing.JPanel {
 
         xTabbedPane1 = new com.rameses.rcp.control.XTabbedPane();
         jPanel3 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         xFormPanel1 = new com.rameses.rcp.control.XFormPanel();
         xTextField1 = new com.rameses.rcp.control.XTextField();
         xTextField2 = new com.rameses.rcp.control.XTextField();
@@ -30,6 +31,7 @@ public class CollectionTypePage extends javax.swing.JPanel {
         xSuggest1 = new com.rameses.rcp.control.XSuggest();
         xLabel2 = new com.rameses.rcp.control.XLabel();
         xLookupField2 = new com.rameses.rcp.control.XLookupField();
+        jPanel4 = new javax.swing.JPanel();
         xFormPanel2 = new com.rameses.rcp.control.XFormPanel();
         xCheckBox3 = new com.rameses.rcp.control.XCheckBox();
         xCheckBox2 = new com.rameses.rcp.control.XCheckBox();
@@ -37,6 +39,9 @@ public class CollectionTypePage extends javax.swing.JPanel {
         xCheckBox4 = new com.rameses.rcp.control.XCheckBox();
         xCheckBox5 = new com.rameses.rcp.control.XCheckBox();
         xCheckBox6 = new com.rameses.rcp.control.XCheckBox();
+        xFormPanel3 = new com.rameses.rcp.control.XFormPanel();
+        xCheckBox7 = new com.rameses.rcp.control.XCheckBox();
+        xIntegerField2 = new com.rameses.rcp.control.XIntegerField();
         xPanel1 = new com.rameses.rcp.control.XPanel();
         schemaList1 = new com.rameses.seti2.components.SchemaList();
         xPanel2 = new com.rameses.rcp.control.XPanel();
@@ -46,6 +51,11 @@ public class CollectionTypePage extends javax.swing.JPanel {
 
         xTabbedPane1.setItems("sections");
         xTabbedPane1.setDynamic(true);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 10, 10, 10));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         xFormPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         xFormPanel1.setCaptionWidth(150);
@@ -112,8 +122,15 @@ public class CollectionTypePage extends javax.swing.JPanel {
         xLookupField2.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel1.add(xLookupField2);
 
+        jPanel2.add(xFormPanel1, java.awt.BorderLayout.WEST);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        com.rameses.rcp.control.layout.YLayout yLayout1 = new com.rameses.rcp.control.layout.YLayout();
+        yLayout1.setSpacing(10);
+        jPanel4.setLayout(yLayout1);
+
         com.rameses.rcp.control.border.XTitledBorder xTitledBorder1 = new com.rameses.rcp.control.border.XTitledBorder();
-        xTitledBorder1.setPadding(new java.awt.Insets(25, 20, 2, 2));
+        xTitledBorder1.setPadding(new java.awt.Insets(25, 20, 20, 25));
         xTitledBorder1.setTitle("Display Options");
         xFormPanel2.setBorder(xTitledBorder1);
         xFormPanel2.setShowCaption(false);
@@ -194,28 +211,43 @@ public class CollectionTypePage extends javax.swing.JPanel {
         xCheckBox6.setText("Show in Credit Memo");
         xFormPanel2.add(xCheckBox6);
 
-        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(xFormPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 508, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(27, 27, 27)
-                .add(xFormPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 225, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .add(21, 21, 21)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(xFormPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .add(xFormPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 232, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+        jPanel4.add(xFormPanel2);
+
+        com.rameses.rcp.control.border.XTitledBorder xTitledBorder2 = new com.rameses.rcp.control.border.XTitledBorder();
+        xTitledBorder2.setPadding(new java.awt.Insets(25, 20, 20, 25));
+        xTitledBorder2.setTitle("Other Options");
+        xFormPanel3.setBorder(xTitledBorder2);
+        xFormPanel3.setCaptionWidth(120);
+        xFormPanel3.setShowCaption(false);
+
+        xCheckBox7.setCaption("Multi Receipt");
+        xCheckBox7.setCheckValue(1);
+        xCheckBox7.setDepends(new String[] {"entity.handler"});
+        xCheckBox7.setDisableWhen("1==1");
+        xCheckBox7.setName("multireceipt"); // NOI18N
+        xCheckBox7.setUncheckValue(0);
+        xCheckBox7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        xCheckBox7.setCellPadding(new java.awt.Insets(10, 0, 0, 0));
+        xCheckBox7.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        xCheckBox7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xCheckBox7ActionPerformed(evt);
+            }
+        });
+        xFormPanel3.add(xCheckBox7);
+
+        xIntegerField2.setCaption("Items Per Page");
+        xIntegerField2.setDepends(new String[] {"entity.handler"});
+        xIntegerField2.setDisableWhen("allowMultiReceiptOption != true");
+        xIntegerField2.setName("entity.info.itemsperpage"); // NOI18N
+        xIntegerField2.setPreferredSize(new java.awt.Dimension(60, 20));
+        xFormPanel3.add(xIntegerField2);
+
+        jPanel4.add(xFormPanel3);
+
+        jPanel2.add(jPanel4, java.awt.BorderLayout.EAST);
+
+        jPanel3.add(jPanel2, java.awt.BorderLayout.WEST);
 
         xTabbedPane1.addTab("  General Information   ", jPanel3);
 
@@ -311,14 +343,14 @@ public class CollectionTypePage extends javax.swing.JPanel {
             xPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(xPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(schemaList1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
+                .add(schemaList1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                 .addContainerGap())
         );
         xPanel1Layout.setVerticalGroup(
             xPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(xPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(schemaList1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                .add(schemaList1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -399,14 +431,14 @@ public class CollectionTypePage extends javax.swing.JPanel {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(xTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                .add(xTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(xTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                .add(xTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -418,11 +450,17 @@ public class CollectionTypePage extends javax.swing.JPanel {
     private void xCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCheckBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_xCheckBox2ActionPerformed
+
+    private void xCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xCheckBox7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_xCheckBox7ActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private com.rameses.seti2.components.SchemaList schemaList1;
     private com.rameses.seti2.components.SchemaList schemaList2;
     private com.rameses.rcp.control.XButton xButton1;
@@ -432,11 +470,14 @@ public class CollectionTypePage extends javax.swing.JPanel {
     private com.rameses.rcp.control.XCheckBox xCheckBox4;
     private com.rameses.rcp.control.XCheckBox xCheckBox5;
     private com.rameses.rcp.control.XCheckBox xCheckBox6;
+    private com.rameses.rcp.control.XCheckBox xCheckBox7;
     private com.rameses.rcp.control.XComboBox xComboBox1;
     private com.rameses.rcp.control.XComboBox xComboBox3;
     private com.rameses.rcp.control.XFormPanel xFormPanel1;
     private com.rameses.rcp.control.XFormPanel xFormPanel2;
+    private com.rameses.rcp.control.XFormPanel xFormPanel3;
     private com.rameses.rcp.control.XIntegerField xIntegerField1;
+    private com.rameses.rcp.control.XIntegerField xIntegerField2;
     private com.rameses.rcp.control.XLabel xLabel2;
     private com.rameses.rcp.control.XLookupField xLookupField2;
     private com.rameses.rcp.control.XPanel xPanel1;

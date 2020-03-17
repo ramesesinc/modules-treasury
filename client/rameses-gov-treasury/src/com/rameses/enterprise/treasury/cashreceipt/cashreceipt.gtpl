@@ -1,7 +1,12 @@
 <%
-def df = new java.text.DecimalFormat("#,##0.00")
+def df = new java.text.DecimalFormat("#,##0.00");
+boolean multireceipt = (entity.receipts ? true : false);
+
+def receipts = entity.receipts;
+if ( receipts == null ) receipts = [entity];  
 %>
 
+<% if ( !multireceipt ) {%> 
 <table width="380" cellpadding="0" >
     <tr>
         <td><font size="5"><b>Cash Tendered</b></font></td>
@@ -14,11 +19,14 @@ def df = new java.text.DecimalFormat("#,##0.00")
         <td align="right"><font size="6"><b>${df.format(entity.cashchange)}</b></font></td>
     </tr>
 </table>
+<%}%>
+
+<% receipts.each { rct-> %>
 <br>
 <hr>
 <br>
 <table width="400">
-    <%if(entity.voided){%>
+    <%if(rct.voided){%>
         <tr>
             <td colspan="2">
                 <h1><font color=red>VOID</font></h1>
@@ -28,28 +36,28 @@ def df = new java.text.DecimalFormat("#,##0.00")
 
     <tr>
         <td>Receipt No </td>
-        <td><font size="4"> <b>${entity.receiptno}</font> </b></td>
+        <td><font size="4"> <b>${rct.receiptno}</font> </b></td>
     </tr>
     <tr>
         <td>Mode </td>
-        <td><b>${entity.txnmode}</font> </b></td>
+        <td><b>${rct.txnmode}</font> </b></td>
     </tr>
     <tr>
         <td>Receipt Date</td>
-        <td><b>${entity.receiptdate}</b></td>
+        <td><b>${rct.receiptdate}</b></td>
     </tr>
     <tr>
         <td>Payer</td>
-        <td>${entity.paidby}</td>
+        <td>${rct.paidby}</td>
     </tr>
     <tr>
         <td>Address</td>
-        <td>${entity.paidbyaddress}</td>
+        <td>${rct.paidbyaddress}</td>
     </tr>
     <tr>
         <td colspan="2">
             <br>
-            ${ (entity.remarks)? entity.remarks: ''}
+            ${ (rct.remarks)? rct.remarks: ''}
             </br>
         </td>
     </tr>
@@ -64,7 +72,7 @@ def df = new java.text.DecimalFormat("#,##0.00")
                     <th>Amount</th>
                     <th>Remarks</th>
                 </tr>
-                <%entity.items.each{ %>
+                <%rct.items.each{ %>
                     <tr>
                         <td>${it?.item.code}</td>
                         <td>${it?.item.title}</td>
@@ -78,14 +86,14 @@ def df = new java.text.DecimalFormat("#,##0.00")
     <tr>
         <td colspan="2">
             <hr>
-                <b>AMOUNT : ${df.format(entity.amount)}<BR></b>
+                <b>AMOUNT : ${df.format(rct.amount)}<BR></b>
            </hr>
         </td>
     </tr>
     <tr>
         <td colspan="2">
             <br>
-            <%if( entity.paymentitems ){%> 
+            <%if( rct.paymentitems ){%> 
                 <b>Checks and other payments</b>
                 <br>
                 <table>
@@ -94,7 +102,7 @@ def df = new java.text.DecimalFormat("#,##0.00")
                         <th>Particulars</th>
                         <th>Amount</th>
                     </tr>
-                    <%entity.paymentitems.each{ %>
+                    <%rct.paymentitems.each{ %>
                         <tr>
                             <td>${it.reftype}</td>
                             <td>${it?.particulars}</td>
@@ -106,4 +114,4 @@ def df = new java.text.DecimalFormat("#,##0.00")
         </td>
     </tr>
 </table>
-
+<%}%>

@@ -7,6 +7,9 @@
                  action="init" target="window" role="COLLECTOR" index="-5"/>
         
         <!-- Buttons -->
+        <invoker type="formActions" caption="Cancel" action="_close" 
+                 visibleWhen="#{remittanceid == null }"/>
+        
         <invoker type="formActions" caption="Submit for Remittance" action="submitForRemittance" 
                  visibleWhen="#{remittanceid == null }"/>
     </invokers>

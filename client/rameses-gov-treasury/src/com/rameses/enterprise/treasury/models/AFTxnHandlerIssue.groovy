@@ -45,6 +45,13 @@ class AFTxnHandlerIssue extends AFTxnHandler {
         }
     ] as EditorListModel;
     
+    @PropertyChangeListener 
+    def changeHandler = [
+        'entity.issueto': { o-> 
+            entity.respcenter = o?.respcenter; 
+        } 
+    ]; 
+    
     private void computeLineTotal( o ) {
         o.linetotal = (o.qty ? o.qty : 0) * (o.cost ? o.cost : 0.0);
     }

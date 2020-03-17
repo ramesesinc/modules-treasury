@@ -16,18 +16,24 @@ public class CollectionTypeModel extends CrudFormModel {
     def selectedAccount;
     def orgListHandler;
     
+    def handlerTypes;
+    
     void afterCreate() { 
         entity.state = 'ACTIVE';
         entity.sortorder = 0; 
         entity.allowonline = 1;
         entity.allowoffline = 0;
         entity.allowbatch = 0;
+        if ( entity.info == null ) {
+            entity.info = [:]; 
+        }
     } 
 
     void afterOpen() {
         if(!entity.allowonline) entity.allowonline = 0;
         if(!entity.allowoffline) entity.allowoffline = 0;
         if(!entity.allowbatch) entity.allowbatch = 0;
+        if( entity.info == null ) entity.info = [:]; 
     }
     
     void afterInit() {
@@ -35,8 +41,39 @@ public class CollectionTypeModel extends CrudFormModel {
         m.select = "objid";
         m._limit = 1000;
         formTypes = queryService.getList(m)*.objid;
-        handlers = InvokerUtil.lookupOpeners( "collectiontype:handler" )*.properties.name;
-        batchHandlers = InvokerUtil.lookupOpeners( "collectiontype:batchhandler" )*.properties.name;
+        
+        handlerTypes = []; 
+        Inv.lookup("collectiontype:handler").groupBy{ it.properties.name }.each{ k,v-> 
+            def hmap = [:]; 
+            hmap.putAll( v.first().properties ); 
+            
+            try {
+                hmap.index = Integer.parseInt( hmap.index.toString()); 
+            } catch(Throwable t) {
+                hmap.index = 0;
+            }
+            handlerTypes << hmap; 
+        }
+        
+        handlers = handlerTypes.collect{ it.name }.unique();
+        handlers.sort{ it }
+        
+        batchHandlers = Inv.lookup( "collectiontype:batchhandler" )*.properties.name;
+        batchHandlers.sort{ it }
+        batchHandlers.unique(); 
+    }
+    
+    boolean isMultireceipt() {
+        def o = handlerTypes.find{ it.name == entity.handler }
+        if ( o == null ) return false; 
+        return (o.multireceipt.toString() == 'true');
+    }
+    
+    boolean isAllowMultiReceiptOption() {
+        if ( mode.toString().matches('create|edit|update')) {
+            return isMultireceipt(); 
+        }
+        return false; 
     }
     
     def categoryModel = [
@@ -65,6 +102,4 @@ public class CollectionTypeModel extends CrudFormModel {
         } 
         Modal.show( "org:lookup", [onselect: h, multiSelect: true] );
     }
-
-
 }
