@@ -35,10 +35,6 @@
   </Layout>
   <SubComponents>
     <Container class="com.rameses.rcp.control.XTabbedPane" name="xTabbedPane1">
-      <Properties>
-        <Property name="items" type="java.lang.String" value="sections"/>
-        <Property name="dynamic" type="boolean" value="true"/>
-      </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -560,7 +556,7 @@
                 </Property>
                 <Property name="customFilter" type="java.lang.String" value="collectiontypeid = :objid"/>
                 <Property name="orderBy" type="java.lang.String" value="sortorder"/>
-                <Property name="queryName" type="java.lang.String" value="entity"/>
+                <Property name="queryName" type="java.lang.String" value="query"/>
                 <Property name="schemaName" type="java.lang.String" value="collectiontype_account"/>
                 <Property name="allowCreate" type="boolean" value="true"/>
                 <Property name="allowDelete" type="boolean" value="true"/>
@@ -594,7 +590,7 @@
                 </Property>
                 <Property name="customFilter" type="java.lang.String" value="collectiontypeid = :objid"/>
                 <Property name="handlerName" type="java.lang.String" value="orgListHandler"/>
-                <Property name="queryName" type="java.lang.String" value="entity"/>
+                <Property name="queryName" type="java.lang.String" value="query"/>
                 <Property name="schemaName" type="java.lang.String" value="collectiontype_org"/>
                 <Property name="allowDelete" type="boolean" value="true"/>
               </Properties>

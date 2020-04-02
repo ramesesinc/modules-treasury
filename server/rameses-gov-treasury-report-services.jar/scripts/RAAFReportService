@@ -29,6 +29,19 @@ class RAAFReportService {
 		def enddate = DateUtil.add( startdate, '1M' ); 	
 		def collectorid = (params.collector? params.collector.objid: env.USERID);
 		def items = adb.getReportData([startdate: startdate, enddate: enddate, collectorid: collectorid]); 
+
+		def delitems = [];
+		def dmap = [enddate: enddate]; 
+		items.findAll{( it.iflag == 1 )}.each{ o-> 
+			dmap.controlid = o.controlid; 
+			def afd = adb.findLastDetail( dmap ); 
+			if ( afd?.issuedtoid.toString() != o.ownerid ) {
+				delitems << o; 
+			}
+		} 
+		items.removeAll( delitems ); 
+		delitems.clear(); 
+
 		if ( !items ) throw new Exception('No record(s) found                  ');
 
 		items.eachWithIndex{ o,idx-> o.lineno = idx; } 

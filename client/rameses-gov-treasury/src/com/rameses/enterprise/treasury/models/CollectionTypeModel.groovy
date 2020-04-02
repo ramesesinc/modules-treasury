@@ -102,4 +102,8 @@ public class CollectionTypeModel extends CrudFormModel {
         } 
         Modal.show( "org:lookup", [onselect: h, multiSelect: true] );
     }
+    
+    def getQuery() {
+        return [objid: entity.objid];
+    }
 }

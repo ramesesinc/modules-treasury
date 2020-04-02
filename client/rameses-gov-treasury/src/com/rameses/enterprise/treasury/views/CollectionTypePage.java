@@ -49,9 +49,6 @@ public class CollectionTypePage extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         xButton1 = new com.rameses.rcp.control.XButton();
 
-        xTabbedPane1.setItems("sections");
-        xTabbedPane1.setDynamic(true);
-
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 10, 10, 10));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
@@ -332,7 +329,7 @@ public class CollectionTypePage extends javax.swing.JPanel {
         });
         schemaList1.setCustomFilter("collectiontypeid = :objid");
         schemaList1.setOrderBy("sortorder");
-        schemaList1.setQueryName("entity");
+        schemaList1.setQueryName("query");
         schemaList1.setSchemaName("collectiontype_account");
         schemaList1.setAllowCreate(true);
         schemaList1.setAllowDelete(true);
@@ -409,7 +406,7 @@ public class CollectionTypePage extends javax.swing.JPanel {
         });
         schemaList2.setCustomFilter("collectiontypeid = :objid");
         schemaList2.setHandlerName("orgListHandler");
-        schemaList2.setQueryName("entity");
+        schemaList2.setQueryName("query");
         schemaList2.setSchemaName("collectiontype_org");
         schemaList2.setAllowDelete(true);
         xPanel2.add(schemaList2, java.awt.BorderLayout.CENTER);
