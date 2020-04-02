@@ -13,6 +13,14 @@ import com.rameses.util.*;
 */
 public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.models.AbstractCashReceipt {
     
+    def _sharingSvc;
+    public def getSharingSvc() {
+        if ( _sharingSvc == null ) {
+            _sharingSvc = InvokerProxy.getInstance().create("RevenueSharingService", null);
+        }
+        return _sharingSvc; 
+    }
+    
     def prefix;
     def status;   
     def selectedItem;
@@ -101,6 +109,7 @@ public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.mode
     }
     
     void findTxn() {
+        if(txnid == null) throw new Exception("Please specify txnid");
         if(txnid.contains(":")) txnid = txnid.split(":")[1];
         loadBill([id:txnid, action:'open']);
     }
@@ -202,5 +211,24 @@ public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.mode
         return Inv.lookupOpener("cashreceipt_preview", [entity: entity] );
     }
     
+    void viewSharing() {
+        def sharing = entity.sharing; 
+        if (!sharing) sharing = sharingSvc.execute( entity ); 
+        if (!sharing) throw new Exception('No sharing rules defined'); 
+        
+        def lh = [
+            getColumnList: {
+                return [
+                    [name:'refitem.title',caption:'Item Account'],
+                    [name:'payableitem.title',caption:'Payable Account'],
+                    [name:'amount',caption:'Amount', type:'decimal']
+                ]
+            },
+            fetchList : {
+                return sharing;
+            }
+        ] as BasicListModel;
+        Modal.show("basiclist:view", [listHandler: lh])
+    }  
     
 }
