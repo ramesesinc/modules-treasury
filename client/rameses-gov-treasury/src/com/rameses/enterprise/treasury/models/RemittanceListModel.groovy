@@ -13,9 +13,9 @@ class RemittanceListModel extends CrudListModel {
             c.width = 120; 
             c.maxWidth = 140; 
         }
-        else if ( c.name == 'controldate') {
+        else if ( c.name.toString().matches('controldate|dtposted')) {
             c.width = 120; 
-            c.maxWidth = 120; 
+            c.maxWidth = 140; 
         }
         else if ( c.name == 'collector.name') {
             c.width = 200; 
