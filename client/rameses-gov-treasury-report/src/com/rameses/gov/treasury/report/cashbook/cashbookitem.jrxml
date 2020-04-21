@@ -40,6 +40,12 @@
 	<parameter name="ACCOUNTTITLE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="FROMPERIOD" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="TOPERIOD" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="BEGBALDR" isForPrompting="false" class="java.lang.Number">
+		<defaultValueExpression ><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="BEGBALCR" isForPrompting="false" class="java.lang.Number">
+		<defaultValueExpression ><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
 
 	<field name="refno" class="java.lang.String"/>
 	<field name="reftype" class="java.lang.String"/>
@@ -47,6 +53,7 @@
 	<field name="cr" class="java.math.BigDecimal"/>
 	<field name="runbalance" class="java.math.BigDecimal"/>
 	<field name="refdate" class="java.util.Date"/>
+	<field name="refid" class="java.lang.String"/>
 
 	<variable name="TOTALDR" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
 		<variableExpression><![CDATA[$F{dr}]]></variableExpression>
@@ -292,7 +299,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Top">
 						<font fontName="SansSerif" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{dr}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[($F{refid} == 'begin_balance' ? null : $F{dr})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -311,9 +318,9 @@
 					<textElement textAlignment="Right" verticalAlignment="Top">
 						<font fontName="SansSerif" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{cr}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[($F{refid} == 'begin_balance' ? null : $F{cr})]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="482"
 						y="0"
@@ -379,7 +386,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{TOTALDR}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{TOTALDR}-$P{BEGBALDR}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -398,7 +405,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{TOTALCR}]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{TOTALCR}-$P{BEGBALCR}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

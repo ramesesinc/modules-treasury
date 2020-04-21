@@ -44,6 +44,8 @@
 
 	<field name="balance" class="java.lang.Number"/>
 	<field name="items" class="java.lang.Object"/>
+	<field name="begbaldr" class="java.lang.Number"/>
+	<field name="begbalcr" class="java.lang.Number"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -170,6 +172,12 @@
 					</subreportParameter>
 					<subreportParameter  name="FUNDNAME">
 						<subreportParameterExpression><![CDATA[$P{FUNDNAME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BEGBALDR">
+						<subreportParameterExpression><![CDATA[($F{begbaldr} ? $F{begbaldr} : 0.0)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BEGBALCR">
+						<subreportParameterExpression><![CDATA[($F{begbalcr} ? $F{begbalcr} : 0.0)]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[$F{items}]]></dataSourceExpression>
 					<subreportExpression  class="java.lang.String"><![CDATA["cashbookitem.jasper"]]></subreportExpression>
