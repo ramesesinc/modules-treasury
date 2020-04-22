@@ -22,6 +22,8 @@ class CashbookCollectorReportModel extends AsyncReportController {
     def months = [];
     def tag;
     
+    def fundgroups = []; 
+    
     def templates = [ 
         [code:'detail', name:'DETAIL'], 
         [code:'summary', name:'SUMMARY'] 
@@ -52,6 +54,7 @@ class CashbookCollectorReportModel extends AsyncReportController {
         entity.year = resp.year; 
         
         allow_multiple_fund_selection = resp.allow_multiple_fund_selection; 
+        fundgroups = resp.fundgroups;
         return 'default'; 
     }
 
@@ -64,6 +67,13 @@ class CashbookCollectorReportModel extends AsyncReportController {
             return reportpath + 'cashbooksummary.jasper'
         }
         return reportpath + 'cashbook.jasper'; 
+    }
+    
+    def preview() { 
+        if ( entity.fund == null && entity.fundgroup == null ) {
+            throw new RuntimeException("Please specify a Fund or Fund Group"); 
+        }
+        return super.preview(); 
     }
   
     void buildReportData(entity, asyncHandler) {
@@ -87,10 +97,11 @@ class CashbookCollectorReportModel extends AsyncReportController {
             list << [type:"combo", caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.name}', preferredSize:'100,20', captionWidth:100, depends:'entity.period', visibleWhen:'#{entity.period?.code == "monthly"}']; 
             list << [type:"combo", caption:'Account', name:'entity.account', required:true, items:'accounts', expression:'#{item.description ? item.description : item.fullname}', preferredSize:'0,20', captionWidth:100]; 
             if ( allow_multiple_fund_selection ) {
-                list << [type:"lookup", caption:'Fund', name:'entity.fund', required:true, handlerObject: lookupFund, expression:'#{item.title}', preferredSize:'0,20', captionWidth:100]; 
+                list << [type:"lookup", caption:'Fund', name:'entity.fund', handlerObject: lookupFund, expression:'#{item.title}', preferredSize:'0,20', captionWidth:100]; 
             } else {
-                list << [type:"combo", caption:'Fund', name:'entity.fund', required:true, items:'funds', expression:'#{item.title}', preferredSize:'0,20', captionWidth:100];                 
+                list << [type:"combo", caption:'Fund', name:'entity.fund', items:'funds', expression:'#{item.title}', preferredSize:'0,20', captionWidth:100];                 
             }
+            list << [type:"combo", caption:'Fund Group', name:'entity.fundgroup', items:'fundgroups', expression:'#{item.objid}', preferredSize:'0,20', captionWidth:100]; 
             return list;
         } 
     ] as FormPanelModel;
