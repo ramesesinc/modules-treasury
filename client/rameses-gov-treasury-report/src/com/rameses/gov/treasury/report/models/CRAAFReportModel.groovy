@@ -15,8 +15,11 @@ class CRAAFReportModel extends AsyncReportController {
     String reportName = reportpath + 'craaf.jasper';
     
     def data;
+    def aflist;
     
     def initReport(){
+        def resp = svc.initReport([:]); 
+        aflist = resp.aflist;
         return 'default';
     }
     
@@ -29,14 +32,17 @@ class CRAAFReportModel extends AsyncReportController {
     }
     
     def formControl = [
-        getFormControls: {
-            return [
-                new FormControl( "integer", [caption:'Year', name:'entity.year', required:true, preferredSize:'100,19', captionWidth:100]), 
-                new FormControl( "combo", [caption:'Month', name:'entity.month', items:'months', expression:'#{item.caption}', preferredSize:'100,19', captionWidth:100]) 
-            ]; 
-        }
+        getControlList: {
+            def list = []; 
+            list << [type:"integer", caption:'Year', name:'entity.year', required:true, preferredSize:'100,20', captionWidth:100]; 
+            list << [type:"combo", caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.caption}', preferredSize:'100,20', captionWidth:100]; 
+            list << [type:"combo", caption:'AF', name:'entity.af', items:'aflist', expression:'#{item.objid} - #{item.title}', preferredSize:'0,20', captionWidth:100]; 
+            list << [type:"label", caption:'', expression:'', preferredSize:'0,20']; 
+            list << [type:"checkbox", caption:'', name:'entity.condense_saled', text:' Condense Saled', captionWidth:100]; 
+            list << [type:"checkbox", caption:'', name:'entity.condense_consumed', text:' Condense Consumed', captionWidth:100]; 
+            return list; 
+        }        
     ] as FormPanelModel;
-   
    
     Map getParameters(){
         return data.info; 
