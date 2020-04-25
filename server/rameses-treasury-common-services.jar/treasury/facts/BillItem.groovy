@@ -102,7 +102,7 @@ class BillItem extends AbstractBillItem {
 
 		double linetotal = NumberUtil.round(total);
 		if( payamt >= linetotal ) {
-			return payamt - linetotal;
+			return NumberUtil.round( payamt - linetotal );
 		}
 
 		//in case for partial payments, distribute evenly first to its subitems. The remainder add to the amount of this bill

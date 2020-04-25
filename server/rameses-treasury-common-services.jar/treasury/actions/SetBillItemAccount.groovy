@@ -26,8 +26,12 @@ class SetBillItemAccount implements RuleActionHandler {
 
 		if( hasAccount ) {
 	 		def ct = RuleExecutionContext.getCurrentContext();		
-			if( !ct.env.acctUtil ) ct.env.acctUtil = new ItemAccountUtil();
-			billitem.account = ct.env.acctUtil.createAccountFact( [objid: acct.key] );			
+			if( ct.env.acctUtil ) {
+				billitem.account = ct.env.acctUtil.createAccountFact( [objid: acct.key] );			
+			}
+			else {
+				billitem.account = new Account( objid: acct.key, code: acct.value, title: acct.value);
+			}
 		}
 		else {
 			billitem.billcode = billcode.key;

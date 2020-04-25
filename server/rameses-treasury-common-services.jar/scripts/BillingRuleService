@@ -88,7 +88,6 @@ public class BillingRuleService {
 			def amt = new BigDecimal( data.amtpaid + "" );
 			facts << new treasury.facts.Payment( amount: amt );
 		}
-
 		def startgroup = request.startgroup;
 		boolean started = true;
 		if(startgroup) started = false;

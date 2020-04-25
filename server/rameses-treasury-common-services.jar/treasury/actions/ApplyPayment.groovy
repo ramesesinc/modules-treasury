@@ -23,13 +23,7 @@ class ApplyPayment implements RuleActionHandler {
 		def ct = RuleExecutionContext.getCurrentContext();
 		def facts = ct.facts;
 
-		double totalCredit = 0;
-		def creditBalance = facts.find{ it instanceof CreditBalanceBillItem };
-		if(creditBalance) {
-			totalCredit = (creditBalance.amount*-1);
-		}
-		
-		double amt = payment.amount + totalCredit;
+		double amt = payment.amount;
 
 		def billitems = facts.findAll{ it instanceof BillItem }.sort{it.paypriority};
 
@@ -62,12 +56,8 @@ class ApplyPayment implements RuleActionHandler {
 					facts << bi;
 				}		
 			}
-
-			if(creditBalance!=null) {
-				facts << creditBalance;
-			}	
 		}
-
+		
 		//add excess payment if any... remove total credit so you can target the correct value.
 		if(  amt > 0 ) {
 			//amt = amt - totalCredit;	

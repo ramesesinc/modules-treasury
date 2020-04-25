@@ -7,7 +7,7 @@
         </start>
         <page name="initial" title="Billing Initial">
             <transition to="end" action="doClose" caption="Back" mnemonic="B"/>
-            <transition to="entry" caption="Next" action="findTxn" mnemonic="N"/>
+            <transition to="entry" caption="Next" action="findTxn" mnemonic="N" immediate="false"/>
         </page>
         <page name="entry" title="#{title}">
             <transition to="initial" caption="Back" mnemonic="B"/>
