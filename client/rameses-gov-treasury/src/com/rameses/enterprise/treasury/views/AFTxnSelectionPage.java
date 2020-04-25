@@ -37,16 +37,19 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
         xLookupField1 = new com.rameses.rcp.control.XLookupField();
         xLookupField3 = new com.rameses.rcp.control.XLookupField();
         jPanel1 = new javax.swing.JPanel();
-        xDataTable1 = new com.rameses.rcp.control.XDataTable();
+        jPanel2 = new javax.swing.JPanel();
         xLabel1 = new com.rameses.rcp.control.XLabel();
         xFormPanel2 = new com.rameses.rcp.control.XFormPanel();
         xComboBox1 = new com.rameses.rcp.control.XComboBox();
+        xDataTable1 = new com.rameses.rcp.control.XDataTable();
 
         setLayout(new java.awt.BorderLayout());
 
-        xPanel1.setPreferredSize(new java.awt.Dimension(801, 80));
+        xPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        xPanel1.setLayout(new java.awt.BorderLayout());
 
         xFormPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+        xFormPanel1.setPadding(new java.awt.Insets(0, 0, 0, 0));
 
         xLookupField2.setCaption("Issued From");
         xLookupField2.setExpression("#{ entity.issuefrom.lastname }, #{ entity.issuefrom.firstname }");
@@ -54,7 +57,7 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
         xLookupField2.setName("entity.issuefrom"); // NOI18N
         xLookupField2.setVisibleWhen("#{entity.txntype.toString().matches('TRANSFER|RETURN')}");
         xLookupField2.setCaptionWidth(120);
-        xLookupField2.setPreferredSize(new java.awt.Dimension(0, 20));
+        xLookupField2.setPreferredSize(new java.awt.Dimension(300, 20));
         xLookupField2.setRequired(true);
         xFormPanel1.add(xLookupField2);
 
@@ -64,7 +67,7 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
         xLookupField1.setName("entity.issueto"); // NOI18N
         xLookupField1.setVisibleWhen("#{entity.txntype.matches('TRANSFER|MANUAL_ISSUE') }");
         xLookupField1.setCaptionWidth(120);
-        xLookupField1.setPreferredSize(new java.awt.Dimension(0, 20));
+        xLookupField1.setPreferredSize(new java.awt.Dimension(300, 20));
         xLookupField1.setRequired(true);
         xFormPanel1.add(xLookupField1);
 
@@ -73,27 +76,37 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
         xLookupField3.setHandler("org:lookup");
         xLookupField3.setName("entity.respcenter"); // NOI18N
         xLookupField3.setCaptionWidth(120);
-        xLookupField3.setPreferredSize(new java.awt.Dimension(0, 20));
+        xLookupField3.setPreferredSize(new java.awt.Dimension(300, 20));
         xFormPanel1.add(xLookupField3);
 
-        javax.swing.GroupLayout xPanel1Layout = new javax.swing.GroupLayout(xPanel1);
-        xPanel1.setLayout(xPanel1Layout);
-        xPanel1Layout.setHorizontalGroup(
-            xPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(xPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(175, Short.MAX_VALUE))
-        );
-        xPanel1Layout.setVerticalGroup(
-            xPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(xPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        xPanel1.add(xFormPanel1, java.awt.BorderLayout.WEST);
 
         add(xPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        xLabel1.setExpression("Select accountable forms to #{ entity.txntype } and click Next");
+        xLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        jPanel2.add(xLabel1, java.awt.BorderLayout.NORTH);
+
+        xFormPanel2.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+        xFormPanel2.setPadding(new java.awt.Insets(0, 1, 5, 0));
+
+        xComboBox1.setCaption("Select AF Type");
+        xComboBox1.setExpression("#{ item.objid }");
+        xComboBox1.setItems("afTypes");
+        xComboBox1.setName("afType"); // NOI18N
+        xComboBox1.setVisibleWhen("");
+        xComboBox1.setCaptionWidth(120);
+        xComboBox1.setRequired(true);
+        xFormPanel2.add(xComboBox1);
+
+        jPanel2.add(xFormPanel2, java.awt.BorderLayout.SOUTH);
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         xDataTable1.setHandler("afListModel");
         xDataTable1.setColumns(new com.rameses.rcp.common.Column[]{
@@ -231,46 +244,24 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
                 , new Object[]{"visibleWhen", null}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "respcenter.name"}
+                , new Object[]{"caption", "RespCenter"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 0}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             })
         });
-
-        xLabel1.setExpression("Select accountable forms to #{ entity.txntype } and click Next");
-
-        xFormPanel2.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
-        xFormPanel2.setPadding(new java.awt.Insets(0, 1, 0, 0));
-
-        xComboBox1.setCaption("Select AF Type");
-        xComboBox1.setExpression("#{ item.objid }");
-        xComboBox1.setItems("afTypes");
-        xComboBox1.setName("afType"); // NOI18N
-        xComboBox1.setVisibleWhen("");
-        xComboBox1.setCaptionWidth(120);
-        xComboBox1.setRequired(true);
-        xFormPanel2.add(xComboBox1);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(xFormPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(xLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
-                    .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(xFormPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jPanel1.add(xDataTable1, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -278,6 +269,7 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private com.rameses.rcp.control.XComboBox xComboBox1;
     private com.rameses.rcp.control.XDataTable xDataTable1;
     private com.rameses.rcp.control.XFormPanel xFormPanel1;

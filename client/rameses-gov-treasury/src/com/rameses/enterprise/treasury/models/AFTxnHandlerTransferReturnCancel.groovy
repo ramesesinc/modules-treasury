@@ -60,7 +60,7 @@ class AFTxnHandlerTransferReturnCancel extends AFTxnHandler {
             }
             list << "active = 0";
             m.where = [ list.join(" AND "), p ];
-            m.orderBy = "stubno";
+            m.orderBy = "dtfiled,batchno,stubno,startseries";
             //m.debug = true;
             return queryService.getList( m ); 
         }

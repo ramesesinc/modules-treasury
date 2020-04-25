@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="cashbook"
+		 name="cashbooksummary"
 
 		 language="groovy"		 columnCount="1"
 		 printOrder="Vertical"
@@ -41,18 +41,19 @@
 	<parameter name="FROMPERIOD" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="TOPERIOD" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="PERIODCOVERED" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TREASURERNAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TREASURERTITLE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="REV_FUND_AMT" isForPrompting="false" class="java.lang.Number"/>
 
 	<field name="balance" class="java.lang.Number"/>
 	<field name="items" class="java.lang.Object"/>
-	<field name="begbaldr" class="java.lang.Number"/>
-	<field name="begbalcr" class="java.lang.Number"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
 		</background>
 		<title>
-			<band height="102"  isSplitAllowed="true" >
+			<band height="106"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -62,7 +63,7 @@
 						key="staticText-1"/>
 					<box></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Tahoma" pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="Tahoma" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[REPUBLIC OF THE PHILIPPINES]]></text>
 				</staticText>
@@ -114,7 +115,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Tahoma" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
 					</textElement>
-				<text><![CDATA[CASHBOOK REPORT]]></text>
+				<text><![CDATA[CASHBOOK SUMMARY REPORT]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -125,7 +126,7 @@
 						key="textField-3"/>
 					<box></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Tahoma"/>
+						<font fontName="Tahoma" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{PERIOD}.toString().toUpperCase()]]></textFieldExpression>
 				</textField>
@@ -164,23 +165,17 @@
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="subreport-1"/>
-					<subreportParameter  name="PRINTEDBY">
-						<subreportParameterExpression><![CDATA[$P{PRINTEDBY}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="PRINTDATE">
-						<subreportParameterExpression><![CDATA[$P{PRINTDATE}]]></subreportParameterExpression>
-					</subreportParameter>
 					<subreportParameter  name="FUNDNAME">
 						<subreportParameterExpression><![CDATA[$P{FUNDNAME}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="BEGBALDR">
-						<subreportParameterExpression><![CDATA[($F{begbaldr} ? $F{begbaldr} : 0.0)]]></subreportParameterExpression>
+					<subreportParameter  name="ACCOUNTNAME">
+						<subreportParameterExpression><![CDATA[$P{ACCOUNTNAME}]]></subreportParameterExpression>
 					</subreportParameter>
-					<subreportParameter  name="BEGBALCR">
-						<subreportParameterExpression><![CDATA[($F{begbalcr} ? $F{begbalcr} : 0.0)]]></subreportParameterExpression>
+					<subreportParameter  name="REV_FUND_AMT">
+						<subreportParameterExpression><![CDATA[$P{REV_FUND_AMT}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[$F{items}]]></dataSourceExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA["cashbookitem.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA["cashbooksummaryitem.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</detail>
@@ -254,11 +249,11 @@
 			</band>
 		</pageFooter>
 		<summary>
-			<band height="125"  isSplitAllowed="true" >
+			<band height="159"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
-						y="12"
+						y="14"
 						width="79"
 						height="16"
 						key="staticText-27"/>
@@ -271,7 +266,7 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="28"
+						y="30"
 						width="563"
 						height="33"
 						key="textField-16"
@@ -280,12 +275,12 @@
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font fontName="SansSerif" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["         I hereby certify that the foregoing is a correct and complete record of all the cash and depository transactions had by me in my capacity as " + $P{ACCOUNTTITLE} + " during the period of "+ $P{PERIODCOVERED} +" as indicated in the corresponding columns. "]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["         I hereby certify that the foregoing is a correct and complete record of all my cash and depository transactions had by me in my capacity as " + $P{ACCOUNTTITLE} + " during the period of "+ $P{PERIODCOVERED} +" as indicated in the corresponding columns. "]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="21"
-						y="77"
+						x="42"
+						y="106"
 						width="211"
 						height="21"
 						key="textField-17"/>
@@ -302,8 +297,8 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="21"
-						y="98"
+						x="42"
+						y="125"
 						width="211"
 						height="20"
 						key="textField-18"/>
@@ -317,6 +312,68 @@
 						<font fontName="Tahoma" size="9" isUnderline="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{ACCOUNTTITLE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="20"
+						y="88"
+						width="113"
+						height="16"
+						key="staticText-28"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9"/>
+					</textElement>
+				<text><![CDATA[PREPARED BY : ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="292"
+						y="88"
+						width="113"
+						height="16"
+						key="staticText-29"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9"/>
+					</textElement>
+				<text><![CDATA[CERTIFIED CORRECT : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="313"
+						y="106"
+						width="211"
+						height="21"
+						key="textField-22"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{TREASURERNAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="313"
+						y="125"
+						width="211"
+						height="20"
+						key="textField-23"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{TREASURERTITLE}]]></textFieldExpression>
 				</textField>
 			</band>
 		</summary>

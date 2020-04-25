@@ -34,6 +34,9 @@
 	<parameter name="PERIOD_TITLE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="FUND_TITLE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="PERIOD_TYPE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="BEGBALDR" isForPrompting="false" class="java.lang.Number"/>
+	<parameter name="BEGBALCR" isForPrompting="false" class="java.lang.Number"/>
+	<parameter name="BEGBALANCE" isForPrompting="false" class="java.lang.Number"/>
 	<queryString><![CDATA[select * 
 from ( 
 	select 
@@ -68,13 +71,14 @@ order by refdate, sortindex, username, refno]]></queryString>
 	<field name="username" class="java.lang.String"/>
 	<field name="refno" class="java.lang.String"/>
 	<field name="reftype" class="java.lang.String"/>
-	<field name="dr" class="java.math.BigDecimal"/>
-	<field name="cr" class="java.math.BigDecimal"/>
-	<field name="amount" class="java.math.BigDecimal"/>
-	<field name="sortindex" class="java.lang.Long"/>
+	<field name="dr" class="java.lang.Number"/>
+	<field name="cr" class="java.lang.Number"/>
+	<field name="amount" class="java.lang.Number"/>
+	<field name="sortindex" class="java.lang.Number"/>
+	<field name="refid" class="java.lang.String"/>
 
-	<variable name="runbal" class="java.lang.Number" resetType="Report" calculation="Nothing">
-		<variableExpression><![CDATA[$V{runbal} + $F{amount}]]></variableExpression>
+	<variable name="runbal" class="java.lang.Number" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[($F{dr} - $F{cr})]]></variableExpression>
 		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
 	</variable>
 	<variable name="totaldr" class="java.lang.Number" resetType="Report" calculation="Sum">
@@ -91,26 +95,52 @@ order by refdate, sortindex, username, refno]]></queryString>
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="28"  isSplitAllowed="true" >
+			<band height="62"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						x="225"
-						y="3"
-						width="104"
-						height="23"
-						key="staticText-12"/>
-					<box topPadding="5"></box>
-					<textElement textAlignment="Center">
+						x="197"
+						y="17"
+						width="132"
+						height="18"
+						key="staticText-20"/>
+					<box rightPadding="15" topPadding="5"></box>
+					<textElement textAlignment="Right">
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[TOTAL]]></text>
+				<text><![CDATA[PREV. BALANCE]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="490"
+						y="17"
+						width="80"
+						height="18"
+						key="textField-18"/>
+					<box topPadding="5"></box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[$P{BEGBALANCE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="197"
+						y="4"
+						width="132"
+						height="18"
+						key="staticText-12"/>
+					<box rightPadding="15" topPadding="5"></box>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[SUB-TOTALS]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="330"
-						y="3"
+						y="4"
 						width="80"
-						height="23"
+						height="18"
 						key="textField-5"/>
 					<box topPadding="5"></box>
 					<textElement textAlignment="Right">
@@ -121,9 +151,9 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="410"
-						y="3"
+						y="4"
 						width="80"
-						height="23"
+						height="18"
 						key="textField-6"/>
 					<box topPadding="5"></box>
 					<textElement textAlignment="Right">
@@ -134,12 +164,12 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="490"
-						y="3"
+						y="4"
 						width="80"
-						height="23"
+						height="18"
 						key="textField-7"/>
 					<box topPadding="5"></box>
-					<textElement textAlignment="Right">
+					<textElement textAlignment="Right" verticalAlignment="Top">
 						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Number"><![CDATA[$V{totaldr} - $V{totalcr}]]></textFieldExpression>
@@ -147,7 +177,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="-1"
-						y="23"
+						y="57"
 						width="576"
 						height="5"
 						key="staticText-13"
@@ -160,6 +190,36 @@ order by refdate, sortindex, username, refno]]></queryString>
 					</textElement>
 				<text><![CDATA[ ]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="224"
+						y="37"
+						width="352"
+						height="21"
+						key="textField-19"/>
+					<box rightPadding="6" topPadding="3" bottomPadding="3">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[$P{BEGBALANCE} + ($V{totaldr} - $V{totalcr})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="197"
+						y="37"
+						width="132"
+						height="21"
+						key="staticText-21"/>
+					<box rightPadding="15" topPadding="3"></box>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[GRAND TOTAL]]></text>
+				</staticText>
 			</band>
 			</groupFooter>
 		</group>
@@ -168,7 +228,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 			</band>
 		</background>
 		<title>
-			<band height="124"  isSplitAllowed="true" >
+			<band height="102"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -206,18 +266,18 @@ order by refdate, sortindex, username, refno]]></queryString>
 					<textElement textAlignment="Center">
 						<font size="9"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[($P{LGUFORMALNAME} ? $P{LGUFORMALNAME} : null)]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{PARENTLGUFORMALNAME} ? $P{LGUFORMALNAME} : null)]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
 						y="40"
 						width="576"
-						height="14"
+						height="16"
 						key="textField-15"/>
 					<box></box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{TREASUREROFFICENAME}]]></textFieldExpression>
 				</textField>
@@ -237,7 +297,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="85"
+						y="86"
 						width="576"
 						height="12"
 						key="textField-16"/>
@@ -246,45 +306,6 @@ order by refdate, sortindex, username, refno]]></queryString>
 						<font size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{PERIOD_TITLE}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="105"
-						width="43"
-						height="12"
-						key="staticText-17"/>
-					<box></box>
-					<textElement textAlignment="Left">
-						<font pdfFontName="Helvetica" size="9" isBold="false"/>
-					</textElement>
-				<text><![CDATA[FUND]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="43"
-						y="105"
-						width="17"
-						height="12"
-						key="staticText-18"/>
-					<box></box>
-					<textElement textAlignment="Left">
-						<font size="9"/>
-					</textElement>
-				<text><![CDATA[:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="60"
-						y="105"
-						width="429"
-						height="12"
-						key="textField-17"/>
-					<box></box>
-					<textElement textAlignment="Left">
-						<font size="9"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{FUND_TITLE}]]></textFieldExpression>
 				</textField>
 				<image  scaleImage="RetainShape" hAlign="Center" onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -304,11 +325,50 @@ order by refdate, sortindex, username, refno]]></queryString>
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="19"  isSplitAllowed="true" >
+			<band height="47"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
-						y="0"
+						y="7"
+						width="43"
+						height="12"
+						key="staticText-17"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica" size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[FUND]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="43"
+						y="7"
+						width="17"
+						height="12"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="60"
+						y="7"
+						width="510"
+						height="12"
+						key="textField-17"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{FUND_TITLE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="28"
 						width="60"
 						height="19"
 						key="staticText-1"/>
@@ -321,7 +381,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="60"
-						y="0"
+						y="28"
 						width="164"
 						height="19"
 						key="staticText-2"/>
@@ -334,7 +394,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="225"
-						y="0"
+						y="28"
 						width="104"
 						height="19"
 						key="staticText-3"/>
@@ -347,7 +407,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="330"
-						y="0"
+						y="28"
 						width="80"
 						height="19"
 						key="staticText-4"/>
@@ -360,7 +420,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="410"
-						y="0"
+						y="28"
 						width="80"
 						height="19"
 						key="staticText-5"/>
@@ -373,7 +433,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="490"
-						y="0"
+						y="28"
 						width="80"
 						height="19"
 						key="staticText-6"/>
@@ -386,7 +446,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="14"
+						y="42"
 						width="576"
 						height="5"
 						key="staticText-10"/>
@@ -401,7 +461,7 @@ order by refdate, sortindex, username, refno]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="0"
+						y="28"
 						width="576"
 						height="5"
 						key="staticText-19"/>
@@ -417,27 +477,76 @@ order by refdate, sortindex, username, refno]]></queryString>
 		</columnHeader>
 		<detail>
 			<band height="16"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" pattern="yyyy-MM-dd" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="330"
+						y="0"
+						width="80"
+						height="16"
+						key="textField-2">
+							<printWhenExpression><![CDATA[($F{refid}=='begin_balance' ? false : ($F{dr} > 0 || $F{dr} < 0))]]></printWhenExpression>
+						</reportElement>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{dr}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="410"
+						y="0"
+						width="80"
+						height="16"
+						key="textField-3">
+							<printWhenExpression><![CDATA[($F{refid}=='begin_balance' ? false : ($F{cr} > 0 || $F{cr} < 0))]]></printWhenExpression>
+						</reportElement>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{cr}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="490"
+						y="0"
+						width="80"
+						height="16"
+						key="textField-4">
+							<printWhenExpression><![CDATA[($F{refid}=='begin_balance' ? true : ($V{runbal} > 0 || $V{runbal} < 0))]]></printWhenExpression>
+						</reportElement>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Number"><![CDATA[$P{BEGBALANCE} + $V{runbal}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="yyyy-MM-dd" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
 						y="0"
 						width="60"
 						height="16"
 						key="textField"
-						isPrintRepeatedValues="false"/>
+						isPrintRepeatedValues="false">
+							<printWhenExpression><![CDATA[($F{refid} == 'begin_balance' ? false : true)]]></printWhenExpression>
+						</reportElement>
 					<box topPadding="2" bottomPadding="2"></box>
 					<textElement textAlignment="Center">
 						<font size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{refdate}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="60"
 						y="0"
 						width="164"
 						height="16"
-						key="textField"/>
+						key="textField">
+							<printWhenExpression><![CDATA[($F{refid} == 'begin_balance' ? false : true)]]></printWhenExpression>
+						</reportElement>
 					<box topPadding="2" bottomPadding="2"></box>
 					<textElement textAlignment="Left">
 						<font size="9"/>
@@ -456,51 +565,6 @@ order by refdate, sortindex, username, refno]]></queryString>
 						<font size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{refno}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="330"
-						y="0"
-						width="80"
-						height="16"
-						key="textField-2">
-							<printWhenExpression><![CDATA[($F{dr} > 0)]]></printWhenExpression>
-						</reportElement>
-					<box topPadding="2" bottomPadding="2"></box>
-					<textElement textAlignment="Right">
-						<font size="9"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{dr}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="410"
-						y="0"
-						width="80"
-						height="16"
-						key="textField-3">
-							<printWhenExpression><![CDATA[($F{cr} > 0)]]></printWhenExpression>
-						</reportElement>
-					<box topPadding="2" bottomPadding="2"></box>
-					<textElement textAlignment="Right">
-						<font size="9"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$F{cr}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="490"
-						y="0"
-						width="80"
-						height="16"
-						key="textField-4">
-							<printWhenExpression><![CDATA[($V{runbal} > 0)]]></printWhenExpression>
-						</reportElement>
-					<box topPadding="2" bottomPadding="2"></box>
-					<textElement textAlignment="Right">
-						<font size="9"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Number"><![CDATA[$V{runbal}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
