@@ -35,7 +35,15 @@ class AddBillSubItem extends AbstractAddBillItem {
 
 		def subItem = createSubItemFact(  billitem, amt );
 		if(  hasAccount ) {
-			setAccountFact( subItem, params.account.key );
+			def acct = params.account;
+			def ct = RuleExecutionContext.getCurrentContext();		
+			if( ct.env.acctUtil ) {
+				subItem.account = ct.env.acctUtil.createAccountFact( [objid: acct.key] );			
+			}
+			else {
+				subItem.account = new Account( objid: acct.key, code: acct.value, title: acct.value);
+			}
+			//setAccountFact( subItem, params.account.key );
 		}
 		if( hasTxntype ) {
 			subItem.txntype = params.txntype.key;
