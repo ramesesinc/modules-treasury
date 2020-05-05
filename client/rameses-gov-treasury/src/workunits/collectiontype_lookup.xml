@@ -1,5 +1,6 @@
 <workunit extends="com/rameses/seti2/templates/CrudLookup.xml" 
-          schemaName="vw_collectiontype">
+          schemaName="vw_collectiontype" 
+          allowCreate="false" allowEdit="false" allowDelete="false">
     <invokers>
         <invoker type="collectiontype:lookup" action="init" 
                  caption="Lookup Collection Types" width="800"

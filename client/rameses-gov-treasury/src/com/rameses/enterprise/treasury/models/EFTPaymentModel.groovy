@@ -1,12 +1,7 @@
 package com.rameses.enterprise.treasury.models;
 
-import com.rameses.rcp.common.*;
 import com.rameses.rcp.annotations.*;
-import com.rameses.osiris2.client.*;
-import com.rameses.osiris2.common.*; 
-import com.rameses.util.*;
-import java.rmi.server.*;
-import com.rameses.seti2.models.*;
+import com.rameses.seti2.models.CrudFormModel;
 
 class EFTPaymentModel extends CrudFormModel  { 
 
@@ -14,4 +9,7 @@ class EFTPaymentModel extends CrudFormModel  {
         return Inv.lookupOpener( "cashreceipt:open", [entity: [objid: entity.receiptid ]]);
     }
     
+    boolean isViewReportAllowed() { 
+        return false; 
+    }    
 } 

@@ -1,14 +1,27 @@
-<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" schemaName="eftpayment" allowCreate="true">
+<workunit extends="com/rameses/seti2/templates/CrudNodeList.xml" 
+          schemaName="eftpayment" allowCreate="false" allowDelete="false">
     <invokers>
-        <invoker folderid="menucategory/treasury/mgmt" caption="Incoming EFT Payments" action="init" 
-        cols="refno,payer.name,refdate,bankaccount.code,bankaccount.bank.name,amount,particulars"
-                  target="window" index="201" role="ADMIN"/> 
+        <invoker folderid="menucategory/treasury/mgmt" 
+                 caption="Incoming EFT Payments" action="init" 
+                 role="ADMIN,SHARED" target="window" index="201" 
+                 cols="refno,refdate,payer.name,bankaccount.code,bankaccount.title,amount,particulars,createdby.name" 
+                 hiddenCols="state" >
+            <action role="ADMIN" allowCreate="true" allowDelete="#{entity?.state == 'DRAFT'}"/> 
+            <action role="SHARED"/> 
+        </invoker>
         
-        <invoker folderid="menucategory/treasury/collection" caption="View EFT Payments" action="init" 
-        cols="refno,payer.name,refdate,bankaccount.code,bankaccount.bank.name,amount,particulars,createdby.name"
-                customFilter="createdby.objid = :userid"
-                target="window" index="201" role="COLLECTOR"/> 
-
+        <invoker folderid="menucategory/treasury/collection" 
+                 caption="View EFT Payments" action="init" 
+                 role="COLLECTOR" target="window" index="201" 
+                 cols="refno,refdate,payer.name,bankaccount.code,bankaccount.title,amount,particulars" 
+                 hiddenCols="state" 
+                 customFilter="createdby.objid = :userid" 
+                 allowCreate="true" allowDelete="#{entity?.state == 'DRAFT'}"/> 
     </invokers>
     
+    <code class="com.rameses.enterprise.treasury.models.EFTPaymentListModel"/> 
+    
+    <pages>
+        <page name="queryForm" template="com.rameses.enterprise.treasury.views.EFTPaymentQueryFormPage"/>
+    </pages>    
 </workunit>
