@@ -38,8 +38,8 @@ class CRAAFReportModel extends AsyncReportController {
             list << [type:"combo", caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.caption}', preferredSize:'100,20', captionWidth:100]; 
             list << [type:"combo", caption:'AF', name:'entity.af', items:'aflist', expression:'#{item.objid} - #{item.title}', preferredSize:'0,20', captionWidth:100]; 
             list << [type:"label", caption:'', expression:'', preferredSize:'0,20']; 
-            list << [type:"checkbox", caption:'', name:'entity.condense_saled', text:' Condense Saled', captionWidth:100]; 
-            list << [type:"checkbox", caption:'', name:'entity.condense_consumed', text:' Condense Consumed', captionWidth:100]; 
+            list << [type:"checkbox", caption:'', name:'entity.condense_saled', text:' Condense SALE', captionWidth:100]; 
+            list << [type:"checkbox", caption:'', name:'entity.condense_consumed', text:' Condense CONSUMED', captionWidth:100]; 
             return list; 
         }        
     ] as FormPanelModel;
