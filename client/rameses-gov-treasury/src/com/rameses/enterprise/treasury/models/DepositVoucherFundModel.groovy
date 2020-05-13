@@ -139,4 +139,22 @@ class DepositVoucherFundModel extends CrudFormModel {
         reloadEntity();
     }
     
+    
+    
+    def getPrintFormData() { 
+        return depositSvc.getReportData([ depositvoucherid: entity.parentid, fund: entity.fund ]); 
+    } 
+    
+    def getReportForm() { 
+        def path = "com/rameses/gov/treasury/depositvoucher/report/rcd/";
+        return [
+            mainreport: path + 'main_byfund.jasper', 
+            subreports: [
+                [name: "liquidations", template: path + "liquidations.jasper"],
+                [name: "remittances", template: path + "remittances.jasper"],
+                [name: "afserials", template: path + "afserials.jasper"],
+                [name: "afnonserials", template: path + "afnonserials.jasper"]
+            ]
+        ]; 
+    } 
 }    
