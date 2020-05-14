@@ -6,7 +6,7 @@ import com.rameses.osiris2.common.*;
 import com.rameses.osiris2.client.*;
 import com.rameses.osiris2.reports.*;
         
-class DepositVoucherRCDByReportModel extends ReportController  {
+class DepositVoucherRCDFundReportModel extends ReportController  {
         
     @Binding
     def binding;
@@ -19,38 +19,55 @@ class DepositVoucherRCDByReportModel extends ReportController  {
     String reportName = reportpath + 'main_byfund.jasper';
 
     def reportParams;
-    def fundlist;
+    def funds;
     def fund;
+    
+    def template; 
+    def templates = [
+        [objid: 'a', title: 'Template - A'],
+        [objid: 'b', title: 'Template - B']
+    ];
 
     def initReport() {
-        reportParams = [:]; 
+        this.reportParams = [:]; 
+        this.template = templates.first(); 
         
         def resp = svc.initReport([ depositvoucherid: entity.objid ]); 
-        fundlist = resp.funds; 
-        if ( fundlist ) setFund( fundlist.first() );
+        funds = resp.funds; 
+        if ( funds ) {
+            setFund( funds.first() );
+        }
     }
             
     void setFund( fund ){ 
         this.fund = fund; 
         report.viewReport(); 
-
+        if ( binding ) binding.refresh(); 
+    }
+    
+    void setTemplate( template ) {
+        this.template = template;
+        report.viewReport(); 
         if ( binding ) binding.refresh(); 
     }
             
     def getReportData(){ 
-        if( !fund?.objid )
-            throw new Exception('Please select a specific Fund'); 
-            
-        return svc.getRCDByFund([ depositvoucherid: entity.objid, fund: fund ]); 
+        def m = [ depositvoucherid: entity.objid, fund: fund, template: template ]; 
+        if ( !m.fund?.objid ) m.fund = [ objid: 'all']; 
+        
+        return svc.getRCDByFund( m ); 
     }
             
     Map getParameters() {
+        def templateid = template?.objid; 
+        reportParams.TEMPLATE = ( templateid ? templateid : 'a'); 
         return reportParams;
     } 
-            
+
     SubReport[] getSubReports() {
         return [ 
-            new SubReport("liquidations", reportpath + "liquidations.jasper"),
+            new SubReport("collectiontypes_a", reportpath + "collectiontypes_a.jasper"),
+            new SubReport("collectiontypes_b", reportpath + "collectiontypes_b.jasper"),
             new SubReport("remittances", reportpath + "remittances.jasper"),
             new SubReport("afserials", reportpath + "afserials.jasper"),
             new SubReport("afnonserials", reportpath + "afnonserials.jasper")

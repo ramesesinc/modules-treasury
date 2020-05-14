@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="main_byfund"
+		 name="main_bybankacct"
 
 		 language="groovy"		 columnCount="1"
 		 printOrder="Vertical"
@@ -32,14 +32,12 @@
 	<parameter name="TREASUREROFFICENAME" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="TREASURERNAME" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="TREASURERTITLE" isForPrompting="false" class="java.lang.String"/>
-	<parameter name="collectiontypes_a" isForPrompting="false" class="java.lang.Object"/>
 	<parameter name="afnonserials" isForPrompting="false" class="java.lang.Object"/>
 	<parameter name="remittances" isForPrompting="false" class="java.lang.Object"/>
 	<parameter name="REPORTTYPE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="PARENTLGUFORMALNAME" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="LGUFORMALNAME" isForPrompting="false" class="java.lang.String"/>
-	<parameter name="TEMPLATE" isForPrompting="false" class="java.lang.String"/>
-	<parameter name="collectiontypes_b" isForPrompting="false" class="java.lang.Object"/>
+	<parameter name="collectiontype" isForPrompting="false" class="java.lang.Object"/>
 
 	<field name="cashier.title" class="java.lang.String"/>
 	<field name="cashier.name" class="java.lang.String"/>
@@ -51,40 +49,15 @@
 	<field name="afserials" class="java.lang.Object"/>
 	<field name="afnonserials" class="java.lang.Object"/>
 	<field name="remittances" class="java.lang.Object"/>
-	<field name="fund.title" class="java.lang.String"/>
 	<field name="collectionamount" class="java.lang.Number"/>
+	<field name="bankaccount.objid" class="java.lang.String"/>
+	<field name="bankaccount.title" class="java.lang.String"/>
 
 
-		<group  name="FUND" >
-			<groupExpression><![CDATA[]]></groupExpression>
-			<groupHeader>
-			<band height="18"  isSplitAllowed="true" >
-				<printWhenExpression><![CDATA[($F{fund.title} ? true : false)]]></printWhenExpression>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="544"
-						height="18"
-						key="textField-14"/>
-					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Top">
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fund.title}]]></textFieldExpression>
-				</textField>
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
-		<group  name="CollTypeA" >
+		<group  name="TYPE_GROUP" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
 			<band height="12"  isSplitAllowed="true" >
-				<printWhenExpression><![CDATA[($P{TEMPLATE} == 'a' ? true : false)]]></printWhenExpression>
 				<subreport  isUsingCache="true">
 					<reportElement
 						mode="Transparent"
@@ -96,44 +69,8 @@
 						backcolor="#FFFFFF"
 						key="subreport-6"/>
 					<dataSourceExpression><![CDATA[$F{collectiontypes}]]></dataSourceExpression>
-					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{collectiontypes_a}]]></subreportExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{collectiontype}]]></subreportExpression>
 				</subreport>
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
-		<group  name="CollTypeB" >
-			<groupExpression><![CDATA[]]></groupExpression>
-			<groupHeader>
-			<band height="12"  isSplitAllowed="true" >
-				<printWhenExpression><![CDATA[($P{TEMPLATE} == 'b' ? true : false)]]></printWhenExpression>
-				<subreport  isUsingCache="true">
-					<reportElement
-						mode="Transparent"
-						x="0"
-						y="0"
-						width="544"
-						height="12"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="subreport-11"/>
-					<dataSourceExpression><![CDATA[$F{collectiontypes}]]></dataSourceExpression>
-					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{collectiontypes_b}]]></subreportExpression>
-				</subreport>
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
-		<group  name="TYPE_GROUP" >
-			<groupExpression><![CDATA[]]></groupExpression>
-			<groupHeader>
-			<band height="0"  isSplitAllowed="true" >
 			</band>
 			</groupHeader>
 			<groupFooter>

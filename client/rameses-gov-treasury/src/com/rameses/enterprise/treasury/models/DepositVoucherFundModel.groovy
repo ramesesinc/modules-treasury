@@ -150,11 +150,13 @@ class DepositVoucherFundModel extends CrudFormModel {
         return [
             mainreport: path + 'main_byfund.jasper', 
             subreports: [
-                [name: "liquidations", template: path + "liquidations.jasper"],
+                [name: "collectiontypes_a", template: path + "collectiontypes_a.jasper"],
+                [name: "collectiontypes_b", template: path + "collectiontypes_b.jasper"],
                 [name: "remittances", template: path + "remittances.jasper"],
                 [name: "afserials", template: path + "afserials.jasper"],
                 [name: "afnonserials", template: path + "afnonserials.jasper"]
-            ]
+            ],
+            parameters: [ TEMPLATE: 'a' ] 
         ]; 
     } 
 }    
