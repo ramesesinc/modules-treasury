@@ -44,25 +44,57 @@ class DepositVoucherReportService {
 		if ( is_all_funds ) { 
 			result.remove('fund'); 
 			p.fundid = '%'; 
-
-			dvfs = dvf_em.find([ parentid: p.depositvoucherid ]).select('objid,amount').list();
 		} 
 		else {
 			p.fundid = result.fund.objid; 
-			dvfs = dvf_em.find([ parentid: p.depositvoucherid, fundid: p.fundid ]).select('objid,amount').list();
-		}
-
-		result.amount = result.totalcheck = result.totalcr = 0.0; 
-		dvfs.each{
-			result.amount += (it.amount ? it.amount : 0.0);
-			result.totalcr += (it.totalcr ? it.totalcr : 0.0);
-			result.totalcheck += (it.totalcheck ? it.totalcheck : 0.0);
 		}
 
 		result.receipts = report_em.getReportByFundReceipts( p ); 
 		if ( !result.receipts ) throw new Exception('No available receipts that matches your criteria');  
 
+		result.amount = result.totalcheck = result.totalcr = 0.0; 
 		result.acctsummaries = report_em.getReportByFundAcctSummaries( p ); 
+		result.acctsummaries.each{
+			result.amount += it.amount; 
+		}
+
+		def userinfo = user_em.find([ objid: result.createdby.objid ]).select('objid,jobtitle').first(); 
+		result.createdby.title = userinfo?.jobtitle; 
+
+		resolveCompatibility( result ); 
+		return result; 
+	} 
+
+	@ProxyMethod 
+	def getReportByItemAccount( param ) { 
+		if ( !param.depositvoucherid ) throw new Exception("depositvoucherid parameter is required"); 
+		if ( !param.fund?.objid ) throw new Exception("fund.objid parameter is required"); 
+
+		def result = [:]; 		
+		def dvinfo = dv_em.find([ objid: param.depositvoucherid ]).first(); 
+		if ( !dvinfo ) return result; 
+
+		result.putAll( dvinfo ); 
+
+		result.fund = param.fund; 
+		boolean is_all_funds = ( result.fund.objid == 'all' );
+
+		def p = [ depositvoucherid: dvinfo.objid ]; 
+		if ( is_all_funds ) { 
+			result.remove('fund'); 
+			p.fundid = '%'; 
+		} 
+		else {
+			p.fundid = result.fund.objid; 
+		}
+
+		result.items = report_em.getReportByFundAcctSummaries( p ); 
+		if ( !result.items ) throw new Exception('No available record(s) that matches your criteria');  
+
+		result.amount = result.totalcheck = result.totalcr = 0.0; 
+		result.items.each{
+			result.amount += it.amount; 
+		}
 
 		def userinfo = user_em.find([ objid: result.createdby.objid ]).select('objid,jobtitle').first(); 
 		result.createdby.title = userinfo?.jobtitle; 
@@ -84,12 +116,14 @@ class DepositVoucherReportService {
 		result.cashier = result.createdby;
 		result.user = result.createdby;
 
-		result.receipts.each{
-			it.afid = it.formno;
-			it.payer = it.paidby;
-			it.serialno = it.receiptno;
-			it.txndate = it.receiptdate;
-			it.particulars = it.acctname; 
-		} 
+		if ( result.receipts ) {
+			result.receipts.each{
+				it.afid = it.formno;
+				it.payer = it.paidby;
+				it.serialno = it.receiptno;
+				it.txndate = it.receiptdate;
+				it.particulars = it.acctname; 
+			} 
+		}
 	}
 } 

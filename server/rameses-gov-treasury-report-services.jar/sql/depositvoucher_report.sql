@@ -19,8 +19,8 @@ order by
 
 [getReportByFundAcctSummaries]
 select 
-	fg.indexno as groupindexno, fund.code as fund_code,
-	fund.objid as fund_objid, fund.title as fund_title, 
+	fg.indexno as groupindexno, ff.code as fund_code,
+	ff.objid as fund_objid, ff.title as fund_title, 
 	ci.acctid, ci.acctcode, ci.acctname, sum(ci.amount) as amount 
 from depositvoucher_fund dvf 
 	inner join depositvoucher dv on dv.objid = dvf.parentid 
@@ -31,5 +31,5 @@ from depositvoucher_fund dvf
 	inner join fundgroup fg on fg.objid = ff.groupid 
 where dvf.parentid = $P{depositvoucherid} 
 	and dvf.fundid like $P{fundid} 
-group by fg.indexno, fund.code, fund.objid, fund.title, ci.acctid, ci.acctcode, ci.acctname 
-order by fg.indexno, fund.title, ci.acctcode, ci.acctname 
+group by fg.indexno, ff.code, ff.objid, ff.title, ci.acctid, ci.acctcode, ci.acctname 
+order by fg.indexno, ff.title, ci.acctcode, ci.acctname 
