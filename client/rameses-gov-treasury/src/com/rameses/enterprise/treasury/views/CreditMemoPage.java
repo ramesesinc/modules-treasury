@@ -31,10 +31,13 @@ public class CreditMemoPage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel5 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         xFormPanel1 = new com.rameses.rcp.control.XFormPanel();
         xLabel2 = new com.rameses.rcp.control.XLabel();
         xLabel4 = new com.rameses.rcp.control.XLabel();
+        xLabel5 = new com.rameses.rcp.control.XLabel();
         entityLookup1 = new com.rameses.entity.components.EntityLookup();
         entityAddressLookup1 = new com.rameses.entity.components.EntityAddressLookup();
         jPanel1 = new javax.swing.JPanel();
@@ -45,27 +48,49 @@ public class CreditMemoPage extends javax.swing.JPanel {
         xDateField1 = new com.rameses.rcp.control.XDateField();
         jScrollPane1 = new javax.swing.JScrollPane();
         xTextArea1 = new com.rameses.rcp.control.XTextArea();
+        jPanel3 = new javax.swing.JPanel();
         xDataTable1 = new com.rameses.rcp.control.XDataTable();
+        jPanel6 = new javax.swing.JPanel();
         xFormPanel2 = new com.rameses.rcp.control.XFormPanel();
         xDecimalField1 = new com.rameses.rcp.control.XDecimalField();
+
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        com.rameses.rcp.control.layout.XLayout xLayout1 = new com.rameses.rcp.control.layout.XLayout();
+        xLayout1.setSpacing(5);
+        jPanel4.setLayout(xLayout1);
 
         com.rameses.rcp.control.border.XTitledBorder xTitledBorder1 = new com.rameses.rcp.control.border.XTitledBorder();
         xTitledBorder1.setTitle("Credit Memo Information");
         jPanel2.setBorder(xTitledBorder1);
+        jPanel2.setPreferredSize(new java.awt.Dimension(500, 166));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
+        xFormPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         xFormPanel1.setCaptionWidth(100);
+        xFormPanel1.setPadding(new java.awt.Insets(10, 15, 5, 15));
 
         xLabel2.setCaption("CR Control No");
         xLabel2.setExpression("#{entity.controlno}");
-        xLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        xLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180)));
+        xLabel2.setFontStyle("font-size: 12;");
         xLabel2.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel1.add(xLabel2);
 
-        xLabel4.setCaption("Type");
-        xLabel4.setExpression("#{entity.type.name}");
-        xLabel4.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        xLabel4.setCaption("Txn Type");
+        xLabel4.setExpression("#{entity.type.title}");
+        xLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180)));
         xLabel4.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel1.add(xLabel4);
+
+        xLabel5.setCaption("Txn Date");
+        xLabel5.setExpression("#{entity.dtissued}");
+        xLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180)));
+        xLabel5.setPreferredSize(new java.awt.Dimension(0, 20));
+        xFormPanel1.add(xLabel5);
 
         entityLookup1.setCaption("Payer Name");
         entityLookup1.setName("entity.payer"); // NOI18N
@@ -80,86 +105,68 @@ public class CreditMemoPage extends javax.swing.JPanel {
         entityAddressLookup1.setShowEditAddress("#{ false }");
         xFormPanel1.add(entityAddressLookup1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        jPanel2.add(xFormPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel2);
 
         com.rameses.rcp.control.border.XTitledBorder xTitledBorder2 = new com.rameses.rcp.control.border.XTitledBorder();
         xTitledBorder2.setTitle("Payer Information");
         jPanel1.setBorder(xTitledBorder2);
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 200));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        xFormPanel3.setCaptionWidth(150);
+        xFormPanel3.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+        xFormPanel3.setCaptionWidth(125);
+        xFormPanel3.setPadding(new java.awt.Insets(10, 15, 5, 15));
 
         xLookupField1.setCaption("Bank Account");
         xLookupField1.setExpression("#{entity.bankaccount.code}");
         xLookupField1.setHandler("lookupBankAccount");
         xLookupField1.setName("entity.bankaccount"); // NOI18N
-        xLookupField1.setCaptionWidth(100);
         xLookupField1.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel3.add(xLookupField1);
 
         xLabel3.setCaption("Account Details");
         xLabel3.setDepends(new String[] {"entity.bankaccount"});
-        xLabel3.setExpression("#{entity.bankaccount.bank.name} - #{entity.bankaccount.fund.title}");
-        xLabel3.setCaptionWidth(100);
-        xLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        xLabel3.setExpression("#{entity.bankaccount.title}");
+        xLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180)));
+        xLabel3.setFontStyle("font-size: 12;");
         xLabel3.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel3.add(xLabel3);
 
         xTextField2.setCaption("Reference No.");
-        xTextField2.setCaptionWidth(100);
-        xTextField2.setCellPadding(new java.awt.Insets(10, 0, 0, 0));
         xTextField2.setName("entity.refno"); // NOI18N
-        xTextField2.setPreferredSize(new java.awt.Dimension(120, 20));
+        xTextField2.setCellPadding(new java.awt.Insets(10, 0, 0, 0));
+        xTextField2.setPreferredSize(new java.awt.Dimension(0, 20));
         xTextField2.setRequired(true);
         xFormPanel3.add(xTextField2);
 
         xDateField1.setCaption("Reference Date");
-        xDateField1.setCaptionWidth(100);
         xDateField1.setName("entity.refdate"); // NOI18N
-        xDateField1.setPreferredSize(new java.awt.Dimension(120, 20));
+        xDateField1.setPreferredSize(new java.awt.Dimension(0, 20));
         xDateField1.setRequired(true);
+        xDateField1.setStretchWidth(50);
         xFormPanel3.add(xDateField1);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 50));
 
-        xTextArea1.setLineWrap(true);
-        xTextArea1.setWrapStyleWord(true);
         xTextArea1.setCaption("Particulars");
-        xTextArea1.setCaptionWidth(100);
+        xTextArea1.setLineWrap(true);
         xTextArea1.setName("entity.particulars"); // NOI18N
+        xTextArea1.setWrapStyleWord(true);
         xTextArea1.setRequired(true);
         jScrollPane1.setViewportView(xTextArea1);
 
         xFormPanel3.add(jScrollPane1);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xFormPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(xFormPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jPanel1.add(xFormPanel3, java.awt.BorderLayout.CENTER);
+
+        jPanel4.add(jPanel1);
+
+        jPanel5.add(jPanel4, java.awt.BorderLayout.NORTH);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         xDataTable1.setHandler("itemHandlers.items");
         xDataTable1.setName("selectedItem"); // NOI18N
@@ -246,46 +253,27 @@ public class CreditMemoPage extends javax.swing.JPanel {
             })
         });
         xDataTable1.setIndex(10);
+        jPanel3.add(xDataTable1, java.awt.BorderLayout.CENTER);
 
-        xDecimalField1.setCaption("Total");
+        jPanel6.setLayout(new java.awt.BorderLayout());
+
+        xFormPanel2.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+        xFormPanel2.setPadding(new java.awt.Insets(5, 0, 0, 0));
+
+        xDecimalField1.setCaption("TOTAL");
         xDecimalField1.setDisableWhen("#{ true }");
         xDecimalField1.setName("entity.amount"); // NOI18N
+        xDecimalField1.setFont(new java.awt.Font("Monospaced", 1, 12)); // NOI18N
+        xDecimalField1.setPreferredSize(new java.awt.Dimension(150, 20));
         xFormPanel2.add(xDecimalField1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(xFormPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(xDataTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(21, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(219, 219, 219)
-                .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(xFormPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap(234, Short.MAX_VALUE)))
-        );
+        jPanel6.add(xFormPanel2, java.awt.BorderLayout.EAST);
+
+        jPanel3.add(jPanel6, java.awt.BorderLayout.SOUTH);
+
+        jPanel5.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        add(jPanel5, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -294,6 +282,10 @@ public class CreditMemoPage extends javax.swing.JPanel {
     private com.rameses.entity.components.EntityLookup entityLookup1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private com.rameses.rcp.control.XDataTable xDataTable1;
     private com.rameses.rcp.control.XDateField xDateField1;
@@ -304,6 +296,7 @@ public class CreditMemoPage extends javax.swing.JPanel {
     private com.rameses.rcp.control.XLabel xLabel2;
     private com.rameses.rcp.control.XLabel xLabel3;
     private com.rameses.rcp.control.XLabel xLabel4;
+    private com.rameses.rcp.control.XLabel xLabel5;
     private com.rameses.rcp.control.XLookupField xLookupField1;
     private com.rameses.rcp.control.XTextArea xTextArea1;
     private com.rameses.rcp.control.XTextField xTextField2;

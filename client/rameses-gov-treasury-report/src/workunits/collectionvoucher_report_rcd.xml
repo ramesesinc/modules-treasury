@@ -1,7 +1,7 @@
 <workunit>
     
    <invokers>
-         <invoker type="collectionvoucher:reports" caption="Report on Collection and Deposits (RCD) By Fund" action="initReport" index="1" target="self"/>
+         <invoker type="collectionvoucher:reports" caption="Report on Collections and Deposits (RCD) By Fund" action="initReport" index="1" target="self"/>
          
         <invoker type="formActions" caption="Back" action="_close" mnemonic="b" shortcut="ctrl B" icon="images/toolbars/arrow_left.png"/>
    </invokers>

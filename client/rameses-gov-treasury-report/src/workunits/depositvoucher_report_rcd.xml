@@ -1,0 +1,17 @@
+<workunit>
+    <invokers>
+        <invoker type="depositvoucher:reports" action="initReport" 
+                  caption="Report on Collections and Deposits (RCD) By Fund" 
+                  index="-2" target="self"/>
+         
+        <invoker type="formActions" caption="Back" action="_close" 
+                 mnemonic="b" shortcut="ctrl B" icon="images/toolbars/arrow_left.png"/>
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.report.models.DepositVoucherRCDFundReportModel"/>
+           
+    <pages>
+        <page template="com.rameses.gov.treasury.depositvoucher.report.rcd.PreviewByFundPage" />
+    </pages>
+   
+</workunit>

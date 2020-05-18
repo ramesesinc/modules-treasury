@@ -1,11 +1,15 @@
-<workunit schemaName="checkpayment" allowCreate="false" allowEdit="false" cols="refno,refdate,amount">
+<workunit schemaName="checkpayment" 
+          allowCreate="false" allowEdit="false">
     <invokers>
-       
-        <invoker type="checkpayment:open" caption="Check Payment" 
-                 action="open" index="10" target="popup"/>
-        <invoker type="checkpayment:create" caption="New Check Payments" 
-                 action="create" index="10" target="popup"/>
+        <invoker type="checkpayment:open" 
+                 caption="Check Payment" action="open" 
+                 index="10" target="popup" 
+                 allowEdit="false" allowPrint="false"/>
         
+        <invoker type="checkpayment:create" 
+                 caption="New Check Payments" action="create" 
+                 index="10" target="popup" 
+                 allowEdit="false" allowPrint="false"/>
     </invokers>
     <code class="com.rameses.enterprise.treasury.models.CheckPaymentModel"/>
     <pages>

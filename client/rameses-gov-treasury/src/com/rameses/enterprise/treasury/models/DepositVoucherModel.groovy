@@ -49,4 +49,16 @@ class DepositVoucherModel extends CrudFormModel {
         return Inv.lookupOpener("depositvoucher_fund:open", [ entity: [objid:selectedFund.objid] ] );
     }
     
+    boolean isViewReportAllowed() { 
+        return false; 
+    }  
+    
+    def popupReports( inv ) {
+        def popupMenu = new PopupMenuOpener();
+        def list = Inv.lookupOpeners( inv.properties.category, [entity:entity] );
+        list.each{
+            popupMenu.add( it );
+        }
+        return popupMenu;
+    }     
 }    

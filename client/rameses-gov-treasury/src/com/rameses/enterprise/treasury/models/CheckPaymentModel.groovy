@@ -20,4 +20,7 @@ class CheckPaymentModel extends CrudFormModel {
         if( handler ) handler( entity, saveType );
     }
     
+    boolean isViewReportAllowed() { 
+        return false; 
+    }    
 } 

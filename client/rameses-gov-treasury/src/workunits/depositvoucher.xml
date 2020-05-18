@@ -14,6 +14,12 @@
         <!--
         <invoker type="formActions" caption="Post To JEV" action="post" visibleWhen="#{entity.state == 'POSTED'}"/>
         -->
+        
+        <!-- form actions -->
+        <invoker type="formActions" 
+                 caption="Reports" name="popupReports" 
+                 category="depositvoucher:reports" 
+                 mnemonic="r" index="-1"/>         
     </invokers>
    
    <code class="com.rameses.enterprise.treasury.models.DepositVoucherModel" />

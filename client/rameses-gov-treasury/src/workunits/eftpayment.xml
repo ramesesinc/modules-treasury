@@ -1,7 +1,12 @@
 <workunit schemaName="eftpayment">
     <invokers>
-        <invoker type="eftpayment:create" caption="New EFT Payment" action="create" target="popup"/> 
-        <invoker type="eftpayment:open" caption="View EFT Payment" action="open" target="popup"/> 
+        <invoker type="eftpayment:create" 
+                 caption="New EFT Payment" action="create" target="popup" 
+                 allowEdit="#{entity?.state == 'DRAFT'}" allowPrint="false"/> 
+        
+        <invoker type="eftpayment:open" 
+                 caption="View EFT Payment" action="open" target="popup" 
+                 allowEdit="#{entity?.state == 'DRAFT'}" allowPrint="false"/> 
     </invokers>
     <code class="com.rameses.enterprise.treasury.models.EFTPaymentModel"/>
     <pages>

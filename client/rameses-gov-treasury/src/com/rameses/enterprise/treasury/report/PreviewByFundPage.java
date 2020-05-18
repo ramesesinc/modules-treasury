@@ -55,15 +55,16 @@ public class PreviewByFundPage extends javax.swing.JPanel {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        formPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         formPanel1.setCellpadding(new java.awt.Insets(0, 0, 5, 0));
 
         xComboBox1.setCaption("Fund");
-        xComboBox1.setCaptionWidth(70);
-        xComboBox1.setDynamic(true);
-        xComboBox1.setEmptyText("All");
         xComboBox1.setExpression("#{item.fundname}");
         xComboBox1.setItems("fundlist");
         xComboBox1.setName("fund"); // NOI18N
+        xComboBox1.setCaptionWidth(70);
+        xComboBox1.setDynamic(true);
+        xComboBox1.setEmptyText("All");
         xComboBox1.setPreferredSize(new java.awt.Dimension(250, 22));
         formPanel1.add(xComboBox1);
 

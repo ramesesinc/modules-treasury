@@ -1,13 +1,12 @@
 package com.rameses.enterprise.treasury.models;
 
-import com.rameses.rcp.annotations.*
-import com.rameses.rcp.common.*
-import com.rameses.osiris2.client.*
-import com.rameses.osiris2.common.*
-import java.rmi.server.UID;
-import com.rameses.seti2.models.*;
+import com.rameses.rcp.annotations.*;
+import com.rameses.rcp.common.*;
+import com.rameses.osiris2.client.*;
+import com.rameses.osiris2.common.*;
 import com.rameses.util.*;
-
+import java.rmi.server.UID;
+import com.rameses.seti2.models.CrudFormModel;
 
 public class CreditMemoModel extends CrudFormModel {
 
@@ -103,4 +102,7 @@ public class CreditMemoModel extends CrudFormModel {
         entity.state = 'POSTED';
     } 
     
-}    
+    boolean isViewReportAllowed() { 
+        return false; 
+    }
+} 
