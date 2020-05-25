@@ -107,10 +107,9 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
                     handler = Inv.lookupOpener("cashreceipt:barcode:"+ o.prefix, pp );
                 }catch(ee){;}
                 if(handler==null) {
+                    //we should not call loadBarcode bec. it is already handled during start;
                     def handlerName = entity.collectiontype.handler;
-                    def op1 = Inv.lookupOpener("cashreceipt:"+ handlerName, pp);
-                    op1.handle.loadBarcode();
-                    handler = op1;
+                    handler = Inv.lookupOpener("cashreceipt:"+ handlerName, pp);
                 }
             }
             def np = super.signal("movenext");

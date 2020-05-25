@@ -45,7 +45,6 @@ public abstract class AbstractSelectionCashReceiptModel extends AbstractCashRece
         loadInfo([id:txnid, action:'open']);
     }
     
-    def barcodeid;
     void loadBarcode() {
         txnid = barcodeid;
         loadInfo( [id: txnid, action:'barcode'] );

@@ -88,6 +88,21 @@ public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.mode
         return "Details";
     }
 
+    public def start() {
+        if(!barcodeid) {
+            return super.start();
+        }
+        else {
+            return loadBarcode();
+        }
+    }
+    
+    public def loadBarcode() {
+        txnid = barcodeid;
+        loadBill([id:txnid, action:'barcode']);
+        return super.start("entry");
+    } 
+    
     void afterLoadInfo() {;}
     boolean onNoItemsFound() { return false;}
     
@@ -113,6 +128,8 @@ public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.mode
         if(txnid.contains(":")) txnid = txnid.split(":")[1];
         loadBill([id:txnid, action:'open']);
     }
+    
+    
     
     void loadBill( def p ) {
         p.collectiontype = entity.collectiontype;
