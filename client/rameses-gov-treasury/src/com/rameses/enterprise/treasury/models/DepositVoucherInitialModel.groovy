@@ -24,7 +24,7 @@ class DepositVoucherInitialModel extends CrudListModel {
         },
         fetchList: { o->
             def m = [_schemaname: 'collectionvoucher' ];
-            m.where = [" depositvoucherid IS NULL "];
+            m.where = [" depositvoucherid IS NULL AND state = 'POSTED'"];
             m.orderBy = "controldate";
             return queryService.getList( m );
         },
