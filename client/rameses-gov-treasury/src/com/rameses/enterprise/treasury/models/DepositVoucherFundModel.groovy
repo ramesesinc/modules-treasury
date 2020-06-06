@@ -112,7 +112,7 @@ class DepositVoucherFundModel extends CrudFormModel {
                 ];
             }
         ] as BasicListModel;
-        params.title = "Please select the checks you want included in this deposit"; 
+        params.title = "Please select the checks that you want to include in this deposit"; 
         Modal.show( "simple_list_lookup", params);
     }
     

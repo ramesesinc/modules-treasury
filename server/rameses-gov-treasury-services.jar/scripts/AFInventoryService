@@ -162,7 +162,8 @@ class AFInventoryService {
 			d.issuedto = [objid: null, name: null]; 
 			u.state = 'OPEN';
 
-		} else if ( ref.reftype == 'REMITTANCE') {
+		} 
+		else if ( ref.reftype == 'REMITTANCE') {
 			d.beginstartseries = ref.startseries;
 			d.beginendseries = afc.endseries;  
 			d.qtybegin = (d.beginendseries.toInteger() - d.beginstartseries.toInteger() ) +1;
@@ -179,8 +180,6 @@ class AFInventoryService {
 			u.remove('state'); 
 		} 
 	
-
-
 		d = afDetail.create( d ); 
 		oldref.objid = d.objid;
 

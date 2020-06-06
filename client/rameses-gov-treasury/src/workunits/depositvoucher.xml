@@ -19,7 +19,8 @@
         <invoker type="formActions" 
                  caption="Reports" name="popupReports" 
                  category="depositvoucher:reports" 
-                 mnemonic="r" index="-1"/>         
+                 mnemonic="r" index="-1" 
+                 visibleWhen="#{ entity.state.toString().matches('OPEN|POSTED')==true }"/>         
     </invokers>
    
    <code class="com.rameses.enterprise.treasury.models.DepositVoucherModel" />

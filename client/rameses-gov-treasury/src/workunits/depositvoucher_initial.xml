@@ -16,7 +16,9 @@
                  action="init" 
                  index="50" />
         
-        <invoker type="formActions" caption="Submit" action="submit" />
+        <invoker type="formActions" caption="Close" action="_close" mnemonic="c"/>
+        <invoker type="formActions" caption="Refresh" action="doRefresh" mnemonic="r" icon="images/toolbars/refresh.png"/>
+        <invoker type="formActions" caption="Submit" action="submit" mnemonic="s"/>
     </invokers>
     
    <code class="com.rameses.enterprise.treasury.models.DepositVoucherInitialModel" />

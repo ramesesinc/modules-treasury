@@ -26,7 +26,9 @@ class DepositVoucherInitialModel extends CrudListModel {
             def m = [_schemaname: 'collectionvoucher' ];
             m.where = [" depositvoucherid IS NULL AND state = 'POSTED'"];
             m.orderBy = "controldate";
-            return queryService.getList( m );
+            return queryService.getList( m ).each{
+                it.totalamount = it.totalcash + it.totalcheck; 
+            } 
         },
         onOpenItem: {o,col->
             def op = Inv.lookupOpener("collectionvoucher:open", [entity: o] );
@@ -41,6 +43,10 @@ class DepositVoucherInitialModel extends CrudListModel {
             binding.notifyDepends("selectedItem");
         }
     ] as BasicListModel;
+    
+    void doRefresh() {
+        collectionListModel.reload(); 
+    }
     
     def submit() {
         def selectedList = collectionListModel.getSelectedValue();
