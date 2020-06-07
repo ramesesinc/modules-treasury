@@ -1,4 +1,15 @@
-<!--
+
+alter table aftxn add lockid varchar(50) null 
+; 
+
+alter table af_control add constraint fk_af_control_afid 
+	foreign key (afid) references af (objid) 
+; 
+
+alter table af_control add constraint fk_af_control_allocid 
+	foreign key (allocid) references af_allocation (objid) 
+; 
+
 drop view if exists vw_af_inventory_summary
 ;
 CREATE VIEW vw_af_inventory_summary AS 
@@ -15,18 +26,10 @@ from af, afunit u
 where af.objid = u.itemid
 order by (case when af.formtype='serial' then 0 else 1 end), af.objid 
 ;
--->
-<schema>
-	<element tablename="vw_af_inventory_summary">
-		<field name="objid" caption="AF" width="100" maxWidth="100"/>
-		<field name="title" caption="Title"/> 
-		<field name="unit" caption="Unit" width="100" maxWidth="100"/> 
-		<field name="formtype" caption="FormType" width="100" maxWidth="100"/>	
-		<field name="countopen" caption="Open" type="integer" width="100" maxWidth="100"/>
-		<field name="countissued" caption="Issued" type="integer" width="100" maxWidth="100"/>
-		<field name="countclosed" caption="Consumed" type="integer" width="100" maxWidth="100"/>
-		<field name="countsold" caption="Sold" type="integer" width="100" maxWidth="100"/>
-		<field name="countprocessing" caption="Processing" type="integer" width="100" maxWidth="100"/>	
-		<field name="counthold" caption="Hold" type="integer" width="100" maxWidth="100"/>	
-	</element>
-</schema>
+
+alter table af_control add salecost decimal(16,2) not null default '0.0'
+;
+
+update af_control set salecost = cost where state = 'SOLD' and cost > 0 and salecost = 0 
+; 
+

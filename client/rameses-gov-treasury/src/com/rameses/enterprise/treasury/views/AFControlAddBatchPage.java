@@ -50,38 +50,55 @@ public class AFControlAddBatchPage extends javax.swing.JPanel {
         xSeparator3 = new com.rameses.rcp.control.XSeparator();
         xLookupField1 = new com.rameses.rcp.control.XLookupField();
 
+        formPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         formPanel1.setCaptionWidth(110);
 
         xLabel8.setCaption("Ref No");
         xLabel8.setExpression("#{ refitem.parent.controlno }");
+        com.rameses.rcp.control.border.XLineBorder xLineBorder1 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder1.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel8.setBorder(xLineBorder1);
         xLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        xLabel8.setPreferredSize(new java.awt.Dimension(0, 22));
+        xLabel8.setPreferredSize(new java.awt.Dimension(0, 20));
         formPanel1.add(xLabel8);
 
         xLabel9.setCaption("Ref Type");
         xLabel9.setExpression("#{ refitem.parent.txntype }");
+        com.rameses.rcp.control.border.XLineBorder xLineBorder2 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder2.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel9.setBorder(xLineBorder2);
         xLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        xLabel9.setPreferredSize(new java.awt.Dimension(0, 22));
+        xLabel9.setPreferredSize(new java.awt.Dimension(0, 20));
         formPanel1.add(xLabel9);
 
         xLabel1.setCaption("AF No");
         xLabel1.setExpression("#{ refitem.item.objid }");
-        xLabel1.setPreferredSize(new java.awt.Dimension(0, 22));
+        com.rameses.rcp.control.border.XLineBorder xLineBorder3 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder3.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel1.setBorder(xLineBorder3);
+        xLabel1.setPreferredSize(new java.awt.Dimension(0, 20));
         formPanel1.add(xLabel1);
 
         xLabel5.setCaption("Form Type");
         xLabel5.setExpression("#{ refitem.afunit.formtype }");
-        xLabel5.setPreferredSize(new java.awt.Dimension(0, 22));
+        com.rameses.rcp.control.border.XLineBorder xLineBorder4 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder4.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel5.setBorder(xLineBorder4);
+        xLabel5.setPreferredSize(new java.awt.Dimension(0, 20));
         formPanel1.add(xLabel5);
 
         xLabel4.setCaption("Unit");
         xLabel4.setExpression("#{ refitem.unit }");
-        xLabel4.setPreferredSize(new java.awt.Dimension(150, 22));
+        com.rameses.rcp.control.border.XLineBorder xLineBorder5 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder5.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel4.setBorder(xLineBorder5);
+        xLabel4.setPreferredSize(new java.awt.Dimension(0, 20));
         formPanel1.add(xLabel4);
 
         xIntegerField1.setCaption("Unit Qty");
         xIntegerField1.setMinValue(1.0);
         xIntegerField1.setName("entry.qty"); // NOI18N
+        xIntegerField1.setPreferredSize(new java.awt.Dimension(150, 20));
         formPanel1.add(xIntegerField1);
 
         xSeparator1.setPreferredSize(new java.awt.Dimension(0, 20));
@@ -100,12 +117,12 @@ public class AFControlAddBatchPage extends javax.swing.JPanel {
         formPanel1.add(xSeparator1);
 
         xNumberField3.setCaption("Start Stub No");
-        xNumberField3.setName("entry.startstub"); // NOI18N
         xNumberField3.setDepends(new String[] {"entry.qty"});
+        xNumberField3.setName("entry.startstub"); // NOI18N
+        xNumberField3.setVisibleWhen("#{ entry.qty != 1 }");
         xNumberField3.setFieldType(Integer.class);
         xNumberField3.setPreferredSize(new java.awt.Dimension(150, 20));
         xNumberField3.setRequired(true);
-        xNumberField3.setVisibleWhen("#{ entry.qty != 1 }");
         formPanel1.add(xNumberField3);
 
         xNumberField2.setCaption("End Stub No");
@@ -172,7 +189,7 @@ public class AFControlAddBatchPage extends javax.swing.JPanel {
         formPanel1.add(xSeparator3);
 
         xLookupField1.setCaption("Allocate To");
-        xLookupField1.setExpression("#{ entry.allocation.objid }  ");
+        xLookupField1.setExpression("#{ entry.allocation.objid }");
         xLookupField1.setHandler("af_allocation:lookup");
         xLookupField1.setName("entry.allocation"); // NOI18N
         xLookupField1.setPreferredSize(new java.awt.Dimension(0, 20));

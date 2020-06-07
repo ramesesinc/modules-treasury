@@ -1,3 +1,7 @@
+"entry.(.*series)" [1==1] {
+    required: true; 
+}
 "entry.(.*series)" [ refitem.afunit.formtype == 'cashticket' ] {
+    required: false;
     visible: false;
 }

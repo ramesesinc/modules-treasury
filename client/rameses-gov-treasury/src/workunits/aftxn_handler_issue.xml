@@ -19,7 +19,8 @@
                  visibleWhen="#{ mode == 'open' }" immediate="true" mnemonic="C" />
         <invoker type="formActions" action="post" caption="Post" 
                  role="AFO" visibleWhen="#{ mode == 'open' }" mnemonic="P" />
-        
+        <invoker type="formActions" action="delete" caption="Delete" 
+                 role="AFO" visibleWhen="#{ mode == 'open' }" mnemonic="d" />
     </invokers>
     <code class="com.rameses.enterprise.treasury.models.AFTxnHandlerIssue" />
     <papges>

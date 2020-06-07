@@ -34,13 +34,46 @@ public class AFControlEditBatchPage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        xDataTable1 = new com.rameses.rcp.control.XDataTable();
-        jPanel1 = new javax.swing.JPanel();
         xFormPanel1 = new com.rameses.rcp.control.XFormPanel();
         xLabel1 = new com.rameses.rcp.control.XLabel();
-        xLabel2 = new com.rameses.rcp.control.XLabel();
         xLabel3 = new com.rameses.rcp.control.XLabel();
+        xLabel2 = new com.rameses.rcp.control.XLabel();
+        xDataTable1 = new com.rameses.rcp.control.XDataTable();
 
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setLayout(new java.awt.BorderLayout());
+
+        xFormPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+        xFormPanel1.setCaptionWidth(100);
+        xFormPanel1.setPadding(new java.awt.Insets(0, 0, 10, 0));
+
+        xLabel1.setCaption("Form No");
+        xLabel1.setExpression("#{ entity.afid }");
+        com.rameses.rcp.control.border.XLineBorder xLineBorder1 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder1.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel1.setBorder(xLineBorder1);
+        xLabel1.setPreferredSize(new java.awt.Dimension(150, 20));
+        xFormPanel1.add(xLabel1);
+
+        xLabel3.setCaption("Form Type");
+        xLabel3.setExpression("#{ entity.afunit.formtype }");
+        com.rameses.rcp.control.border.XLineBorder xLineBorder2 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder2.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel3.setBorder(xLineBorder2);
+        xLabel3.setPreferredSize(new java.awt.Dimension(150, 20));
+        xFormPanel1.add(xLabel3);
+
+        xLabel2.setCaption("Unit");
+        xLabel2.setExpression("#{ entity.unit }");
+        com.rameses.rcp.control.border.XLineBorder xLineBorder3 = new com.rameses.rcp.control.border.XLineBorder();
+        xLineBorder3.setLineColor(new java.awt.Color(180, 180, 180));
+        xLabel2.setBorder(xLineBorder3);
+        xLabel2.setPreferredSize(new java.awt.Dimension(150, 20));
+        xFormPanel1.add(xLabel2);
+
+        add(xFormPanel1, java.awt.BorderLayout.NORTH);
+
+        xDataTable1.setHandler("listHandler");
         xDataTable1.setColumns(new com.rameses.rcp.common.Column[]{
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "stubno"}
@@ -153,7 +186,7 @@ public class AFControlEditBatchPage extends javax.swing.JPanel {
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "qtybalance"}
                 , new Object[]{"caption", "Qty Balance"}
-                , new Object[]{"width", 100}
+                , new Object[]{"width", 140}
                 , new Object[]{"minWidth", 0}
                 , new Object[]{"maxWidth", 0}
                 , new Object[]{"required", false}
@@ -181,57 +214,9 @@ public class AFControlEditBatchPage extends javax.swing.JPanel {
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             })
         });
-        xDataTable1.setHandler("listHandler");
-
-        xLabel1.setCaption("Form No");
-        xLabel1.setExpression("#{ entity.afid }");
-        xLabel1.setPreferredSize(new java.awt.Dimension(0, 20));
-        xFormPanel1.add(xLabel1);
-
-        xLabel2.setCaption("Unit");
-        xLabel2.setExpression("#{ entity.unit }");
-        xLabel2.setPreferredSize(new java.awt.Dimension(0, 20));
-        xFormPanel1.add(xLabel2);
-
-        xLabel3.setCaption("Form Type");
-        xLabel3.setExpression("#{ entity.afunit.formtype }");
-        xLabel3.setPreferredSize(new java.awt.Dimension(0, 20));
-        xFormPanel1.add(xLabel3);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(435, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
-        );
+        add(xDataTable1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private com.rameses.rcp.control.XDataTable xDataTable1;
     private com.rameses.rcp.control.XFormPanel xFormPanel1;
     private com.rameses.rcp.control.XLabel xLabel1;

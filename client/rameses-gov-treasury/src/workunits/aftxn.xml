@@ -21,6 +21,8 @@
 
         <invoker type="formActions" caption="Preview" action="preview" mnemonic="v" 
                  visibleWhen="#{entity.state=='POSTED' &amp;&amp; entity.txntype.toString().matches('ISSUE|PURCHASE_RECEIPT')}"/>
+                 
+        <invoker />
     </invokers>
     
     <code class="com.rameses.enterprise.treasury.models.AFTxnModel" />

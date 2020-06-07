@@ -5,6 +5,10 @@
     editable:true;
 }
 
+"itemListHandler:item.cost" [ entity.txntype == 'PURCHASE_RECEIPT' ]{
+    editable:true;
+}
+
 "itemListHandler:item.cost" [ entity.txntype == 'ISSUE' ]{
     editable:false;
 }

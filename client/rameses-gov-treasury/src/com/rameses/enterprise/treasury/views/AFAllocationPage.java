@@ -33,7 +33,12 @@ public class AFAllocationPage extends javax.swing.JPanel {
         xFormPanel1 = new com.rameses.rcp.control.XFormPanel();
         xTextField1 = new com.rameses.rcp.control.XTextField();
         xTextField2 = new com.rameses.rcp.control.XTextField();
+        xFormPanel2 = new com.rameses.rcp.control.XFormPanel();
+        xLabel1 = new com.rameses.rcp.control.XLabel();
         xLookupField1 = new com.rameses.rcp.control.XLookupField();
+
+        xFormPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+        xFormPanel1.setCellspacing(4);
 
         xTextField1.setCaption("Code");
         xTextField1.setName("entity.objid"); // NOI18N
@@ -49,15 +54,22 @@ public class AFAllocationPage extends javax.swing.JPanel {
         xTextField2.setRequired(true);
         xFormPanel1.add(xTextField2);
 
+        xFormPanel2.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
+
+        xLabel1.setExpression("Applicable To Responsibilty Center <font color=\"red\">*</font>");
+        xLabel1.setCellPadding(new java.awt.Insets(20, 0, 0, 0));
+        xLabel1.setShowCaption(false);
+        xLabel1.setUseHtml(true);
+        xFormPanel2.add(xLabel1);
+
         xLookupField1.setCaption("Applicable To Resp Center");
-        xLookupField1.setCaptionWidth(150);
-        xLookupField1.setCellPadding(new java.awt.Insets(20, 0, 0, 0));
         xLookupField1.setExpression("#{ entity.respcenter.name }");
         xLookupField1.setHandler("org:lookup");
         xLookupField1.setName("entity.respcenter"); // NOI18N
         xLookupField1.setPreferredSize(new java.awt.Dimension(0, 20));
         xLookupField1.setRequired(true);
-        xFormPanel1.add(xLookupField1);
+        xLookupField1.setShowCaption(false);
+        xFormPanel2.add(xLookupField1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -65,19 +77,25 @@ public class AFAllocationPage extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(xFormPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(xFormPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(xFormPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.rameses.rcp.control.XFormPanel xFormPanel1;
+    private com.rameses.rcp.control.XFormPanel xFormPanel2;
+    private com.rameses.rcp.control.XLabel xLabel1;
     private com.rameses.rcp.control.XLookupField xLookupField1;
     private com.rameses.rcp.control.XTextField xTextField1;
     private com.rameses.rcp.control.XTextField xTextField2;

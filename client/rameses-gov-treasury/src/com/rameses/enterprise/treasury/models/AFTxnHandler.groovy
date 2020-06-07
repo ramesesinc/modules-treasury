@@ -73,7 +73,7 @@ abstract class AFTxnHandler {
     }
     
     def post() {
-        if(!MsgBox.confirm("You are about to post this to inventory. Please verify if this is correct")) return false;
+        if(!MsgBox.confirm("You are about to post this to inventory. Please verify if this is correct")) return null;
         svc.post([objid:entity.objid ]);
         return forward();
     }

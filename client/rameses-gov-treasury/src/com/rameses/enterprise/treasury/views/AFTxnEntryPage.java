@@ -52,7 +52,7 @@ public class AFTxnEntryPage extends javax.swing.JPanel {
         xFormPanel1.setCaptionWidth(100);
         xFormPanel1.setPadding(new java.awt.Insets(5, 5, 5, 5));
 
-        xLabel4.setCaption("Req No");
+        xLabel4.setCaption("Request No.");
         xLabel4.setExpression("#{ entity.request.reqno }");
         xLabel4.setVisibleWhen("#{ afrequest != null }");
         xLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180)));

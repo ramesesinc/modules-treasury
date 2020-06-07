@@ -42,6 +42,7 @@ class AFInventoryService {
 			m.state = 'DRAFT';
 			m.unit = afc.unit;
 			m.cost = afc.cost;
+			m.salecost = 0.0;
 
 			if ( ref.txntype == 'FORWARD' ) {
 				m.owner = ref.issueto;

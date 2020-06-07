@@ -15,10 +15,20 @@ class AFTxnHandlerTransferReturnCancel extends AFTxnHandler {
     def afType;
     def afTypes;
     
+    def txnType;
+    def txnTypes;
+    
     @PropertyChangeListener
     def listener = [
+        "entity.issuefrom": { o-> 
+            if( binding && afType ) {
+                afListModel.reload();
+            }
+        }, 
         "afType" : { o->
-            afListModel.reload();
+            if( binding ) {
+                afListModel.reload();
+            }
         }
     ];
     
@@ -27,7 +37,24 @@ class AFTxnHandlerTransferReturnCancel extends AFTxnHandler {
         m.where = ["1=1"];
         m.orderBy = "objid";
         afTypes = queryService.getList(m);
+        
+        if ( entity.txntype == 'MANUAL_ISSUE' ) {
+            m.clear();
+            m._schemaname = 'aftxn_type'; 
+            m.where = [" poststate = 'OPEN' "];
+            m.select = 'formtype'; 
+            m.orderBy = 'formtype'; 
+            this.txnTypes = queryService.getList( m ).collect{ it.formtype } 
+            if ( this.txnTypes ) this.txnTypes.unique(); 
+        }
         return super.init();
+    }
+    
+    void setTxnType( newValue ) {
+        this.txnType = newValue; 
+        if( binding ) {
+            afListModel.reload();
+        }
     }
     
     def afListModel = [
@@ -50,6 +77,11 @@ class AFTxnHandlerTransferReturnCancel extends AFTxnHandler {
             
             if( entity.txntype == "MANUAL_ISSUE") {
                 list << "state = 'OPEN' ";
+                
+                if ( txnType ) { 
+                    p.txntype = txnType; 
+                    list << "currentdetail.reftype = :txntype "; 
+                }
             }
             else {
                 list << "owner.objid = :ownerid";
@@ -58,9 +90,12 @@ class AFTxnHandlerTransferReturnCancel extends AFTxnHandler {
                 list << "NOT(txnmode = 'REMOTE')";
                 p.ownerid = entity.issuefrom?.objid;
             }
+            
             list << "active = 0";
             m.where = [ list.join(" AND "), p ];
             m.orderBy = "dtfiled,batchno,stubno,startseries";
+            m._limit = 100; 
+            
             //m.debug = true;
             return queryService.getList( m ); 
         }

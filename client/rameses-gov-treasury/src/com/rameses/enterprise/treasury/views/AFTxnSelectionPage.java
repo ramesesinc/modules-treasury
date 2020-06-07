@@ -39,8 +39,11 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         xLabel1 = new com.rameses.rcp.control.XLabel();
-        xFormPanel2 = new com.rameses.rcp.control.XFormPanel();
+        jPanel3 = new javax.swing.JPanel();
+        xLabel2 = new com.rameses.rcp.control.XLabel();
         xComboBox1 = new com.rameses.rcp.control.XComboBox();
+        xLabel3 = new com.rameses.rcp.control.XLabel();
+        xComboBox3 = new com.rameses.rcp.control.XComboBox();
         xDataTable1 = new com.rameses.rcp.control.XDataTable();
 
         setLayout(new java.awt.BorderLayout());
@@ -88,12 +91,18 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        xLabel1.setExpression("Select accountable forms to #{ entity.txntype } and click Next");
+        xLabel1.setExpression("Select the accountable forms to #{ entity.txntype } and click <b>Next</b>");
         xLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        xLabel1.setUseHtml(true);
         jPanel2.add(xLabel1, java.awt.BorderLayout.NORTH);
 
-        xFormPanel2.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
-        xFormPanel2.setPadding(new java.awt.Insets(0, 1, 5, 0));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        jPanel3.setLayout(new com.rameses.rcp.control.layout.XLayout());
+
+        xLabel2.setExpression("AF Type : <font color=\"red\"> * </font>");
+        xLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 10));
+        xLabel2.setUseHtml(true);
+        jPanel3.add(xLabel2);
 
         xComboBox1.setCaption("Select AF Type");
         xComboBox1.setExpression("#{ item.objid }");
@@ -102,20 +111,47 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
         xComboBox1.setVisibleWhen("");
         xComboBox1.setCaptionWidth(120);
         xComboBox1.setRequired(true);
-        xFormPanel2.add(xComboBox1);
+        jPanel3.add(xComboBox1);
 
-        jPanel2.add(xFormPanel2, java.awt.BorderLayout.SOUTH);
+        xLabel3.setExpression("Txn Type : ");
+        xLabel3.setVisibleWhen("#{txnTypes != null && txnTypes.size() > 0}");
+        xLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 20, 0, 10));
+        xLabel3.setUseHtml(true);
+        jPanel3.add(xLabel3);
+
+        xComboBox3.setItems("txnTypes");
+        xComboBox3.setName("txnType"); // NOI18N
+        xComboBox3.setVisibleWhen("#{txnTypes != null && txnTypes.size() > 0}");
+        xComboBox3.setEmptyText("(-- ALL --)");
+        jPanel3.add(xComboBox3);
+
+        jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         xDataTable1.setHandler("afListModel");
         xDataTable1.setColumns(new com.rameses.rcp.common.Column[]{
             new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "dtfiled"}
+                , new Object[]{"caption", "Date"}
+                , new Object[]{"width", 80}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 80}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "afid"}
                 , new Object[]{"caption", "AF Type"}
-                , new Object[]{"width", 100}
+                , new Object[]{"width", 80}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 80}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
@@ -128,90 +164,96 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "unit"}
                 , new Object[]{"caption", "Unit"}
-                , new Object[]{"width", 100}
+                , new Object[]{"width", 80}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 80}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
                 , new Object[]{"editable", false}
                 , new Object[]{"visible", true}
                 , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             }),
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "stubno"}
                 , new Object[]{"caption", "Stub No"}
-                , new Object[]{"width", 100}
+                , new Object[]{"width", 80}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 80}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
                 , new Object[]{"editable", false}
                 , new Object[]{"visible", true}
                 , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "RIGHT"}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
-                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
             }),
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "currentseries"}
                 , new Object[]{"caption", "Start Series"}
                 , new Object[]{"width", 100}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 100}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
                 , new Object[]{"editable", false}
                 , new Object[]{"visible", true}
                 , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "RIGHT"}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
-                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
             }),
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "endseries"}
                 , new Object[]{"caption", "End Series"}
                 , new Object[]{"width", 100}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 100}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
                 , new Object[]{"editable", false}
                 , new Object[]{"visible", true}
                 , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "RIGHT"}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
-                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
             }),
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "prefix"}
                 , new Object[]{"caption", "Prefix"}
-                , new Object[]{"width", 100}
+                , new Object[]{"width", 60}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 70}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
                 , new Object[]{"editable", false}
                 , new Object[]{"visible", true}
                 , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             }),
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "suffix"}
                 , new Object[]{"caption", "Suffix"}
-                , new Object[]{"width", 100}
+                , new Object[]{"width", 60}
                 , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 0}
+                , new Object[]{"maxWidth", 70}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
                 , new Object[]{"nullWhenEmpty", true}
                 , new Object[]{"editable", false}
                 , new Object[]{"visible", true}
                 , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             }),
@@ -235,6 +277,22 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
                 , new Object[]{"caption", "Txn Mode"}
                 , new Object[]{"width", 100}
                 , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "respcenter.name"}
+                , new Object[]{"caption", "RespCenter"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
                 , new Object[]{"maxWidth", 0}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
@@ -246,8 +304,8 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             }),
             new com.rameses.rcp.common.Column(new Object[]{
-                new Object[]{"name", "respcenter.name"}
-                , new Object[]{"caption", "RespCenter"}
+                new Object[]{"name", "currentdetail.reftype"}
+                , new Object[]{"caption", "LastTxnType"}
                 , new Object[]{"width", 100}
                 , new Object[]{"minWidth", 0}
                 , new Object[]{"maxWidth", 0}
@@ -270,11 +328,14 @@ public class AFTxnSelectionPage extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private com.rameses.rcp.control.XComboBox xComboBox1;
+    private com.rameses.rcp.control.XComboBox xComboBox3;
     private com.rameses.rcp.control.XDataTable xDataTable1;
     private com.rameses.rcp.control.XFormPanel xFormPanel1;
-    private com.rameses.rcp.control.XFormPanel xFormPanel2;
     private com.rameses.rcp.control.XLabel xLabel1;
+    private com.rameses.rcp.control.XLabel xLabel2;
+    private com.rameses.rcp.control.XLabel xLabel3;
     private com.rameses.rcp.control.XLookupField xLookupField1;
     private com.rameses.rcp.control.XLookupField xLookupField2;
     private com.rameses.rcp.control.XLookupField xLookupField3;

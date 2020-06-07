@@ -40,23 +40,23 @@
                    <td align="center"><a href="viewRef" refid="${i.refid}">${i.refno}</a></td>
                    <td align="center">${ (i.issuedto?.name != null) ? i.issuedto?.name : '' }</td>
 
-                   <td align="center">${i.receivedstartseries}</td>
-                   <td align="center">${i.receivedendseries}</td>
+                   <td align="center">${i.receivedstartseries ? i.receivedstartseries : ''}</td>
+                   <td align="center">${i.receivedendseries ? i.receivedendseries : ''}</td>
                    <td align="center">${i.qtyreceived}</td>
 
-                   <td align="center">${i.beginstartseries}</td>
-                   <td align="center">${i.beginendseries}</td>
+                   <td align="center">${i.beginstartseries ? i.beginstartseries : ''}</td>
+                   <td align="center">${i.beginendseries ? i.beginendseries : ''}</td>
                    <td align="center">${i.qtybegin}</td>
 
-                   <td align="center">${i.issuedstartseries}</td>
-                   <td align="center">${i.issuedendseries}</td>
+                   <td align="center">${i.issuedstartseries ? i.issuedstartseries : ''}</td>
+                   <td align="center">${i.issuedendseries ? i.issuedendseries : ''}</td>
                    <td align="center">${i.qtyissued}</td>
 
-                   <td align="center">${i.endingstartseries}</td>
-                   <td align="center">${i.endingendseries}</td>
+                   <td align="center">${i.endingstartseries ? i.endingstartseries : ''}</td>
+                   <td align="center">${i.endingendseries ? i.endingendseries : ''}</td>
                    <td align="center">${i.qtyending}</td>
 
-                    <td align="left">${i.remarks}</td>
+                    <td align="left">${i.remarks ? i.remarks : ''}</td>
 
                 </tr>
              <% } %>

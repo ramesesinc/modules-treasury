@@ -4,7 +4,9 @@
             body {font-family:arial; font-size:10px;}
             th { background-color: #848482; color:white; }
             table { border: 1px solid #848482; }
-            td { background-color: #E0FFFF }
+            td { background-color: #E0FFFF; }
+            table.items { border: none; }
+            table.items td { padding-bottom:2px; }
         </style>
     </head>
     <body>
@@ -30,18 +32,35 @@
                    <td align="center">${o.txntype}</td>
                 </tr>
 
-                <%o.items.each { ii-> %>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td colspan="6">
-                            &nbsp;&nbsp;batch:${ii.batchno} 
-                            <% if(o.afunit.formtype == 'serial') { %> 
-                            ${ (ii.prefix==null)?'':ii.prefix } ${ii.startseries} - ${ii.endseries} ${(ii.suffix==null)?'':ii.suffix}
+                <% if ( o.items ) { %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="6">
+                        <table class="items" cellpadding="0" cellspacing="0" border="0">
+                        <% o.items.each{ ii-> %>
+                        <tr>
+                            <td> &nbsp;&nbsp; Batch:${ii.batchno} </td>
+                            <% if ( o.afunit.formtype == 'serial' ) { %> 
+                            <td> &nbsp; ${ii.prefix ? ii.prefix : ''} </td> 
+                            <td> &nbsp; ${ii.startseries} - ${ii.endseries} </td> 
+                            <td> &nbsp; ${ii.suffix ? ii.suffix : ''} </td> 
                             <% } %>
-                            stub: ${ii.startstub} - ${ii.endstub} 
-                        </td>
-                    </tr>
-                <% } %>
+                            <td>
+                                &nbsp;&nbsp;
+                                Stub: ${ii.startstub == ii.endstub ? ii.startstub : (''+ ii.startstub +' - '+ ii.endstub)} 
+                            </td>
+                            <% if ( o.txntype == 'SALE' ) { %> 
+                            <td> &nbsp;&nbsp; Cost/Stub: </td> 
+                            <td align="right"> &nbsp; ${ii.cost ? ii.cost : 0.0} </td>
+                            <td> &nbsp;&nbsp; Sale Cost </td> 
+                            <td align="right"> : ${ii.salecost ? ii.salecost : 0.0} </td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                        </table>
+                    </td>
+                </tr>
+                <% } %> 
 
              <% } %>
         </table>
