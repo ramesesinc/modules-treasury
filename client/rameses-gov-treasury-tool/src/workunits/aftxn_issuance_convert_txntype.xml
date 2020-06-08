@@ -1,0 +1,25 @@
+<workunit>
+    <invokers>
+        <invoker folderid="menucategory/treasury/tool" 
+                 caption="Convert AF Issuance" action="init" 
+                 role="AFO_ADMIN" permission="aftxn.changeTxnType" />        
+        
+        <invoker type="formActions" caption="Cancel" action="_close" 
+                 mnemonic="c" visibleWhen="#{mode == 'init'}" 
+                 immediate="true"/>
+        <invoker type="formActions" caption="Next" action="loadAFIssue" 
+                 mnemonic="n" visibleWhen="#{mode == 'init'}"/>
+
+        <invoker type="formActions" caption="Back" action="cancelEdit" 
+                 mnemonic="b" visibleWhen="#{mode == 'edit'}"/>
+        <invoker type="formActions" caption="Post" action="postUpdate" 
+                 mnemonic="n" visibleWhen="#{mode == 'edit'}"/>
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.ConvertAFIssuanceModel"/> 
+    
+    <pages>
+        <page template="com.rameses.gov.treasury.tool.views.ConvertAFIssuanceInitPage"/>
+        <page name="edit" template="com.rameses.enterprise.treasury.views.AFTxnViewPage"/>
+    </pages> 
+</workunit>

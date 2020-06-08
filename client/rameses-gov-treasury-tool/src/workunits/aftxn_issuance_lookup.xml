@@ -1,0 +1,13 @@
+<workunit extends="com/rameses/seti2/templates/CrudLookup.xml" 
+          schemaName="aftxn" allowCreate="false">
+    <invokers>
+        <invoker type="aftxn_issuance:lookup" 
+                 formTitle="Lookup AF Issuance" 
+                 caption="Lookup AF Issuance" 
+                 action="init" width="800" height="500"
+                 customFilter="txntype='ISSUE' AND state='POSTED'"
+                 cols="controlno,dtfiled,user.name,issueto.name,txndate,request.reqno"
+                 hiddenCols="objid" 
+                 orderBy="dtfiled desc, controlno desc" />        
+    </invokers>
+</workunit>

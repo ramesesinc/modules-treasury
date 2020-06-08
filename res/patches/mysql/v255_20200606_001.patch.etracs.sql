@@ -30,6 +30,19 @@ order by (case when af.formtype='serial' then 0 else 1 end), af.objid
 alter table af_control add salecost decimal(16,2) not null default '0.0'
 ;
 
-update af_control set salecost = cost where state = 'SOLD' and cost > 0 and salecost = 0 
-; 
+-- update af_control set salecost = cost where state = 'SOLD' and cost > 0 and salecost = 0 
+-- ; 
+
+
+insert into sys_usergroup (
+	objid, title, domain, role, userclass
+) values (
+	'TREASURY.AFO_ADMIN', 'TREASURY AFO ADMIN', 'TREASURY', 'AFO_ADMIN', 'usergroup' 
+); 
+
+insert into sys_usergroup_permission (
+	objid, usergroup_objid, object, permission, title 
+) values ( 
+	'TREASURY-AFO-ADMIN-aftxn-changetxntype', 'TREASURY.AFO_ADMIN', 'aftxn', 'changeTxnType', 'Change Txn Type'
+); 
 

@@ -22,8 +22,8 @@ class CashReceiptAFInterceptor {
 
 			def count = cashreceipt_db.find([ controlid: aa.objid ]).select('cnt:{COUNT(objid)}').val(); 
 			if ( count > 0 ) {
-				def msg = 'Change status not allowed. AF '+ aa.startseries +'-'+ aa.endseries +' has already issued receipts'+ 
-				throw new Exception( msg ); 
+				def msg = 'Change status not allowed. AF '+ aa.startseries +'-'+ aa.endseries +' has already issued receipts';
+				throw new Exception( msg.toString()); 
 			} 
 		} 
 	}
