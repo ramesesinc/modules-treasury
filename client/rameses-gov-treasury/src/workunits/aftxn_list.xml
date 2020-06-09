@@ -5,7 +5,7 @@
         <invoker folderid="menucategory/treasury/af" 
                  formTitle="AF Transactions" 
                  caption="View AF Transactions" action="init" index="11" 
-                 cols="controlno,dtfiled,txndate,txntype,user.name,issueto.name,respcenter.name" 
+                 cols="controlno,dtfiled,txndate,txntype,user.name,issueto.name,respcenter.name,request.reqno" 
                  hiddenCols="state,request.reqno,issuefrom.name" 
                  orderBy="controlno">
             <action role="AFO" allowDelete="#{entity?.state == 'DRAFT'}"/> 
