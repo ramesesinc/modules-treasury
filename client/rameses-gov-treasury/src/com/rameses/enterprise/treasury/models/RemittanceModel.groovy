@@ -1,7 +1,8 @@
 package com.rameses.enterprise.treasury.models;
 
-import com.rameses.rcp.common.*;
 import com.rameses.rcp.annotations.*;
+import com.rameses.rcp.common.*;
+import com.rameses.rcp.util.UIControlUtil;
 import com.rameses.osiris2.client.*;
 import com.rameses.osiris2.common.*;
 import com.rameses.seti2.models.*;
@@ -313,11 +314,23 @@ class RemittanceModel extends CrudFormModel {
         try {
             def popupMenu = new PopupMenuOpener(); 
             def list = Inv.lookupOpeners( inv.properties.category, param );
-            list.each{
-                popupMenu.add( it );
+            list.each{ 
+                boolean visible = true; 
+                if ( it.properties.visibleWhen ) {
+                    try {
+                        visible = UIControlUtil.evaluateExprBoolean( this, it.properties.visibleWhen );
+                    } catch(Throwable t) {
+                        visible = false; 
+                    }
+                }
+                
+                if ( visible ) {
+                    popupMenu.add( it );
+                }
             }
             return popupMenu; 
-        } catch(Throwable t) {
+        } 
+        catch(Throwable t) {
             return null; 
         }
     } 

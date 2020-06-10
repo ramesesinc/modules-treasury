@@ -1,0 +1,10 @@
+<workunit>
+    <invokers>
+        <invoker type="remittance:actions"  
+                 caption="Modify Cash Breakdown" action="init" target="process"
+                 role="COLLECTOR_ADMIN" permission="remittance.modifyCashBreakdown" 
+                 visibleWhen="#{ entity.state.toString().toUpperCase().matches('OPEN|POSTED')==true }"/>        
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.RemittanceModifyCashBreakdownModel"/> 
+</workunit>
