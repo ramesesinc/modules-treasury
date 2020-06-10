@@ -222,12 +222,13 @@ public class RemittanceFundPage extends javax.swing.JPanel {
         jPanel1.setBorder(xTitledBorder2);
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        cashDenomination1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 0));
         cashDenomination1.setAmountField("entity.totalcash");
         cashDenomination1.setEnabled(false);
         cashDenomination1.setName("entity.cashbreakdown"); // NOI18N
         jPanel1.add(cashDenomination1, java.awt.BorderLayout.CENTER);
 
-        jPanel5.add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        jPanel5.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         xFormPanel3.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         xFormPanel3.setPadding(new java.awt.Insets(3, 10, 0, 2));
@@ -240,7 +241,7 @@ public class RemittanceFundPage extends javax.swing.JPanel {
         xDecimalField9.setPreferredSize(new java.awt.Dimension(0, 22));
         xFormPanel3.add(xDecimalField9);
 
-        jPanel5.add(xFormPanel3, java.awt.BorderLayout.PAGE_END);
+        jPanel5.add(xFormPanel3, java.awt.BorderLayout.SOUTH);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -259,7 +260,7 @@ public class RemittanceFundPage extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -378,7 +379,7 @@ public class RemittanceFundPage extends javax.swing.JPanel {
                 .addComponent(xDataTable2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(xFormPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         xTabbedPane1.addTab("EFT ", xPanel1);

@@ -10,7 +10,8 @@
         <invoker type="formActions" caption="Cancel" action="_close" 
                  visibleWhen="#{remittanceid == null }"/>
         
-        <invoker type="formActions" caption="Submit for Remittance" action="submitForRemittance" 
+        <invoker type="formActions" caption="Submit for Remittance" 
+                 action="submitForRemittance" mnemonic="r" 
                  visibleWhen="#{remittanceid == null }"/>
     </invokers>
    

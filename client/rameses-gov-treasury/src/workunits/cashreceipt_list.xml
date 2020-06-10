@@ -29,11 +29,17 @@
                  orderBy="receiptno,receiptdate"
                  target="popup" width="1024" height="700"/>
 
-        <invoker type="cashreceipt_list:remitted:view" caption="Cash Receipt (Remitted)" 
-                 action="init" 
+        <invoker type="cashreceipt_list:remitted:view" 
+                 caption="Cash Receipt (Remitted)" action="init"  tag="remitted" 
+                 cols="formno,receiptno,receiptdate,stub,series,paidby,amount,voided,collector.name,remittance.controlno" 
                  orderBy="receiptno,receiptdate"
-                 tag="remitted"
-                 target="popup" width="1024" height="700"/>
+                 target="popup" width="1024" height="700" />
+
+        <invoker type="cashreceipt_list:remitted:viewprevious" 
+                 caption="Previous Cash Receipt (Remitted)" action="init"  tag="remitted" 
+                 cols="formno,receiptno,receiptdate,stub,series,paidby,amount,voided,collector.name,remittance.controlno" 
+                 orderBy="receiptno,receiptdate"
+                 target="popup" width="1024" height="700" />
         
    </invokers>
    
@@ -75,6 +81,9 @@ class CashReceiptListModel extends com.rameses.seti2.models.CrudListModel {
         }        
         else if ( c.name == 'collector.name') {
             c.caption = 'Collector'; 
+        } 
+        else if ( c.name == 'remittance.controlno') {
+            c.caption = 'RemittanceNo'; 
         } 
     } 
 }         

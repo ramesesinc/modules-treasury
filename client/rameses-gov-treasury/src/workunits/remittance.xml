@@ -10,28 +10,42 @@
                  index="10"/>
         
         <!-- Buttons -->
-        <invoker type="formActions" caption="Submit for Liquidation" 
-                 action="remit" mnemonic="s" 
-                 visibleWhen="#{ entity.state == 'DRAFT' }"/>
+        <invoker type="formActions" caption="Delete" 
+                 action="delete" mnemonic="d" immediate="true" 
+                 visibleWhen="#{actionAllowedOnDraftState == true}"/>
         
-        <invoker type="formActions" caption="Reports" 
-                 name="popupReports" mnemonic="r" 
+        <invoker type="formActions" caption="Submit for Liquidation" 
+                 action="remit" mnemonic="l" immediate="true" 
+                 visibleWhen="#{actionAllowedOnDraftState == true}"/>
+        
+        <invoker type="formActions" 
+                 caption="Reports" 
+                 name="popupReports" 
+                 mnemonic="r" immediate="true" 
                  visibleWhen="#{entity.state != 'DRAFT' }" 
                  category="remittance:reports" 
                  icon="images/toolbars/report.png"/> 
         
-        <invoker type="formActions" caption="Cash Breakdown" 
-                 name="updateCashByRemittance" mnemonic="b" 
-                 visibleWhen="#{entity.state == 'DRAFT' }"  />
+        <invoker type="formActions" 
+                 caption="Cash Breakdown" 
+                 name="updateCashByRemittance" 
+                 mnemonic="b" immediate="true"
+                 visibleWhen="#{actionAllowedOnDraftState == true}"  />
+        
+        <invoker type="formActions" 
+                 caption="Actions" name="popupActions" 
+                 mnemonic="a" immediate="true" 
+                 category="remittance:actions" 
+                 icon="images/settings.png"/> 
         
         <invoker type="formActions" caption="Export" 
-                 name="doExport" mnemonic="e" 
+                 name="doExport" mnemonic="e" immediate="true" 
                  visibleWhen="#{entity.state != 'DRAFT'}" 
                  index="100" />        
 
         <invoker type="formActions" caption="Change Liquidating Officer" 
-                 name="changeLiqOfficer" mnemonic="q" 
-                 visibleWhen="#{changeLiqOfficerAllowed == true}" 
+                 name="changeLiqOfficer" mnemonic="q" immediate="true" 
+                 visibleWhen="#{actionAllowedOnOpenState == true}" 
                  index="100" /> 
     </invokers>
    

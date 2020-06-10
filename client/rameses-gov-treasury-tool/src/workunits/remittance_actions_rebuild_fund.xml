@@ -1,0 +1,9 @@
+<workunit>
+    <invokers>
+        <invoker type="remittance:actions"  
+                 caption="Rebuild Fund Summary" action="init" target="process" 
+                 role="COLLECTOR_ADMIN" permission="remittance.rebuildFund" />        
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.RemittanceFundRebuildModel"/> 
+</workunit>

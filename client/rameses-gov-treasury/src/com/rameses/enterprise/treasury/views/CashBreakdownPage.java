@@ -36,30 +36,17 @@ public class CashBreakdownPage extends javax.swing.JPanel {
         com.rameses.rcp.control.border.XTitledBorder xTitledBorder1 = new com.rameses.rcp.control.border.XTitledBorder();
         xTitledBorder1.setTitle("Cash Breakdown");
         setBorder(xTitledBorder1);
+        setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new com.rameses.rcp.control.layout.XLayout());
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         cashDenomination1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
         cashDenomination1.setAmountField("total");
         cashDenomination1.setName("cashbreakdown"); // NOI18N
         cashDenomination1.setOpaque(false);
-        jPanel1.add(cashDenomination1);
+        jPanel1.add(cashDenomination1, java.awt.BorderLayout.WEST);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        add(jPanel1, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.rameses.enterprise.treasury.components.CashDenomination cashDenomination1;

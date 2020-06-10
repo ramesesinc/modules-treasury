@@ -1,8 +1,10 @@
 <workunit>
     <invokers>
+        <!-- 
         <invoker type="cashreceipt:list:listActions" 
                  caption="View Summary" action="init" 
                  target="popup" />
+        -->
         
         <!-- hook in remittances -->
         <invoker type="remittance:form:formActions" 

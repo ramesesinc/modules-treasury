@@ -1,7 +1,8 @@
 <workunit>
     
    <invokers>
-         <invoker type="cashbreakdown" caption="Cash Breakdown" action="init" target="popup" />
+         <invoker type="cashbreakdown" action="init" 
+                  caption="Cash Breakdown" target="popup" resizable="false"/>
    </invokers>
    
    <code class="com.rameses.enterprise.treasury.models.CashBreakdownModel" />

@@ -59,6 +59,19 @@ public class RemittancePage extends javax.swing.JPanel {
         cashDenomination1 = new com.rameses.enterprise.treasury.components.CashDenomination();
         xFormPanel4 = new com.rameses.rcp.control.XFormPanel();
         xDecimalField9 = new com.rameses.rcp.control.XDecimalField();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        xLabel7 = new com.rameses.rcp.control.XLabel();
+        xButton3 = new com.rameses.rcp.control.XButton();
+        xButton4 = new com.rameses.rcp.control.XButton();
+        xDataTable2 = new com.rameses.rcp.control.XDataTable();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        xLabel8 = new com.rameses.rcp.control.XLabel();
+        xButton5 = new com.rameses.rcp.control.XButton();
+        xButton6 = new com.rameses.rcp.control.XButton();
+        xDataTable4 = new com.rameses.rcp.control.XDataTable();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setPreferredSize(new java.awt.Dimension(855, 537));
@@ -68,48 +81,50 @@ public class RemittancePage extends javax.swing.JPanel {
 
         xFormPanel1.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         xFormPanel1.setCaptionWidth(100);
+        xFormPanel1.setCellspacing(4);
         xFormPanel1.setPadding(new java.awt.Insets(0, 5, 5, 15));
         xFormPanel1.setPreferredSize(new java.awt.Dimension(210, 400));
 
-        xLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel1.setCaption("Control No");
         xLabel1.setExpression("#{entity.controlno}");
+        xLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel1.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel1.add(xLabel1);
 
-        xLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel2.setCaption("Control Date");
         xLabel2.setExpression("#{entity.controldate}");
+        xLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel2.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel1.add(xLabel2);
 
-        xLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        xLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel4.setCaption("State");
         xLabel4.setExpression("#{ entity.state }");
+        xLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        xLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel4.setFontStyle("font-size:12;");
         xLabel4.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel1.add(xLabel4);
 
         xFormPanel2.setCaptionVAlignment(com.rameses.rcp.constant.UIConstants.CENTER);
         xFormPanel2.setCaptionWidth(100);
+        xFormPanel2.setCellspacing(4);
 
-        xLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel3.setCaption("Collector");
         xLabel3.setExpression("#{entity.collector.name}");
+        xLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel3.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel2.add(xLabel3);
 
-        xLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel6.setCaption("Liq. Officer");
         xLabel6.setExpression("#{entity.liquidatingofficer.name}");
+        xLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel6.setPreferredSize(new java.awt.Dimension(0, 20));
         xFormPanel2.add(xLabel6);
 
-        xLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        xLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel5.setCaption("Amount");
         xLabel5.setExpression("#{formattedAmount}");
+        xLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        xLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         xLabel5.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         xLabel5.setPreferredSize(new java.awt.Dimension(150, 20));
         xFormPanel2.add(xLabel5);
@@ -142,21 +157,6 @@ public class RemittancePage extends javax.swing.JPanel {
         xDataTable1.setName("selectedFund"); // NOI18N
         xDataTable1.setColumns(new com.rameses.rcp.common.Column[]{
             new com.rameses.rcp.common.Column(new Object[]{
-                new Object[]{"name", "controlno"}
-                , new Object[]{"caption", "Control No"}
-                , new Object[]{"width", 150}
-                , new Object[]{"minWidth", 0}
-                , new Object[]{"maxWidth", 200}
-                , new Object[]{"required", false}
-                , new Object[]{"resizable", true}
-                , new Object[]{"nullWhenEmpty", true}
-                , new Object[]{"editable", false}
-                , new Object[]{"visible", true}
-                , new Object[]{"visibleWhen", null}
-                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
-                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
-            }),
-            new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "fund.title"}
                 , new Object[]{"caption", "Fund"}
                 , new Object[]{"width", 100}
@@ -174,8 +174,8 @@ public class RemittancePage extends javax.swing.JPanel {
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "totalcash"}
                 , new Object[]{"caption", "Total Cash"}
-                , new Object[]{"width", 100}
-                , new Object[]{"minWidth", 0}
+                , new Object[]{"width", 120}
+                , new Object[]{"minWidth", 50}
                 , new Object[]{"maxWidth", 150}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
@@ -189,8 +189,8 @@ public class RemittancePage extends javax.swing.JPanel {
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "totalcheck"}
                 , new Object[]{"caption", "Total Checks"}
-                , new Object[]{"width", 100}
-                , new Object[]{"minWidth", 0}
+                , new Object[]{"width", 120}
+                , new Object[]{"minWidth", 50}
                 , new Object[]{"maxWidth", 150}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
@@ -204,8 +204,8 @@ public class RemittancePage extends javax.swing.JPanel {
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "totalcr"}
                 , new Object[]{"caption", "Total Credit"}
-                , new Object[]{"width", 100}
-                , new Object[]{"minWidth", 0}
+                , new Object[]{"width", 120}
+                , new Object[]{"minWidth", 50}
                 , new Object[]{"maxWidth", 150}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
@@ -219,8 +219,8 @@ public class RemittancePage extends javax.swing.JPanel {
             new com.rameses.rcp.common.Column(new Object[]{
                 new Object[]{"name", "amount"}
                 , new Object[]{"caption", "Amount"}
-                , new Object[]{"width", 100}
-                , new Object[]{"minWidth", 0}
+                , new Object[]{"width", 120}
+                , new Object[]{"minWidth", 50}
                 , new Object[]{"maxWidth", 150}
                 , new Object[]{"required", false}
                 , new Object[]{"resizable", true}
@@ -230,21 +230,6 @@ public class RemittancePage extends javax.swing.JPanel {
                 , new Object[]{"visibleWhen", null}
                 , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.DecimalColumnHandler("#,##0.00", -1.0, -1.0, false, 2)}
-            }),
-            new com.rameses.rcp.common.Column(new Object[]{
-                new Object[]{"name", "dummy"}
-                , new Object[]{"caption", "  "}
-                , new Object[]{"width", 25}
-                , new Object[]{"minWidth", 25}
-                , new Object[]{"maxWidth", 0}
-                , new Object[]{"required", false}
-                , new Object[]{"resizable", true}
-                , new Object[]{"nullWhenEmpty", true}
-                , new Object[]{"editable", false}
-                , new Object[]{"visible", true}
-                , new Object[]{"visibleWhen", null}
-                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
-                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             })
         });
         xDataTable1.setDynamic(true);
@@ -421,6 +406,338 @@ public class RemittancePage extends javax.swing.JPanel {
 
         xTabbedPane1.addTab("   Cash and Checks     ", jPanel9);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        com.rameses.rcp.control.layout.XLayout xLayout3 = new com.rameses.rcp.control.layout.XLayout();
+        xLayout3.setSpacing(5);
+        jPanel6.setLayout(xLayout3);
+
+        xLabel7.setExpression("Issued AF");
+        xLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        xLabel7.setFontStyle("font-weight: bold; font-size:12;");
+        xLabel7.setForeground(new java.awt.Color(60, 60, 60));
+        jPanel6.add(xLabel7);
+
+        xButton3.setDepends(new String[] {"issuedAF"});
+        xButton3.setDisableWhen("#{issuedAF == null}");
+        xButton3.setName("viewIssuedAF"); // NOI18N
+        xButton3.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        xButton3.setText("View AF");
+        jPanel6.add(xButton3);
+
+        xButton4.setDepends(new String[] {"issuedAF"});
+        xButton4.setDisableWhen("#{issuedAF == null}");
+        xButton4.setName("viewIssuedReceipts"); // NOI18N
+        xButton4.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        xButton4.setText("View Receipts");
+        jPanel6.add(xButton4);
+
+        jPanel5.add(jPanel6, java.awt.BorderLayout.NORTH);
+
+        xDataTable2.setHandler("issuedAFHandler");
+        xDataTable2.setName("issuedAF"); // NOI18N
+        xDataTable2.setColumns(new com.rameses.rcp.common.Column[]{
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "afid"}
+                , new Object[]{"caption", "AF No."}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "issuedstartseries"}
+                , new Object[]{"caption", "Start Series"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "issuedendseries"}
+                , new Object[]{"caption", "End Series"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "qtyissued"}
+                , new Object[]{"caption", "Qty Issued"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "qtycancelled"}
+                , new Object[]{"caption", "Qty Cancelled"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "qtyending"}
+                , new Object[]{"caption", "Qty Balance"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "stubno"}
+                , new Object[]{"caption", "Stub"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "unit"}
+                , new Object[]{"caption", "Unit"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "formtype"}
+                , new Object[]{"caption", "FormType"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 0}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            })
+        });
+        xDataTable2.setDynamic(true);
+        jPanel5.add(xDataTable2, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel5);
+
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jPanel15.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 5, 0));
+        com.rameses.rcp.control.layout.XLayout xLayout4 = new com.rameses.rcp.control.layout.XLayout();
+        xLayout4.setSpacing(5);
+        jPanel15.setLayout(xLayout4);
+
+        xLabel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        xLabel8.setFontStyle("font-weight: bold; font-size:12;");
+        xLabel8.setForeground(new java.awt.Color(60, 60, 60));
+        xLabel8.setText("Unissued AF");
+        jPanel15.add(xLabel8);
+
+        xButton5.setDepends(new String[] {"unissuedAF"});
+        xButton5.setDisableWhen("#{unissuedAF == null}");
+        xButton5.setName("viewUnissuedAF"); // NOI18N
+        xButton5.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        xButton5.setText("View AF");
+        jPanel15.add(xButton5);
+
+        xButton6.setDepends(new String[] {"unissuedAF"});
+        xButton6.setDisableWhen("#{unissuedAF == null}");
+        xButton6.setName("viewUnissuedReceipts"); // NOI18N
+        xButton6.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        xButton6.setText("View Receipts");
+        jPanel15.add(xButton6);
+
+        jPanel14.add(jPanel15, java.awt.BorderLayout.NORTH);
+
+        xDataTable4.setHandler("unissuedAFHandler");
+        xDataTable4.setName("unissuedAF"); // NOI18N
+        xDataTable4.setColumns(new com.rameses.rcp.common.Column[]{
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "afid"}
+                , new Object[]{"caption", "AF No."}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "endingstartseries"}
+                , new Object[]{"caption", "Start Series"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "endingendseries"}
+                , new Object[]{"caption", "End Series"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "qtyending"}
+                , new Object[]{"caption", "Qty Balance"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "stubno"}
+                , new Object[]{"caption", "Stub"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.IntegerColumnHandler(null, -1, -1)}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "unit"}
+                , new Object[]{"caption", "Unit"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 100}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"alignment", "CENTER"}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            }),
+            new com.rameses.rcp.common.Column(new Object[]{
+                new Object[]{"name", "formtype"}
+                , new Object[]{"caption", "FormType"}
+                , new Object[]{"width", 100}
+                , new Object[]{"minWidth", 0}
+                , new Object[]{"maxWidth", 0}
+                , new Object[]{"required", false}
+                , new Object[]{"resizable", true}
+                , new Object[]{"nullWhenEmpty", true}
+                , new Object[]{"editable", false}
+                , new Object[]{"visible", true}
+                , new Object[]{"visibleWhen", null}
+                , new Object[]{"textCase", com.rameses.rcp.constant.TextCase.NONE}
+                , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
+            })
+        });
+        xDataTable4.setDynamic(true);
+        jPanel14.add(xDataTable4, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel14);
+
+        xTabbedPane1.addTab("   Accountable Form Summary     ", jPanel2);
+
         add(xTabbedPane1);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -430,15 +747,26 @@ public class RemittancePage extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private com.rameses.rcp.control.XButton xButton1;
     private com.rameses.rcp.control.XButton xButton2;
+    private com.rameses.rcp.control.XButton xButton3;
+    private com.rameses.rcp.control.XButton xButton4;
+    private com.rameses.rcp.control.XButton xButton5;
+    private com.rameses.rcp.control.XButton xButton6;
     private com.rameses.rcp.control.XDataTable xDataTable1;
+    private com.rameses.rcp.control.XDataTable xDataTable2;
     private com.rameses.rcp.control.XDataTable xDataTable3;
+    private com.rameses.rcp.control.XDataTable xDataTable4;
     private com.rameses.rcp.control.XDecimalField xDecimalField5;
     private com.rameses.rcp.control.XDecimalField xDecimalField9;
     private com.rameses.rcp.control.XFormPanel xFormPanel1;
@@ -451,6 +779,8 @@ public class RemittancePage extends javax.swing.JPanel {
     private com.rameses.rcp.control.XLabel xLabel4;
     private com.rameses.rcp.control.XLabel xLabel5;
     private com.rameses.rcp.control.XLabel xLabel6;
+    private com.rameses.rcp.control.XLabel xLabel7;
+    private com.rameses.rcp.control.XLabel xLabel8;
     private com.rameses.rcp.control.XTabbedPane xTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

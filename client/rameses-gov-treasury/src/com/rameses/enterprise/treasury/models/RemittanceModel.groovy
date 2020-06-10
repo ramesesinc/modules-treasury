@@ -206,11 +206,17 @@ class RemittanceModel extends CrudFormModel {
         } 
     } 
     
-    boolean isChangeLiqOfficerAllowed() {
+    boolean isActionAllowedOnOpenState() {
         if ( user == null ) return false; 
         if ( !entity.state.toString().toUpperCase().matches('OPEN')) return false; 
         return ( entity.collector?.objid == user.userid ); 
     }
+    boolean isActionAllowedOnDraftState() {
+        if ( user == null ) return false; 
+        if ( !entity.state.toString().toUpperCase().matches('DRAFT')) return false; 
+        return ( entity.collector?.objid == user.userid ); 
+    }
+    
     void changeLiqOfficer() {
         boolean pass = false;
         def officer = null;
@@ -228,4 +234,91 @@ class RemittanceModel extends CrudFormModel {
             if ( res ) entity.putAll( res ); 
         }
     }
+
+    def delete() {
+        boolean b = MsgBox.confirm('You are about to delete this transaction. Proceed?'); 
+        if ( !b ) return null; 
+        
+        def mm = [_schemaname: 'remittance', objid: entity.objid]; 
+        persistenceService.removeEntity( mm ); 
+        return '_close'; 
+    }
+    
+    
+    
+    def issuedAF; 
+    def issuedAFHandler = [
+        fetchList: { o-> 
+            return entity.afsummaries.findAll{ it.indexlevel == 0 } 
+        }
+    ] as DataListModel; 
+    
+    def unissuedAF; 
+    def unissuedAFHandler = [
+        fetchList: { o-> 
+            return entity.afsummaries.findAll{ it.indexlevel == 1 } 
+        }
+    ] as DataListModel; 
+    
+    def viewIssuedAF() { 
+        return viewAF( issuedAF ); 
+    }
+    def viewIssuedReceipts() { 
+        return viewReceipts( issuedAF ); 
+    }
+    
+    def viewUnissuedAF() { 
+        return viewAF( unissuedAF ); 
+    }
+    def viewUnissuedReceipts() { 
+        return viewReceipts( unissuedAF ); 
+    }
+    
+    def viewAF( o ) { 
+        def param = [entity: [:]];
+        param.entity.objid = o.controlid; 
+        def op = Inv.lookupOpener('af_control:open', param); 
+        op.target = 'popup'; 
+        op.properties.width = 1024; 
+        op.properties.height = 600; 
+        return op; 
+    }
+    
+    def viewReceipts( o ) {
+        def namebuff = new StringBuilder('cashreceipt_list:remitted:view'); 
+        
+        def wheremap = [controlid: o.controlid]; 
+        def wheresql = new StringBuilder('controlid = :controlid'); 
+        if ( o.qtyissued > 0 ) {
+            wheresql.append(" AND remittanceid = :remittanceid"); 
+            wheremap.remittanceid = o.remittanceid;
+        }
+        else {
+            namebuff.append('previous'); 
+        }
+        
+        def param = [:]; 
+        param.customFilter = [wheresql, wheremap]; 
+        def op = Inv.lookupOpener( namebuff.toString(), param );
+        op.target = "popup";
+        return op;
+    }
+    
+    def popupActions( inv ) { 
+        def param = [ entity: entity ]; 
+        param.refreshHandler = {
+            reloadEntity(); 
+        }
+
+        try {
+            def popupMenu = new PopupMenuOpener(); 
+            def list = Inv.lookupOpeners( inv.properties.category, param );
+            list.each{
+                popupMenu.add( it );
+            }
+            return popupMenu; 
+        } catch(Throwable t) {
+            return null; 
+        }
+    } 
 } 
