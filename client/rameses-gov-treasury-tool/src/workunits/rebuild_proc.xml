@@ -1,0 +1,18 @@
+<workunit>
+    <invokers>
+        <invoker type="rebuild_proc:open"  action="init"/>
+        
+        <invoker type="formActions" caption="Close" action="_close" 
+                 visibleWhen="#{mode.toString().matches('error|done') == true}"/>
+        <invoker type="formActions" caption="Retry" action="doRetry" 
+                 visibleWhen="#{mode.toString() == 'error'}"/>
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.RebuildProcModel"/> 
+    
+    <pages>
+        <page template="com.rameses.gov.treasury.tool.views.RebuildProcPage"/> 
+        <page name="error" template="com.rameses.gov.treasury.tool.views.RebuildProcErrorPage"/> 
+        <page name="done" template="com.rameses.gov.treasury.tool.views.RebuildProcDonePage"/> 
+    </pages>
+</workunit>

@@ -18,7 +18,7 @@ class RemittanceModifyService {
 
 		def findby = [ objid: param.remittanceid ]; 
 		def rem = rem_db.find( findby ).select('objid').first(); 
-		if ( !rem ) throw new Exception('Remittance record cannot tbe found'); 
+		if ( !rem ) throw new Exception('Remittance record cannot be found'); 
 
 		findby.clear(); 
 		findby.remittanceid = param.remittanceid; 
@@ -51,7 +51,7 @@ class RemittanceModifyService {
 
 		def findby = [ objid: param.objid ]; 
 		def rem = rem_db.find( findby ).select('objid,totalcash').first(); 
-		if ( !rem ) throw new Exception('Remittance record cannot tbe found'); 
+		if ( !rem ) throw new Exception('Remittance record cannot be found'); 
 
 		def cashbreakdown = param.cashbreakdown.findAll{( it.qty > 0 )}
 		def newtotalcash = cashbreakdown.sum{( it.amount ? it.amount : 0.0 )}
@@ -62,4 +62,30 @@ class RemittanceModifyService {
 
 	    rem_db.find( findby ).update([ cashbreakdown: cashbreakdown ]); 
 	}
+
+	@ProxyMethod
+	public def changeLiqOfficer( param ) {
+		if (!param.objid) throw new Exception('objid parameter is required'); 
+		if (!param.liquidatingofficer?.objid) throw new Exception('liquidatingofficer.objid parameter is required'); 
+		if (!param.liquidatingofficer?.name) throw new Exception('liquidatingofficer.name parameter is required'); 
+		if (!param.liquidatingofficer?.title) throw new Exception('liquidatingofficer.title parameter is required'); 
+
+		def findby = [ objid: param.objid ]; 
+		def old = rem_db.find( findby ).select('objid').first(); 
+		if ( !old ) throw new Exception('Remittance record cannot be found'); 
+
+		// execute update to begin the record-locking
+		rem_db.find( findby ).update([ liquidatingofficer: [name: new java.rmi.server.UID().toString()]]); 
+
+		def strcols = 'objid,state,liquidatingofficer.*';
+		def remdata = rem_db.find( findby ).select( strcols ).first(); 		
+
+		if ( !remdata.state.toString().toUpperCase().matches('OPEN')) 
+			throw new Exception('Change Liq.Officer is allowed only when status is OPEN'); 
+
+		remdata.liquidatingofficer = param.liquidatingofficer; 
+		rem_db.find( findby ).update( remdata ); 
+		return remdata; 
+	}
+
 }

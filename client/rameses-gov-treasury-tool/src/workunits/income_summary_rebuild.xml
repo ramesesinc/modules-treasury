@@ -1,0 +1,30 @@
+<workunit>
+    <invokers>
+        <invoker folderid="menucategory/treasury/tool" 
+                 caption="Rebuild Income Summary" action="init" 
+                 role="LIQ_OFFICER_ADMIN" permission="incomesummary.rebuild" />
+
+
+        <invoker type="formActions" 
+                 caption="Close" action="doClose" mnemonic="o" 
+                 visibleWhen="#{mode.toString().matches('init|done') == true}"/> 
+        
+        <invoker type="formActions" 
+                 caption="Build" action="doBuild" mnemonic="b" 
+                 visibleWhen="#{mode == 'init'}"/> 
+
+        <invoker type="formActions" 
+                 caption="Cancel" action="doCancel" mnemonic="c" 
+                 visibleWhen="#{mode == 'processing' &amp;&amp; cancelled == false}"/> 
+                 
+        <invoker type="formActions" 
+                 caption="New" action="doNew" mnemonic="n" 
+                 visibleWhen="#{ mode == 'done' }"/> 
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.IncomeSummaryRebuildModel"/>      
+    
+    <pages>
+        <page template="com.rameses.gov.treasury.tool.views.IncomeSummaryInitPage"/>
+    </pages> 
+</workunit>

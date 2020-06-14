@@ -13,9 +13,6 @@ class RemittanceModel extends CrudFormModel {
     @Service("RemittanceService")
     def remSvc;    
 
-    @Service("RemittanceImportExportService")
-    def exportSvc;    
-    
     @Service("Var")
     def var;
     
@@ -31,6 +28,14 @@ class RemittanceModel extends CrudFormModel {
     def selectedAf;
     
     def numformat = new java.text.DecimalFormat("#,##0.00"); 
+    
+    String getWindowTitle() {
+        if ( entity.state.toString().toUpperCase() == 'DRAFT' ) {
+            return super.getWindowTitle(); 
+        } else {
+            return entity.controlno.toString();
+        }
+    }
     
     def getFormattedAmount() {
         if ( !(entity.amount instanceof Number )) {
@@ -153,6 +158,17 @@ class RemittanceModel extends CrudFormModel {
         }
     }
     
+    public void afterOpen() { 
+        [ fundSummaryHandler, checkModel ].each{
+            try {
+                it.reload(); 
+            } catch(Throwable t) {
+                MsgBox.err( t ); 
+            }
+        } 
+    }
+
+    
     def popupReports( inv ) {
         def popupMenu = new PopupMenuOpener();
         def list = Inv.lookupOpeners( inv.properties.category, [entity:entity] );
@@ -196,16 +212,7 @@ class RemittanceModel extends CrudFormModel {
             ]
         ];
     } 
-    
-    void doExport(){
-        def chooser = new javax.swing.JFileChooser();
-        chooser.setSelectedFile(new java.io.File(entity.controlno + '.rem'));
-        int opt = chooser.showSaveDialog(null);
-        if ( opt == 0 ) {
-            com.rameses.io.FileUtil.writeObject( chooser.selectedFile, exportSvc.exportRemittance( entity.objid ));
-            MsgBox.alert("Remittance has been successfully exported!");
-        } 
-    } 
+
     
     boolean isActionAllowedOnOpenState() {
         if ( user == null ) return false; 
@@ -218,24 +225,6 @@ class RemittanceModel extends CrudFormModel {
         return ( entity.collector?.objid == user.userid ); 
     }
     
-    void changeLiqOfficer() {
-        boolean pass = false;
-        def officer = null;
-        def param = [:]; 
-        param.onselect = { o-> 
-            officer = o; 
-            officer.title = o.jobtitle; 
-            pass = true; 
-        } 
-        Modal.show('liquidatingofficer:lookup', param);
-        if ( !pass ) return; 
-        
-        if ( officer?.objid ) { 
-            def res = remSvc.changeLiqOfficer([ objid: entity.objid, liquidatingofficer: officer ]); 
-            if ( res ) entity.putAll( res ); 
-        }
-    }
-
     def delete() {
         boolean b = MsgBox.confirm('You are about to delete this transaction. Proceed?'); 
         if ( !b ) return null; 
@@ -312,6 +301,7 @@ class RemittanceModel extends CrudFormModel {
         }
 
         try {
+            def boolean has_visible_items = false;
             def popupMenu = new PopupMenuOpener(); 
             def list = Inv.lookupOpeners( inv.properties.category, param );
             list.each{ 
@@ -323,14 +313,19 @@ class RemittanceModel extends CrudFormModel {
                         visible = false; 
                     }
                 }
-                
                 if ( visible ) {
                     popupMenu.add( it );
+                    has_visible_items = true; 
                 }
+            }
+            if ( !has_visible_items ) {
+                MsgBox.alert('No available actions'); 
+                return null; 
             }
             return popupMenu; 
         } 
         catch(Throwable t) {
+            MsgBox.alert('No available actions'); 
             return null; 
         }
     } 

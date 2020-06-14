@@ -139,5 +139,7 @@ class CollectionVoucherInitialModel extends CrudListModel {
         return op;
     }
 
-    
+    void doRefresh() {
+        remittanceListHandler.reload(); 
+    }
 }    

@@ -1,0 +1,17 @@
+<workunit>
+    <invokers>
+        <invoker type="remittance:actions"  
+                 caption="Void Receipt" action="init" target="process">
+            
+            <action name="init" tag="collector_admin" 
+                    role="COLLECTOR_ADMIN" permission="remittance.voidReceipt" 
+                    visibleWhen="#{ entity.state.toString().toUpperCase().matches('OPEN|POSTED')==true }"/> 
+            
+            <action name="init" tag="collector" 
+                    role="COLLECTOR" permission="remittance.voidReceipt" 
+                    visibleWhen="#{actionAllowedOnDraftState == true}"/>            
+        </invoker> 
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.RemittanceVoidReceiptModel"/> 
+</workunit>

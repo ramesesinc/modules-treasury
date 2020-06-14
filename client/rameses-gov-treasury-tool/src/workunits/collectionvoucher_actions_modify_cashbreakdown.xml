@@ -1,0 +1,17 @@
+<workunit>
+    <invokers>
+        <invoker type="collectionvoucher:actions"  
+                 caption="Modify Cash Breakdown" action="init" target="process"
+                 role="LIQ_OFFICER_ADMIN,LIQUIDATING_OFFICER" 
+                 permission="collectionvoucher.modifyCashBreakdown" > 
+            
+            <action role="LIQ_OFFICER_ADMIN" tag="admin" 
+                    visibleWhen="#{ entity.state.toString().toUpperCase().matches('OPEN|POSTED')==true }" />
+            
+            <action role="LIQUIDATING_OFFICER" tag="liquidating_officer" 
+                    visibleWhen="#{ actionAllowedOnOpenState == true }" />
+        </invoker> 
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.CollectionVoucherModifyCashBreakdownModel"/> 
+</workunit>

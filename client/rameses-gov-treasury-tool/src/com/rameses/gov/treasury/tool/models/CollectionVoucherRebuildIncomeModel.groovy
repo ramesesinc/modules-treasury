@@ -5,9 +5,9 @@ import com.rameses.rcp.common.*;
 import com.rameses.osiris2.common.*;
 import com.rameses.osiris2.client.*;
 
-class RemittanceFundRebuildModel {
+class CollectionVoucherRebuildIncomeModel {
 
-    @Service('RemittanceModifyService') 
+    @Service('IncomeSummaryModifyService') 
     def modifySvc; 
     
     def entity;
@@ -15,16 +15,10 @@ class RemittanceFundRebuildModel {
     
     void init() { 
         def param = [:]; 
-        param.formTitle = 'Rebuild Fund Summary'; 
+        param.formTitle = 'Rebuild Income Summary'; 
         param.initHandler = { asyncHandler-> 
-            modifySvc.rebuildFund([ remittanceid: entity.objid ], asyncHandler);
-        }
-        param.doneHandler = {
-            if (refreshHandler) {
-                refreshHandler(); 
-            }
+            modifySvc.rebuildByLiquidation([ objid: entity.objid ], asyncHandler);
         }
         Modal.show('rebuild_proc:open', param);  
-    }
-    
+    }    
 }

@@ -1,0 +1,10 @@
+<workunit>
+    <invokers>
+        <invoker type="collectionvoucher:actions"  
+                 caption="Change Liquidating Officer" action="init" target="process" 
+                 role="LIQ_OFFICER_ADMIN" permission="collectionvoucher.changeLiqOfficer" 
+                 visibleWhen="#{entity.state.toString().toUpperCase() == 'OPEN'}" /> 
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.CollectionVoucherChangeLiqOfficerModel"/> 
+</workunit>

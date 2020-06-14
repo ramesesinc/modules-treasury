@@ -1,0 +1,9 @@
+<workunit>
+    <invokers>
+        <invoker type="collectionvoucher:actions"  
+                 caption="Rebuild Fund Summary" action="init" target="process" 
+                 role="LIQ_OFFICER_ADMIN" permission="collectionvoucher.rebuildFund" />        
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.CollectionVoucherFundRebuildModel"/> 
+</workunit>

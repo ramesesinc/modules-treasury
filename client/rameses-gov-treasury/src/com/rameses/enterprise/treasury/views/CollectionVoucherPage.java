@@ -41,7 +41,6 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
         xLabel8 = new com.rameses.rcp.control.XLabel();
         xTabbedPane1 = new com.rameses.rcp.control.XTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         xDataTable3 = new com.rameses.rcp.control.XDataTable();
         jPanel7 = new javax.swing.JPanel();
         xButton1 = new com.rameses.rcp.control.XButton();
@@ -58,6 +57,7 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
         xDecimalField9 = new com.rameses.rcp.control.XDecimalField();
         jPanel3 = new javax.swing.JPanel();
         xDataTable1 = new com.rameses.rcp.control.XDataTable();
+        jPanel4 = new javax.swing.JPanel();
         xButton2 = new com.rameses.rcp.control.XButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -125,7 +125,8 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
 
         add(xFormPanel1);
 
-        jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 2, 10));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         xDataTable3.setHandler("fundSummaryHandler");
         xDataTable3.setName("selectedFund"); // NOI18N
@@ -191,7 +192,7 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             })
         });
-        jPanel5.add(xDataTable3, java.awt.BorderLayout.CENTER);
+        jPanel1.add(xDataTable3, java.awt.BorderLayout.CENTER);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 0, 0, 0));
         jPanel7.setLayout(new com.rameses.rcp.control.layout.XLayout());
@@ -203,28 +204,11 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
         xButton1.setText("View Fund");
         jPanel7.add(xButton1);
 
-        jPanel5.add(jPanel7, java.awt.BorderLayout.SOUTH);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 867, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jPanel1.add(jPanel7, java.awt.BorderLayout.SOUTH);
 
         xTabbedPane1.addTab("   Fund Summary     ", jPanel1);
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 0, 10));
         com.rameses.rcp.control.layout.XLayout xLayout1 = new com.rameses.rcp.control.layout.XLayout();
         xLayout1.setSpacing(5);
         jPanel10.setLayout(xLayout1);
@@ -355,6 +339,9 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
 
         xTabbedPane1.addTab("   Cash and Checks     ", jPanel10);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 2, 10));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
         xDataTable1.setHandler("remittanceListHandler");
         xDataTable1.setName("selectedRemittance"); // NOI18N
         xDataTable1.setColumns(new com.rameses.rcp.common.Column[]{
@@ -434,35 +421,19 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
                 , new Object[]{"typeHandler", new com.rameses.rcp.common.TextColumnHandler()}
             })
         });
+        jPanel3.add(xDataTable1, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 0, 0, 0));
+        jPanel4.setLayout(new com.rameses.rcp.control.layout.XLayout());
 
         xButton2.setDepends(new String[] {"selectedRemittance"});
         xButton2.setDisableWhen("#{selectedRemittance == null}");
         xButton2.setMnemonic('r');
         xButton2.setName("viewRemittance"); // NOI18N
         xButton2.setText("View Remittance");
+        jPanel4.add(xButton2);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(xButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, 867, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(xDataTable1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(xButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel3.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
         xTabbedPane1.addTab("   Remittances     ", jPanel3);
 
@@ -478,7 +449,7 @@ public class CollectionVoucherPage extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private com.rameses.rcp.control.XButton xButton1;
     private com.rameses.rcp.control.XButton xButton2;

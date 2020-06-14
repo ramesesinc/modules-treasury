@@ -1,11 +1,11 @@
 package com.rameses.enterprise.treasury.models;
 
-import com.rameses.rcp.common.*;
 import com.rameses.rcp.annotations.*;
+import com.rameses.rcp.common.*;
+import com.rameses.rcp.util.UIControlUtil;
 import com.rameses.osiris2.client.*;
 import com.rameses.osiris2.common.*;
-import com.rameses.seti2.models.*;
-
+import com.rameses.seti2.models.CrudFormModel;
 
 class CollectionVoucherModel extends CrudFormModel {
 
@@ -15,10 +15,21 @@ class CollectionVoucherModel extends CrudFormModel {
     @Service("DepositVoucherService")
     def depositSvc; 
     
+    @Script("User")
+    def user;    
+    
     def selectedRemittance;
     def selectedFund;
     
     def numformat = new java.text.DecimalFormat("#,##0.00"); 
+    
+    String getWindowTitle() {
+        if ( entity.state.toString().toUpperCase() == 'DRAFT' ) {
+            return super.getWindowTitle(); 
+        } else {
+            return entity.controlno.toString();
+        }
+    }
     
     def getTotalNoncash() {
         return (entity.totalcheck + entity.totalcr);
@@ -92,12 +103,22 @@ class CollectionVoucherModel extends CrudFormModel {
         }
     ] as BasicListModel;
     
+    public void afterOpen() { 
+        [ fundSummaryHandler, checkModel, remittanceListHandler ].each{
+            try {
+                it.reload(); 
+            } catch(Throwable t) {
+                MsgBox.err( t ); 
+            }
+        } 
+    }
+    
     def post() {
         if(!MsgBox.confirm("You are about to post this transaction. Proceed?")) return null;
-        def o = collSvc.post( entity );
+        def o = collSvc.post( entity ); 
         if ( o ) entity.putAll( o );  
         
-        fundSummaryHandler.reload(); 
+        if ( subWindow ) subWindow.update(); 
     }
     
     def decFormat = new java.text.DecimalFormat('0.00'); 
@@ -139,37 +160,6 @@ class CollectionVoucherModel extends CrudFormModel {
         ] 
     } 
     
-    public void changeLiqOfficer() {
-        def s = { o->
-            o.signature = null;
-            def m = [_schemaname:"collectionvoucher"];
-            m.findBy = [objid: entity.objid];
-            m.liquidatingofficer = o;
-            persistenceService.update( m );
-            reloadEntity();
-            binding.refresh();
-        };
-        Modal.show("liquidatingofficer:lookup", [onselect:s]);
-    }
-    
-    public void updateCashBreakdown() {
-        //get latest collectionvoucher from server
-        def mm = [_schemaname:"collectionvoucher"];
-        mm.findBy = [ objid: entity.objid ];
-        mm.select = "cashbreakdown";
-        def mz = queryService.findFirst(mm);
-        def p = [total: entity.totalcash, cashbreakdown: mz.cashbreakdown ];
-        p.handler = { o->
-            def m = [_schemaname: 'collectionvoucher'];
-            m.findBy = [objid: entity.objid];
-            m.cashbreakdown = o.cashbreakdown;
-            persistenceService.update( m );
-            entity.cashbreakdown = m.cashbreakdown;
-            binding.refresh();
-        }
-        Modal.show("cashbreakdown", p );
-    }
-    
     def popupReports( inv ) {
         def popupMenu = new PopupMenuOpener();
         def list = Inv.lookupOpeners( inv.properties.category, [entity:entity] );
@@ -178,4 +168,55 @@ class CollectionVoucherModel extends CrudFormModel {
         }
         return popupMenu;
     } 
+    
+    
+    boolean isActionAllowedOnOpenState() {
+        if ( user == null ) return false; 
+        if ( !entity.state.toString().toUpperCase().matches('OPEN')) return false; 
+        return ( entity.liquidatingofficer?.objid == user.userid ); 
+    }
+    boolean isActionAllowedOnPostedState() {
+        if ( user == null ) return false; 
+        if ( !entity.state.toString().toUpperCase().matches('POSTED')) return false; 
+        return ( entity.liquidatingofficer?.objid == user.userid ); 
+    }
+    
+    def popupActions( inv ) { 
+        def param = [ entity: entity ]; 
+        param.refreshHandler = {
+            reloadEntity(); 
+        }
+
+        try {
+            def boolean has_visible_items = false;
+            def popupMenu = new PopupMenuOpener(); 
+            def list = Inv.lookupOpeners( inv.properties.category, param );
+            list.each{ 
+                boolean visible = true; 
+                if ( it.properties.visibleWhen ) {
+                    try {
+                        visible = UIControlUtil.evaluateExprBoolean( this, it.properties.visibleWhen );
+                    } catch(Throwable t) {
+                        t.printStackTrace(); 
+                        visible = false; 
+                    }
+                }
+                
+                if ( visible ) {
+                    popupMenu.add( it );
+                    has_visible_items = true; 
+                }
+            }
+            if ( !has_visible_items ) {
+                MsgBox.alert('No available actions'); 
+                return null; 
+            }            
+            return popupMenu; 
+        } 
+        catch(Throwable t) { 
+            t.printStackTrace();
+            MsgBox.alert('No available actions'); 
+            return null; 
+        }
+    }     
 } 

@@ -1,0 +1,6 @@
+"entity.*" [ 1==1 ] {
+    enabled: false; 
+}
+"entity.*" [ mode == 'init' ] {
+    enabled: true; 
+}

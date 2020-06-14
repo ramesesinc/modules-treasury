@@ -1,0 +1,17 @@
+<workunit>
+    <invokers>
+        <invoker type="remittance:actions"  
+                 caption="Change Liquidating Officer" action="init" target="process">
+            
+            <action name="init" tag="collector_admin" 
+                    role="COLLECTOR_ADMIN" permission="remittance.changeLiqOfficer" 
+                    visibleWhen="#{ entity.state.toString().toUpperCase() == 'OPEN' }"/> 
+            
+            <action name="init" tag="collector" 
+                    role="COLLECTOR" permission="remittance.changeLiqOfficer" 
+                    visibleWhen="#{actionAllowedOnOpenState == true}"/>            
+        </invoker> 
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.RemittanceChangeLiqOfficerModel"/> 
+</workunit>

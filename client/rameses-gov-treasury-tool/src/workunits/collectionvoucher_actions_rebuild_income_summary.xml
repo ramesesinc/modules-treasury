@@ -1,0 +1,10 @@
+<workunit>
+    <invokers>
+        <invoker type="collectionvoucher:actions"  
+                 caption="Rebuild Income Summary" action="init" target="process" 
+                 role="LIQ_OFFICER_ADMIN" permission="collectionvoucher.rebuildIncomeSummary" 
+                 visibleWhen="#{ entity.state.toString().toUpperCase() == 'POSTED' }"/>  
+    </invokers>
+   
+    <code class="com.rameses.gov.treasury.tool.models.CollectionVoucherRebuildIncomeModel"/> 
+</workunit>

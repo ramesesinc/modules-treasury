@@ -12,29 +12,23 @@
         
         <!-- form actions -->
         <invoker type="formActions" 
-                 caption="Reports" name="popupReports" 
-                 visibleWhen="#{entity.state != 'OPEN' }" 
-                 category="collectionvoucher:reports" 
-                 mnemonic="r" index="-1"/>        
-        
-        <invoker type="formActions" 
-                 caption="Change Liq. Officer" action="changeLiqOfficer" 
-                 visibleWhen="#{entity.state == 'OPEN'}" 
-                 role="ADMIN" 
-                 mnemonic="g" />
-
-        <invoker type="formActions" 
-                 caption="Update Cashbreakdown" action="updateCashBreakdown" 
-                 visibleWhen="#{entity.state == 'OPEN'}" 
-                 role="LIQUIDATING_OFFICER" 
-                 mnemonic="u" />
-        
-        <invoker type="formActions" 
                  caption="Post" action="post" 
                  visibleWhen="#{entity.state == 'OPEN'}" 
                  role="LIQUIDATING_OFFICER" 
                  mnemonic="p" />
-        
+
+        <invoker type="formActions" 
+                 caption="Reports" name="popupReports" 
+                 visibleWhen="#{entity.state == 'POSTED' }" 
+                 category="collectionvoucher:reports" 
+                 mnemonic="r" index="-1"/> 
+                
+        <invoker type="formActions" 
+                 caption="Actions" name="popupActions" 
+                 mnemonic="a" immediate="true" 
+                 category="collectionvoucher:actions" 
+                 icon="images/settings.png"/> 
+                
         <!--
         <invoker type="formActions" caption="Post To JEV" action="post" 
                  visibleWhen="#{entity.state == 'POSTED'}"/>        
