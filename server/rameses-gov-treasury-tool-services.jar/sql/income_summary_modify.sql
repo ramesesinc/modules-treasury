@@ -43,6 +43,7 @@ from (
 	from collectionvoucher cv 
 		inner join vw_remittance_cashreceiptitem rc on rc.collectionvoucherid = cv.objid  
 	where cv.objid = $P{objid} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, rc.acctid, rc.fundid, 
@@ -58,6 +59,7 @@ from (
 		inner join  vw_remittance_cashreceiptshare rc on rc.collectionvoucherid = cv.objid 
 		inner join itemaccount ia on ia.objid = rc.refacctid 
 	where cv.objid = $P{objid} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, ia.objid, ia.fund_objid, 
@@ -72,6 +74,7 @@ from (
 	from collectionvoucher cv 
 		inner join vw_remittance_cashreceiptshare rc on rc.collectionvoucherid = cv.objid 
 	where cv.objid = $P{objid} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, rc.acctid, rc.fundid, 
@@ -94,6 +97,12 @@ delete from income_summary where
 	refdate >= $P{startdate} and 
 	refdate <  $P{enddate} and 
 	reftype = 'liquidation' 
+
+[deleteDataByCreditMemoDate]
+delete from income_summary where 
+	refdate >= $P{startdate} and 
+	refdate <  $P{enddate} and 
+	reftype not in ('liquidation') 
 
 
 [insertDataByRemittanceDate]
@@ -138,6 +147,7 @@ from (
 		inner join collectionvoucher cv on cv.objid = rc.collectionvoucherid 
 	where rc.remittance_controldate >= $P{startdate} 
 		and rc.remittance_controldate < $P{enddate} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, rc.acctid, rc.fundid, 
@@ -154,6 +164,7 @@ from (
 		inner join itemaccount ia on ia.objid = rc.refacctid 
 	where rc.remittance_controldate >= $P{startdate} 
 		and rc.remittance_controldate < $P{enddate} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, ia.objid, ia.fund_objid, 
@@ -169,6 +180,7 @@ from (
 		inner join collectionvoucher cv on cv.objid = rc.collectionvoucherid 
 	where rc.remittance_controldate >= $P{startdate} 
 		and rc.remittance_controldate < $P{enddate} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, rc.acctid, rc.fundid, 
@@ -222,6 +234,7 @@ from (
 		inner join vw_remittance_cashreceiptitem rc on rc.collectionvoucherid = cv.objid 
 	where cv.controldate >= $P{startdate} 
 		and cv.controldate < $P{enddate} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, rc.acctid, rc.fundid, 
@@ -238,6 +251,7 @@ from (
 		inner join itemaccount ia on ia.objid = rc.refacctid 
 	where cv.controldate >= $P{startdate} 
 		and cv.controldate < $P{enddate} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, ia.objid, ia.fund_objid, 
@@ -253,6 +267,7 @@ from (
 		inner join vw_remittance_cashreceiptshare rc on rc.collectionvoucherid = cv.objid 
 	where cv.controldate >= $P{startdate} 
 		and cv.controldate < $P{enddate} 
+		and cv.state = 'POSTED' 
 		and rc.voided = 0 
 	group by 
 		cv.objid, cv.controldate, cv.controlno, rc.acctid, rc.fundid, 
@@ -262,3 +277,43 @@ group by
 	refid, refdate, refno, reftype, acctid, fundid, 
 	orgid, collectorid, remittanceid, remittancedate, 
 	year(refdate), month(refdate), year(remittancedate), month(remittancedate)
+
+
+[insertDataByCreditMemoDate]
+insert into income_summary ( 
+	refid, refdate, refno, reftype, refyear, refmonth, refqtr, 
+	remittanceid, remittancedate, liquidationid, 
+	orgid, collectorid, acctid, fundid, amount 
+) 
+select 
+	refid, refdate, refno, reftype, refyear, refmonth, refqtr, 
+	remittanceid, remittancedate, liquidationid, 
+	orgid, collectorid, acctid, fundid, sum(amount) as amount 
+from ( 
+	select 
+		cm.objid as refid, cm.refdate, cm.refno, 'CREDITMEMO' as reftype, 
+		year(cm.refdate) as refyear, month(cm.refdate) as refmonth, 
+		case 
+			when month(cm.refdate) between 1 and 3 then 1 
+			when month(cm.refdate) between 4 and 6 then 2 
+			when month(cm.refdate) between 7 and 9 then 3
+	 		when month(cm.refdate) between 10 and 12 then 4
+		end as refqtr, 
+		cmi.item_objid as acctid, ia.fund_objid as fundid, 
+		cmi.amount, o.objid as orgid, cm.issuedby_objid as collectorid, 
+		cm.objid as remittanceid, cm.refdate as remittancedate, 
+		cm.objid as liquidationid 
+	from creditmemo cm 
+		inner join collectiontype ct on ct.objid = cm.type_objid 
+		inner join creditmemoitem cmi on cmi.parentid = cm.objid 
+		inner join itemaccount ia on ia.objid = cmi.item_objid 
+		inner join sys_org o on o.root = 1 
+	where cm.refdate >= $P{startdate} 
+		and cm.refdate <  $P{enddate} 
+		and cm.receiptid is null 
+		and cm.state = 'POSTED' 
+)tt1
+group by 
+	refid, refdate, refno, reftype, refyear, refmonth, refqtr, 
+	remittanceid, remittancedate, liquidationid, 
+	orgid, collectorid, acctid, fundid

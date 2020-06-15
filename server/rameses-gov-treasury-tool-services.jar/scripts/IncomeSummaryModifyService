@@ -28,12 +28,16 @@ class IncomeSummaryModifyService {
 		def postingtypeid = param.postingtype?.objid; 
 		if ( !postingtypeid ) throw new Exception('postingtype.objid parameter is required'); 
 
-		if ( !postingtypeid.matches('BY_REMITTANCE_DATE|BY_LIQUIDATION_DATE')) 
+		def valid_posting_types = 'BY_REMITTANCE_DATE|BY_LIQUIDATION_DATE|BY_CREDITMEMO_DATE'; 
+		if ( !postingtypeid.matches( valid_posting_types )) 
 			throw new Exception(''+ postingtypeid +' posting type is not supported'); 
 
 		if ( postingtypeid == 'BY_REMITTANCE_DATE') {
 			inc_mod_db.deleteDataByRemittanceDate( param );
 		} 
+		else if ( postingtypeid == 'BY_CREDITMEMO_DATE' ) {
+			inc_mod_db.deleteDataByCreditMemoDate( param ); 
+		}		
 		else {
 			inc_mod_db.deleteDataByLiquidationDate( param );
 		}
@@ -47,14 +51,18 @@ class IncomeSummaryModifyService {
 		def postingtypeid = param.postingtype?.objid; 
 		if ( !postingtypeid ) throw new Exception('postingtype.objid parameter is required'); 
 
-		if ( !postingtypeid.matches('BY_REMITTANCE_DATE|BY_LIQUIDATION_DATE')) 
+		def valid_posting_types = 'BY_REMITTANCE_DATE|BY_LIQUIDATION_DATE|BY_CREDITMEMO_DATE'; 
+		if ( !postingtypeid.matches( valid_posting_types )) 
 			throw new Exception(''+ postingtypeid +' posting type is not supported'); 
 
 		if ( postingtypeid == 'BY_REMITTANCE_DATE') {
 			inc_mod_db.insertDataByRemittanceDate( param );
 		} 
+		else if ( postingtypeid == 'BY_CREDITMEMO_DATE' ) {
+			inc_mod_db.insertDataByCreditMemoDate( param ); 
+		}
 		else {
-			inc_mod_db.insertDataByLiquidationDate( param );	
+			inc_mod_db.insertDataByLiquidationDate( param ); 
 		}
 	} 
 }
