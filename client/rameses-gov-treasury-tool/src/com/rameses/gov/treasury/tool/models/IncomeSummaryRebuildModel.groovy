@@ -20,7 +20,8 @@ class IncomeSummaryRebuildModel {
     
     def postingTypes = [
         [objid: 'BY_REMITTANCE_DATE', name: 'BY REMITTANCE DATE'],
-        [objid: 'BY_LIQUIDATION_DATE', name: 'BY LIQUIDATION DATE']
+        [objid: 'BY_LIQUIDATION_DATE', name: 'BY LIQUIDATION DATE'],
+        [objid: 'BY_CREDITMEMO_DATE', name: 'BY CREDIT MEMO DATE']
     ]; 
     
     def months = [
