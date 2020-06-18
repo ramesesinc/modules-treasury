@@ -22,6 +22,7 @@ public class CashReceiptPrintUtil {
             reprint_dev_handle = null;
             reprint_dev_mode = ReportUtil.isDeveloperMode(); 
             
+            rct._reprint = true;
             print( template_name, rct ); 
 
             if ( reprint_dev_handle ) {
