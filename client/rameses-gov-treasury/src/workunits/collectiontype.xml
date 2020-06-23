@@ -1,4 +1,5 @@
-<workunit schemaName="collectiontype">
+<workunit schemaName="collectiontype" 
+          allowEdit="#{entity.state.toString().matches('DRAFT|INACTIVE') == true}">
 
    <invokers>
          <invoker type="collectiontype:open" caption="Collection Type" action="open" role="MASTER" permission="collectiontype.open" target="popup"/>

@@ -1,4 +1,6 @@
-<workunit allowCreate="true" allowOpen="true">  
+<workunit allowCreate="true" allowOpen="true" 
+          allowEdit="#{entity.state.toString().matches('DRAFT|INACTIVE') == true}"> 
+
     <invokers>
         <invoker type="collectiongroup:create" caption="Collection Group" action="create" 
                  role="MASTER" permission="collectiongroup.create" target="popup"/>
