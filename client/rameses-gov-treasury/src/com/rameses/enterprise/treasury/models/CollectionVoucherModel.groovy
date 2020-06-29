@@ -57,7 +57,7 @@ class CollectionVoucherModel extends CrudFormModel {
         if( !selectedRemittance ) throw new Exception("Please select an item")
         def o = selectedRemittance;
         def op = Inv.lookupOpener("remittance:open", [entity: o]);
-        op.target = "popup";
+        op.target = "window";
         return op;
     }
     
