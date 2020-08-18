@@ -83,7 +83,7 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
             //it means there is a related payment order for this.
             createNew();
             def op = null;
-            if ( o._paymentorderid ) {
+            if ( o._paymentorderid && o.info?.items ) {
                 entity.payer = o.info.payer;
                 entity.paidby = o.info.paidby;
                 entity.paidbyaddress = o.info.paidbyaddress;
@@ -102,6 +102,7 @@ class CashReceiptIssueModel extends CashReceiptAbstractIssueModel  {
                 pp.entity = entity;
                 pp.barcodeid = o.barcodeid;
                 pp.mainProcessHandler = processHandler;
+                pp._paymentorderid = o._paymentorderid;
                 handler = null;
                 try {
                     handler = Inv.lookupOpener("cashreceipt:barcode:"+ o.prefix, pp );

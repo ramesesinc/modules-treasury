@@ -1,31 +1,23 @@
-import com.rameses.annotations.*
-import com.rameses.common.*;
-import com.rameses.util.*;
+import com.rameses.annotations.*;
 
 class PaymentOrderService {
 
 	@Service
-	def self
+	def self;
 
 	@DataContext("paymentorder") 
 	def pmt; 
 	
-	@DataContext("revenueitem") 
-	def revItem; 
-
+	@DataContext("paymentorder_paid") 
+	def po_paid; 
+	
 	@Service("DateService") 
 	def dtSvc; 
 
-	@Service('OrgService')
-	def orgSvc 
-
-	@Service('PersistenceService')
-	def persistenceSvc; 
-
 	@ProxyMethod
 	public def create(def entity) {	
-		entity._schemaname = 'paymentorder';
-		persistenceSvc.create(entity);	
+		entity.txndate = dtSvc.getServerDate(); 
+		pmt.create(entity);	
 	} 
 
 	/***********************************
@@ -33,6 +25,9 @@ class PaymentOrderService {
 	************************************/
 	@ProxyMethod
 	public void close(def po) {
+		if ( po.controlno ) {
+			po_paid.create( po ); 
+		}
 		pmt.delete( po );
 	}
 
@@ -41,12 +36,12 @@ class PaymentOrderService {
 	************************************/
 	@ProxyMethod
 	public def open(def po) {
-		po._schemaname = 'paymentorder';
-		return persistenceSvc.read(po);	
+		pmt.read( po );	
 	}
 
 	@ProxyMethod
 	public void removeEntity(def po) {
+		po_paid.find([ objid: po.objid ]).delete();
 		pmt.find([ objid: po.objid ]).delete();
 	}	
 }
