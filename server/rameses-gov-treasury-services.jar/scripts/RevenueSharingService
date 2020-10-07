@@ -1,0 +1,83 @@
+import com.rameses.annotations.*;
+import com.rameses.rules.common.*;
+import com.rameses.annotations.*;
+import com.rameses.util.*;
+import java.rmi.server.*;
+import com.rameses.common.*;
+import treasury.facts.*;
+import treasury.actions.*;
+import treasury.utils.*;
+import enterprise.utils.*;
+import java.util.*;
+import enterprise.facts.Org;
+
+
+class RevenueSharingService {
+	
+	@Service("RuleExecutorService")
+	def ruleSvc;
+
+	@DataContext('sys_org') 
+	def sys_org;
+
+	@ProxyMethod
+	public execute getSharing( def rct ) {
+		if(!rct.receiptdate ) throw new Exception("RevenueSharingService.getSharing error. receiptdate is required in parameters");
+		if(!rct.items ) throw new Exception("RevenueSharingService.getSharing error. items is required in parameters");
+
+		def facts = [];
+
+		if ( rct.receiptdate instanceof String ) {
+			rct.receiptdate = java.sql.Date.valueOf( rct.receiptdate );  
+		} 
+		facts << new CashReceipt( receiptdate: rct.receiptdate );
+
+		if( rct.org?.objid ) {
+			def org = sys_org.find([ objid: rct.org.objid ]).first(); 
+			facts << new Org( orgid: org.objid, type: org.orgclass, root: (org.root==1)); 
+		}
+
+		rct.items.each {
+			facts << new BillItem( it );
+		}
+
+		/*
+		if( rct.collectiongroup &&  !facts.find{it.class == treasury.facts.CollectionGroup.class } ) {
+			def cg = params.collectiongroup;
+			facts << new treasury.facts.CollectionGroup( objid:cg.objid, name: cg.name );
+		}
+		*/
+
+		def ctx = RuleExecutionContext.currentContext;
+		if( ctx == null ) { ctx = new RuleExecutionContext(facts); };
+		if(!ctx.env.acctUtil) ctx.env.acctUtil = new ItemAccountUtil();
+
+		ruleSvc.execute( "revenuesharing", facts, null, null );
+		def shareList = facts.findAll{ it instanceof RevenueShare };
+		shareList.each {
+			resultList << it.toMap();
+		}
+		return resultList;
+	}
+
+}
+
+
+import com.rameses.annotations.*;
+
+public class CashReceiptComputeShareInterceptor {
+	
+	@Service("RevenueSharingService")
+   	def sharingSvc;
+
+	@Before(pattern="(Cash|Noncash)ReceiptService.post",  index=50)
+	public void computeShare(def evt) {
+		def p = evt.args[0];
+		def sharing = sharingSvc.execute( p );
+		if(sharing) {
+			if(!p.sharing) p.sharing = [];
+			p.sharing.addAll( sharing );
+		} 
+	}
+
+}

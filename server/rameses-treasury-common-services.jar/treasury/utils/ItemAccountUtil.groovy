@@ -12,7 +12,7 @@ public class ItemAccountUtil {
 
 	public def lookup( def acctid ) {
 		if(svc==null) {
-			svc = ServiceLookup.create( "ItemAccountLookupService", "financial-server");
+			svc = ServiceLookup.create( "ItemAccountLookupService", "financial");
 		}
 		if( ! map.containsKey(acctid)) {
 			def m = svc.lookup( [objid: acctid] );	
@@ -29,7 +29,7 @@ public class ItemAccountUtil {
 
 	public def createAccountFactByOrg( def parentid, def orgid ) {
 		if(svc==null) {
-			svc = ServiceLookup.create( "ItemAccountLookupService", "financial-server");
+			svc = ServiceLookup.create( "ItemAccountLookupService", "financial");
 		}
 		def o = svc.lookupByOrg([ parentid: parentid , orgid: orgid ]); 
 		if ( o ) {
@@ -54,7 +54,7 @@ public class ItemAccountUtil {
 
 	public def lookupIdByParentAndOrg( def parentid, def orgid ) {
 		if(svc==null) {
-			svc = ServiceLookup.create( "ItemAccountLookupService", "financial-server");
+			svc = ServiceLookup.create( "ItemAccountLookupService", "financial");
 		}; 
 		return svc.lookupByOrg( [parentid:parentid, orgid: orgid ])?.objid;
 	}
