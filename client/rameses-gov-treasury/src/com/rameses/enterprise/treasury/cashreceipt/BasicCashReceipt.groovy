@@ -22,8 +22,11 @@ public class BasicCashReceipt extends AbstractCashReceipt {
     
     void init() {
         super.init();
-
-        clearItems();
+        
+        if ( !_paymentorderid ) {
+            clearItems();
+        }
+        
         clearAllPayments();
     }
 

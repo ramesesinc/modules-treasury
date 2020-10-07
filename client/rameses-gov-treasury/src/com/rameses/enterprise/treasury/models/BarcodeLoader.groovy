@@ -41,19 +41,27 @@ public class BarcodeLoader {
         def prefix = null; 
         def barcodeid = null; 
         int i = p.indexOf(":");
-        if( i <=0 ) {
+        if( i < 0 ) {
             barcodeid = p.trim(); 
             def m = [_schemaname: 'paymentorder'];
             m.findBy = [objid: barcodeid];
             def po = qrySvc.findFirst( m );
             if ( !po ) throw new Exception('Order of payment '+ barcodeid + ' not found'); 
+            
+            def colltype = po.paymentordertype?.collectiontype;
             def v = [
-                prefix: po.collectiontype.barcodekey,
-                barcodeid:po.refno,
-                collectiontype  : po.collectiontype,
-                info: po, 
+                prefix: colltype.barcodekey,
+                collectiontype  : colltype,
+                barcodeid: po.refno,
+                //info: po, 
                 _paymentorderid : barcodeid 
             ];
+            if (po.items) {
+                v.info = po; 
+            }
+            else {
+                v.info = po.info;
+            }
             handler( v );            
         } 
         else {
