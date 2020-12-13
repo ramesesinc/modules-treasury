@@ -1,6 +1,6 @@
 <workunit schemaName="paymentorder">
     <invokers>
-       <invoker type="home.action" caption="Order of Payment" role="SHARED" icon="home/icons/paymentorder.png"
+       <invoker xtype="home.action" caption="Order of Payment" role="SHARED" icon="home/icons/paymentorder.png"
                 action="create" target="popup"/>
        
        <invoker type="paymentorder:create" caption="New Order of Payment" role="SHARED" 

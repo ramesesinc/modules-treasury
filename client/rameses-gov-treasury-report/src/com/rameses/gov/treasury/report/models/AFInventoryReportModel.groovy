@@ -7,6 +7,9 @@ import com.rameses.osiris2.reports.*;
 
 class AFInventoryReportModel extends AsyncReportController {
 
+    @Script('ReportPeriod')
+    def reportPeriod;
+    
     @Service('AFInventoryReportService') 
     def svc;
     
@@ -32,7 +35,7 @@ class AFInventoryReportModel extends AsyncReportController {
         getFormControls: {
             return [
                 new FormControl( "integer", [caption:'Year', name:'entity.year', required:true, preferredSize:'100,19', captionWidth:100]), 
-                new FormControl( "combo", [caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.caption}', preferredSize:'100,19', captionWidth:100])
+                new FormControl( "combo", [caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.title}', preferredSize:'100,19', captionWidth:100])
             ];
         }
     ] as FormPanelModel;
@@ -42,6 +45,6 @@ class AFInventoryReportModel extends AsyncReportController {
     }
 
     List getMonths(){
-        return dtSvc.getMonths();
+        return (List) reportPeriod.getMonths();
     }
 }

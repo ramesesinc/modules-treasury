@@ -21,7 +21,7 @@ class RevenueSharingService {
 	def sys_org;
 
 	@ProxyMethod
-	public execute getSharing( def rct ) {
+	public def execute( def rct ) {
 		if(!rct.receiptdate ) throw new Exception("RevenueSharingService.getSharing error. receiptdate is required in parameters");
 		if(!rct.items ) throw new Exception("RevenueSharingService.getSharing error. items is required in parameters");
 
@@ -37,8 +37,11 @@ class RevenueSharingService {
 			facts << new Org( orgid: org.objid, type: org.orgclass, root: (org.root==1)); 
 		}
 
+		def acctUtil = new ItemAccountUtil();
 		rct.items.each {
-			facts << new BillItem( it );
+			def b = [objid: it.objid, amount: it.amount]; 
+			b.account = acctUtil.createAccountFact( it.item );  
+			facts << new BillItem( b );
 		}
 
 		/*
@@ -50,34 +53,15 @@ class RevenueSharingService {
 
 		def ctx = RuleExecutionContext.currentContext;
 		if( ctx == null ) { ctx = new RuleExecutionContext(facts); };
-		if(!ctx.env.acctUtil) ctx.env.acctUtil = new ItemAccountUtil();
+		if(!ctx.env.acctUtil) ctx.env.acctUtil = acctUtil; 
 
 		ruleSvc.execute( "revenuesharing", facts, null, null );
 		def shareList = facts.findAll{ it instanceof RevenueShare };
+		def resultList = []; 
 		shareList.each {
 			resultList << it.toMap();
 		}
 		return resultList;
-	}
-
-}
-
-
-import com.rameses.annotations.*;
-
-public class CashReceiptComputeShareInterceptor {
-	
-	@Service("RevenueSharingService")
-   	def sharingSvc;
-
-	@Before(pattern="(Cash|Noncash)ReceiptService.post",  index=50)
-	public void computeShare(def evt) {
-		def p = evt.args[0];
-		def sharing = sharingSvc.execute( p );
-		if(sharing) {
-			if(!p.sharing) p.sharing = [];
-			p.sharing.addAll( sharing );
-		} 
 	}
 
 }

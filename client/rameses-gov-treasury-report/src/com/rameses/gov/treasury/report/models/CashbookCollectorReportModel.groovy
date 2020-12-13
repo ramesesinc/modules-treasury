@@ -19,7 +19,7 @@ class CashbookCollectorReportModel extends AsyncReportController {
     def data;
     def accounts = [];
     def funds = [];
-    def months = [];
+    def monthlist = [];
     def tag;
     
     def fundgroups = []; 
@@ -49,13 +49,17 @@ class CashbookCollectorReportModel extends AsyncReportController {
         accounts.unique(); 
         accounts.sort{ it.fullname } 
         funds = resp.funds; 
-        months = resp.months; 
+        monthlist = resp.months; 
         entity.date = resp.date; 
         entity.year = resp.year; 
         
         allow_multiple_fund_selection = resp.allow_multiple_fund_selection; 
         fundgroups = resp.fundgroups;
         return 'default'; 
+    }
+
+    List getMonths() {
+        return (List) monthlist;
     }
 
     boolean isDynamic() { 

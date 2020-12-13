@@ -7,6 +7,9 @@ import com.rameses.osiris2.reports.*;
 
 class CRAAFReportModel extends AsyncReportController {
     
+    @Script('ReportPeriod')
+    def reportPeriod;
+    
     @Service('CRAAFReportService') 
     def svc;
     
@@ -35,7 +38,7 @@ class CRAAFReportModel extends AsyncReportController {
         getControlList: {
             def list = []; 
             list << [type:"integer", caption:'Year', name:'entity.year', required:true, preferredSize:'100,20', captionWidth:100]; 
-            list << [type:"combo", caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.caption}', preferredSize:'100,20', captionWidth:100]; 
+            list << [type:"combo", caption:'Month', name:'entity.month', required:true, items:'months', expression:'#{item.title}', preferredSize:'100,20', captionWidth:100]; 
             list << [type:"combo", caption:'AF', name:'entity.af', items:'aflist', expression:'#{item.objid} - #{item.title}', preferredSize:'0,20', captionWidth:100]; 
             list << [type:"label", caption:'', expression:'', preferredSize:'0,20']; 
             list << [type:"checkbox", caption:'', name:'entity.condense_saled', text:' Condense SALE', captionWidth:100]; 
@@ -49,6 +52,6 @@ class CRAAFReportModel extends AsyncReportController {
     }
     
     List getMonths(){
-        return dtSvc.getMonths();
+        return (List) reportPeriod.getMonths();
     }
 }
