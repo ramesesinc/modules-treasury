@@ -1,6 +1,6 @@
 <workunit>
     <invokers>
-        <invoker type="remittance:reports" caption="Remittance Report By Cash Ticket" action="preview" target="self" index="7"/>
+        <invoker xtype="remittance:reports" caption="Remittance Report By Cash Ticket" action="preview" target="self" index="7"/>
         
         <invoker type="formActions" caption="Back" action="_close" mnemonic="b" shortcut="ctrl B" icon="images/toolbars/arrow_left.png"/>
     </invokers>

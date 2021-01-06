@@ -20,7 +20,11 @@
                  caption="Reports" name="popupReports" 
                  category="depositvoucher:reports" 
                  mnemonic="r" index="-1" 
-                 visibleWhen="#{ entity.state.toString().matches('OPEN|POSTED')==true }"/>         
+                 visibleWhen="#{ entity.state.toString().matches('OPEN|POSTED')==true }"/>   
+        
+        <invoker type="roleActions" caption="Role Action 1"/>       
+        <invoker type="roleActions" caption="Role Action 2"/>       
+        <invoker type="roleActions" caption="Role Action 3"/>       
     </invokers>
    
    <code class="com.rameses.enterprise.treasury.models.DepositVoucherModel" />
