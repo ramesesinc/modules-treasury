@@ -55,8 +55,15 @@ class RemittanceFundModel extends CrudFormModel {
     def getPrintFormData() { 
         def rdata = service.getReportData([ objid: entity.remittanceid, fund: entity.fund ]); 
         if ( rdata ) { 
+            def amount = rdata.amount; 
+            def totalcheck = rdata.totalcheck;
+            def totalcr = rdata.totalcr;
+            
             rdata.putAll( entity ); 
-            rdata.totalnoncash = rdata.totalcheck + rdata.totalcr;
+            rdata.amount = amount; 
+            rdata.totalcr = totalcr; 
+            rdata.totalcheck = totalcheck;
+            rdata.totalnoncash = totalcheck + totalcr;
             rdata.remittancedate = rdata.controldate;
             rdata.txnno = rdata.controlno; 
         }         
