@@ -76,7 +76,7 @@ class CRAAFReportService {
 				o.receivedendseries = o.receivedstartseries = null; 
 				o.qtyreceived = 0; 
 			}
-			
+
 			o.receivedstartseries = resolveSeriesValue( o.receivedstartseries ); 
 			o.receivedendseries = resolveSeriesValue( o.receivedendseries ); 
 			o.beginstartseries = resolveSeriesValue( o.beginstartseries ); 

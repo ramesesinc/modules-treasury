@@ -58,6 +58,8 @@ class DepositVoucherRCDReportService {
 		result.fund = dvfinfo?.fund; 
 
 		result.remittances = rcd_em.getRemittances( p ); 
+		resolveRemittances( result.remittances ); 
+
 		result.amount = result.remittances.sum{ it.amount } 
 		result.amount = (result.amount ? result.amount : 0.0); 
 		result.amountinwords = numSvc.doubleToWords( result.amount ).toUpperCase() + " PESOS"; 
@@ -111,6 +113,8 @@ class DepositVoucherRCDReportService {
 		}
 
 		result.remittances = rcd_em.getRemittancesByBankAcct( p ); 
+		resolveRemittances( result.remittances ); 
+		
 		result.amount = result.remittances.sum{ it.amount } 
 		result.amountinwords = numSvc.doubleToWords( result.amount ).toUpperCase() + " PESOS"; 
 
@@ -148,5 +152,9 @@ class DepositVoucherRCDReportService {
 		
 		result.totalnoncash = result.totalcheck + result.totalcr; 
 		result.totalcash = result.amount - result.totalnoncash; 
+	}
+
+	private void resolveRemittances( list ) {
+
 	}
 } 

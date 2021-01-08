@@ -1,0 +1,15 @@
+<workunit>
+    <invokers>
+       <invoker type="remittance:reports" caption="Remittance RCD By Fund" action="initReport" 
+                target="self" index="-1"/>
+       
+       <invoker type="formActions" caption="Back" action="_close" mnemonic="b" 
+                shortcut="ctrl B" icon="images/toolbars/arrow_left.png"/>
+    </invokers>
+    
+    <code class="com.rameses.gov.treasury.report.models.RemittanceRCDFundReportModel"/>
+    
+   <pages>
+       <page name="report" template="com.rameses.gov.treasury.remittance.report.RemittanceReportByFund" />
+   </pages>
+</workunit>

@@ -94,8 +94,8 @@ order by concat('AF#', ci.formno, ':', ci.collectiontype_name, '-', ff.title)
 [getRemittances]
 select 
 	dv.objid as depositvoucherid, dv.createdby_name as cashier_name, 
-	concat(ba.bank_code, ' - Cash D/S: Account ' , ba.code) as refno, 
-	sum(ds.amount) as amount 
+	concat(ba.bank_code, ' - ', ds.deposittype, ' D/S: Account ', ba.code) as refno, 
+	sum(ds.amount) as amount, ds.deposittype  
 from depositvoucher dv 
 	inner join depositvoucher_fund df on df.parentid = dv.objid 
 	inner join depositslip ds on ds.depositvoucherfundid = df.objid 
@@ -103,11 +103,12 @@ from depositvoucher dv
 where dv.objid = $P{depositvoucherid} 
 	and df.fundid like $P{fundid} 
 group by 
-	dv.objid, dv.createdby_name, concat(ba.bank_code, ' - Cash D/S: Account ' , ba.code)
+	dv.objid, dv.createdby_name, concat(ba.bank_code, ' - ', ds.deposittype, ' D/S: Account ', ba.code), ds.deposittype 
 
 
 [getBankAccounts]
-select ba.objid, ba.code, ba.title, ba.accttype 
+select distinct 
+	ba.objid, ba.code, ba.title, ba.accttype 
 from depositvoucher dv 
 	inner join depositvoucher_fund df on df.parentid = dv.objid 
 	inner join depositslip ds on ds.depositvoucherfundid = df.objid 
@@ -119,8 +120,8 @@ order by ba.code, ba.title
 [getRemittancesByBankAcct]
 select 
 	dv.objid as depositvoucherid, dv.createdby_name as cashier_name, 
-	concat(ba.bank_code, ' - Cash D/S: Account ' , ba.code) as refno, 
-	sum(ds.amount) as amount 
+	concat(ba.bank_code, ' - ', ds.deposittype, ' D/S: Account ', ba.code) as refno, 
+	sum(ds.amount) as amount, ds.deposittype  
 from depositvoucher dv 
 	inner join depositvoucher_fund df on df.parentid = dv.objid 
 	inner join depositslip ds on ds.depositvoucherfundid = df.objid 
@@ -128,7 +129,7 @@ from depositvoucher dv
 where dv.objid = $P{depositvoucherid} 
 	and ba.objid like $P{bankacctid} 
 group by 
-	dv.objid, dv.createdby_name, concat(ba.bank_code, ' - Cash D/S: Account ' , ba.code)
+	dv.objid, dv.createdby_name, concat(ba.bank_code, ' - ', ds.deposittype, ' D/S: Account ', ba.code), ds.deposittype  
 
 
 [getDepositVoucherFundByBankAcct]
