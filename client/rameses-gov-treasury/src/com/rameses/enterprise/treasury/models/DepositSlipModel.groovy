@@ -48,11 +48,14 @@ class DepositSlipModel extends CrudFormModel {
         else if( entity.deposittype == "CHECK"){
             bh = entity.bankaccount.bank.checkreport;
         }
-        if(!bh) throw new Exception("Please specify a cash and check deposit handler in the bank ");
+        
+        if ( !bh ) throw new Exception("Please specify a cash and check deposit handler in the bank ");
+        
         def br = "depositslip_printout:" + bh;
         try {
             def op = Inv.lookupOpener(br, [entity: entity ]);
-            if(!op) throw new Exception("Opener " + br + " not found. Please ensure it is included in the project");
+            if ( !op ) throw new Exception("Opener " + br + " not found. Please ensure it is included in the project");
+            
             op.target = "process";
             Inv.invoke(op);
         }

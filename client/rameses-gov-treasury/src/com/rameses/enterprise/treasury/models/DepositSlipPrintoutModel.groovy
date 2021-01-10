@@ -2,10 +2,10 @@ package com.rameses.enterprise.treasury.models;
 
 import com.rameses.rcp.annotations.*;
 import com.rameses.rcp.common.*;
-import com.rameses.osiris2.client.*;
 import com.rameses.osiris2.common.*;
-import com.rameses.util.*;
+import com.rameses.osiris2.client.*;
 import com.rameses.osiris2.reports.*;
+import com.rameses.util.*;
 
 abstract class DepositSlipPrintoutModel  {
     
@@ -78,6 +78,23 @@ abstract class DepositSlipPrintoutModel  {
         ] as ReportModel;
 
         report.viewReport(); 
+        
+        if (ReportUtil.isDeveloperMode()) { 
+            def op = null; 
+            try {
+                op = Inv.lookupOpener('report:preview', [report: report]);
+            } catch(Throwable t){;} 
+            
+            if ( op != null ) {
+                op.target = 'popup'; 
+                op.properties.width = '800'; 
+                op.properties.height = '600'; 
+                op.properties.title = 'Deposit Slip Preview ('+ data.deposittype +')'; 
+                Modal.show( op ); 
+                return; 
+            }
+        }
+
         ReportUtil.print( report.report, true );
     }
     

@@ -67,7 +67,7 @@ from (
 )tmp1 
 order by refdate, sortindex, username, refno]]></queryString>
 
-	<field name="refdate" class="java.sql.Date"/>
+	<field name="refdate" class="java.util.Date"/>
 	<field name="username" class="java.lang.String"/>
 	<field name="refno" class="java.lang.String"/>
 	<field name="reftype" class="java.lang.String"/>
