@@ -37,9 +37,10 @@ class RevenueSharingService {
 			facts << new Org( orgid: org.objid, type: org.orgclass, root: (org.root==1)); 
 		}
 
+
 		def acctUtil = new ItemAccountUtil();
 		rct.items.each {
-			def b = [objid: it.objid, amount: it.amount]; 
+			def b = [objid: it.objid, amount: it.amount, refid: it.objid ]; 
 			b.account = acctUtil.createAccountFact( it.item );  
 			facts << new BillItem( b );
 		}
