@@ -9,9 +9,17 @@ class AFTxnListModel extends CrudListModel {
             c.width = 100; 
             c.maxWidth = 140; 
         }
-        else if ( c.name.toString().matches('dtfiled|txndate')) {
+        else if ( c.name == 'dtfiled') {
+            c.width = 100; 
+            c.maxWidth = 120; 
+            c.type = "date";
+            c.outputFormat = "yyyy-MM-dd";
+        }
+        else if ( c.name == 'txndate') {
             c.width = 120; 
             c.maxWidth = 140; 
+            c.type = "date";
+            c.outputFormat = "yyyy-MM-dd HH:mm:ss";
         }
         else if ( c.name == 'txntype') {
             c.width = 120; 

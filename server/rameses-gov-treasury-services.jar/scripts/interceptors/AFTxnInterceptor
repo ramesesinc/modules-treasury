@@ -79,7 +79,8 @@ class AFTxnInterceptor {
 
 		def scols1 = "parent.dtfiled,parent.batchno,parent.batchref,parent.prefix,parent.suffix,parent.cost,parent.salecost";
 		def scols2 = ",startseries:{MIN(parent.startseries)},endseries:{MAX(parent.endseries)}";
-		def scols3 = ",startstub:{MIN(parent.stubno)},endstub:{MAX(parent.stubno)}"; 
+		def scols3 = ",startstub:{MIN(parent.stubno)},endstub:{MAX(parent.stubno)},stubcount:{COUNT(DISTINCT parent.objid)}"; 
+
 		result.items.each { r->
 			r.items = afcd_db.find([ aftxnitemid: r.objid ]).select( scols1 + scols2 + scols3 ).groupBy( scols1 ).list().collect{[ 
 				uuid: 'UUID-'+ new java.rmi.server.UID().toString(), 
@@ -91,10 +92,10 @@ class AFTxnInterceptor {
 				salecost: it.parent.salecost,
 				startseries: it.startseries, 
 				endseries: it.endseries, 
-				startstub:it.startstub, 
-				endstub:it.endstub  
+				startstub: it.startstub, 
+				endstub: it.endstub, 
+				stubcount: it.stubcount 
 			]} 
-
 			r.remarks = r.items.collect{ i-> i.startseries + "-" + i.endseries +";" }.join(","); 
 		} 
 	} 

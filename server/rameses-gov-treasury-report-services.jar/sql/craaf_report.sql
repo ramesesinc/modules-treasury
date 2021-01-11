@@ -90,7 +90,7 @@ from (
           where d.objid = t1.detailid 
             and d.controlid = a.objid 
             and d.qtyending > 0 
-            and d.reftype in ('BEGIN_BALANCE', 'PURCHASE_RECEIPT','RETURN','REMITTANCE') 
+            and d.reftype in ('BEGIN_BALANCE', 'PURCHASE_RECEIPT','RETURN','REMITTANCE','FORWARD') 
 
           union all 
 

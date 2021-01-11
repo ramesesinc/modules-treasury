@@ -139,6 +139,25 @@ class AFTxnMainModel extends CrudPageFlowModel {
     def preview() {
         buildCompatibility( entity ); 
 
+        def totalcost = 0.0; 
+        entity.items.each{ afi-> 
+            afi.items.each{ 
+                it.txntype = afi.txntype.toString().toUpperCase(); 
+                if ( it.txntype == 'COLLECTION') {
+                    it.totalcost = (it.cost ? it.cost : 0.0) * it.stubcount; 
+                }
+                else if ( it.txntype == 'SALE') { 
+                    def basecost = (it.salecost ? it.salecost : it.cost); 
+                    it.totalcost = (basecost ? basecost : 0.0) * it.stubcount; 
+                }
+            }
+
+            afi.totalcost = afi.items.sum{( it.totalcost ? it.totalcost : 0.0 )} 
+            afi.totalcost = (afi.totalcost ? afi.totalcost : 0.0); 
+            totalcost += afi.totalcost; 
+        } 
+        entity.totalcost = totalcost; 
+        
         def path = 'com/rameses/gov/treasury/ris/report/';
         def mainreport = path + 'ris.jasper';
         def subreports = new SubReport[1]; 
@@ -174,16 +193,35 @@ class AFTxnMainModel extends CrudPageFlowModel {
             def buff = []; 
             if ( o.afunit?.formtype == 'serial') {
                 o.items.each {
-                    buff << (
-                        it.startseries.toString() +' - '+ it.endseries.toString() + 
-                        ' ( '+ it.startstub +' - '+ it.endstub +' )' 
-                    ); 
+                    def sb = new StringBuilder(); 
+                    sb.append( it.startseries.toString()).append(" - ");
+                    sb.append( it.endseries.toString()).append(" ( "); 
+                    if ( it.startstub == it.endstub ) {
+                        sb.append( it.startstub.toString()); 
+                    }
+                    else {
+                        sb.append( it.startstub.toString()).append(" - "); 
+                        sb.append( it.endstub.toString()); 
+                    }
+                    sb.append(" )");
+                    
+                    buff << sb.toString();  
                 }
-            } else if ( o.afunit?.formtype != 'serial') { 
+            } 
+            else if ( o.afunit?.formtype != 'serial') { 
                 o.items.each {
-                    buff << (
-                        'Stub No. ( '+ it.startstub.toString() +' - '+ it.endstub.toString() +' )'
-                    ); 
+                    def sb = new StringBuilder(); 
+                    sb.append('Stub No. ( '); 
+                    if ( it.startstub == it.endstub ) {
+                        sb.append( it.startstub.toString()); 
+                    }
+                    else {
+                        sb.append( it.startstub.toString()).append(" - "); 
+                        sb.append( it.endstub.toString()); 
+                    }
+                    sb.append(" )");
+
+                    buff << sb.toString();  
                 }
             } 
             o.series = buff.join(', ');
