@@ -1,0 +1,13 @@
+<workunit extends="wtemplates/ReportController.xml" >
+    <invokers>
+        <invoker folderid="/explorer/report/treasury" 
+                 caption="Report of Item Accounts" action="init" 
+                 role="REPORT" target="window"/>
+    </invokers>
+    
+    <code class="com.rameses.gov.treasury.report.models.ItemAccountReportModel"/>
+
+    <pages>
+        <page template="com.rameses.gov.treasury.report.views.ItemAccountReportInitPage" />
+    </pages> 
+</workunit>

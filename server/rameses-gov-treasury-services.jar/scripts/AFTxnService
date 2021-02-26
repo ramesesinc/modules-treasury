@@ -269,15 +269,20 @@ class AFTxnService  {
 			sbuff.append(  " AND allocid IS NULL " );
 		} 
 
-		def list = afControl.select('objid,startseries,currentseries,endseries,prevdetailid').where( sbuff.toString(), p ).orderBy('dtfiled,batchno,startseries,stubno').limit( qty ).list();
-		if ( !list ) throw new Exception("No available stock for " + p.afid + " " + p.unit);	
-		if ( list.size() != qty )
-			throw new Exception("Not enough stock to issue");
+		def list = afControl.select('objid,startseries,currentseries,endseries,prevdetailid,salecost,afunit.saleprice').where( sbuff.toString(), p ).orderBy('dtfiled,batchno,startseries,stubno').limit( qty ).list();
+		if ( !list ) throw new Exception("No available stock for " + p.afid + " " + p.unit); 
+		if ( list.size() != qty )throw new Exception("Not enough stock to issue"); 
+
+		def txntype = afi.txntype.toString().toUpperCase(); 
 
 		list.each { itm-> 
+			if ( !itm.salecost ) itm.salecost = itm.afunit?.saleprice; 
+			itm.salecost = ( itm.salecost ? itm.salecost : 0.0 ); 
+			itm.salecost = ( txntype == 'SALE' ? itm.salecost : 0.0 ); 
+			afControl.find([ objid: itm.objid ]).update([ salecost: itm.salecost ]); 
 			afInvSvc.add( ref, itm );
 		}
-		aftxnItem.find([objid: afi.objid]).update( [qtyserved: '{qtyserved + :qty}'], [qty: qty ] );
+		aftxnItem.find([ objid: afi.objid ]).update([ qtyserved: '{qtyserved + :qty}' ], [ qty: qty ]);
 	}	
 
 
