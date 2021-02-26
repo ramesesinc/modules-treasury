@@ -218,9 +218,13 @@ public class CommonCashReceiptModel extends com.rameses.enterprise.treasury.mode
             throw new Exception("Amount must be equal to amount paid");
     }
     
+    public def getItemList() {
+        return entity.billitems;
+    }
+    
     def itemListModel = [
         fetchList: { o->
-            return entity.billitems;
+            return getItemList();
         }
     ] as BasicListModel;
           
